@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCHA Admin - States Management</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    body { margin: 0; font-family: var(--font-inter, sans-serif); background-color: #f4f6f8; display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 250px; background: #1a1a1a; color: #fff; height: 100vh; position: fixed; left: 0; top: 0; padding-top: 20px; }
+    .admin-sidebar .logo { font-family: var(--font-playfair, serif); color: var(--color-gold, #d4af37); font-size: 24px; text-align: center; margin-bottom: 30px; display: block; text-decoration: none; }
+    .admin-sidebar nav a { display: block; padding: 15px 20px; color: #ccc; text-decoration: none; border-left: 3px solid transparent; }
+    .admin-sidebar nav a:hover, .admin-sidebar nav a.active { background: #333; color: #fff; border-left-color: var(--color-gold, #d4af37); }
+    .admin-main { margin-left: 250px; padding: 20px; width: calc(100% - 250px); box-sizing: border-box; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    .admin-table-container { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 20px; overflow-x: auto; }
+    .admin-table-container h2 { margin-top: 0; font-family: var(--font-playfair, serif); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+    th { font-weight: bold; color: #555; background: #f9f9f9; }
+    .btn-action { padding: 6px 12px; font-size: 12px; cursor: pointer; border: none; border-radius: 4px; color: #fff; text-decoration: none; display: inline-block; margin-right: 5px; }
+    .btn-action.edit { background: #007bff; }
+    .btn-action.view { background: #6c757d; }
+  </style>
+</head>
+<body>
+  <script>
+    const token = localStorage.getItem('dcha_token');
+    const user = JSON.parse(localStorage.getItem('dcha_user') || '{}');
+    if (!token || user.role !== 'admin') {
+      window.location.href = '../login.html';
+    }
+  </script>
+
+  <aside class="admin-sidebar">
+    <a href="dashboard.html" class="logo">DCHA Admin</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="states.html" class="active">States</a>
+      <a href="heritage.html">Heritage</a>
+      <a href="submissions.html">Submissions</a>
+      <a href="users.html">Users</a>
+      <a href="analytics.html">Analytics</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h2>States & UTs Management</h2>
+      <div>
+        <button class="btn btn-primary" onclick="alert('Open Add State Modal')">Add State/UT</button>
+      </div>
+    </header>
+
+    <div class="admin-table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Capital</th>
+            <th>Region</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="states-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.getElementById('states-table-body');
+      const states = window.DCHA_DATA?.states || [];
+      
+      if(states.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">No states found.</td></tr>';
+        return;
+      }
+      
+      states.forEach(state => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${state.name}</td>
+          <td>${state.type || 'State'}</td>
+          <td>${state.capital || 'N/A'}</td>
+          <td>${state.region || 'N/A'}</td>
+          <td>
+            <a href="../state-detail.html?id=${state.id}" class="btn-action view" target="_blank">View</a>
+            <button class="btn-action edit" onclick="alert('Edit ${state.name}')">Edit</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>

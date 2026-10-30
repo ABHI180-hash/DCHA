@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State Archive — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Full-Width State Hero */
+    .state-hero-full {
+      position: relative;
+      min-height: 480px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      color: var(--ivory);
+      border-bottom: 3px solid var(--gold);
+    }
+    .state-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(18,18,18,0.4) 0%, rgba(18,18,18,0.92) 100%);
+    }
+    .state-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px 0 40px;
+      width: 100%;
+    }
+    .state-type-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--obsidian);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      padding: 4px 14px;
+      margin-bottom: 12px;
+    }
+    .state-hero-title {
+      font-size: 4rem;
+      color: var(--white);
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .state-meta-row {
+      display: flex;
+      gap: 30px;
+      font-size: 0.95rem;
+      color: var(--light-gray);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .state-meta-row strong { color: var(--gold); }
+
+    /* Museum Exhibition Layout */
+    .tab-section-header {
+      border-bottom: 2px solid var(--light-gray);
+      margin-bottom: 30px;
+    }
+    .exhibition-block {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 36px;
+      margin-bottom: 40px;
+    }
+    .exhibition-block h3 {
+      font-size: 1.6rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .gallery-masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .gallery-masonry-grid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border: 1px solid rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .gallery-masonry-grid img:hover {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 768px) {
+      .state-hero-title { font-size: 2.5rem; }
+      .gallery-masonry-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main id="state-detail-main">
+    <!-- HERO -->
+    <div id="state-hero-container">
+      <section class="state-hero-full" id="state-hero" style="background-image: url('https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80');">
+        <div class="state-hero-overlay"></div>
+        <div class="container">
+          <div class="state-hero-content">
+            <span class="state-type-badge" id="hero-state-type">STATE ARCHIVE</span>
+            <h1 class="state-hero-title" id="hero-state-name">State Name</h1>
+            <div class="state-meta-row" id="hero-state-meta">
+              <div>Capital: <strong id="meta-capital">Capital Name</strong></div>
+              <div>Region: <strong id="meta-region">Region Name</strong></div>
+              <div>Languages: <strong id="meta-languages">Spoken Languages</strong></div>
+              <div>Established: <strong id="meta-year">1950</strong></div>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <button id="fav-state-btn" class="btn btn-primary btn-sm">♥ Add to Favorites</button>
+              <button id="col-state-btn" class="btn btn-secondary btn-sm">📁 Add to Collection</button>
+              <a href="states.html" class="btn btn-secondary btn-sm">← Back to All 36 Regions</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- MAIN CULTURAL EXHIBITION -->
+    <section class="section">
+      <div class="container">
+        <!-- NAVIGATION TABS -->
+        <div class="tabs">
+          <button class="tab active" data-target="tab-overview">1. Geography & Location</button>
+          <button class="tab" data-target="tab-dress">2. Traditional Dress & Attire</button>
+          <button class="tab" data-target="tab-food">3. Traditional Food & Cuisine</button>
+          <button class="tab" data-target="tab-museums">4. Museums & Galleries</button>
+          <button class="tab" data-target="tab-tourist">5. Tourist Places (Recommended)</button>
+          <button class="tab" data-target="tab-heritage">6. Heritage Places & UNESCO Sites</button>
+          <button class="tab" data-target="tab-festivals">7. 🪔 Festivals & Fairs</button>
+          <button class="tab" data-target="tab-sources">8. 📜 Archival Records</button>
+        </div>
+
+        <div class="tab-content">
+          <!-- TAB 1: GEOGRAPHY & LOCATION -->
+          <div class="tab-pane active" id="tab-overview">
+            <div class="editorial-grid-2">
+              <div class="exhibition-block">
+                <h3>📍 Location & Geographical Landscape</h3>
+                <p id="geo-location-desc" style="font-size:1.05rem; line-height:1.8; color:var(--charcoal);">Rich geographical landscape and location overview.</p>
+                <div class="motif-divider"></div>
+                <h4>🏔️ Mountain Ranges, Hills & Rivers</h4>
+                <p id="geo-mountains-rivers" style="line-height:1.8; color:var(--charcoal); background:var(--cream); padding:16px; border-left:4px solid var(--gold);">Major mountain peaks, hill ranges, and river systems.</p>
+                
+                <h4 style="margin-top:24px;">Key Cultural Highlights</h4>
+                <ul id="overview-highlights-list" style="padding-left:20px; line-height:1.9; color:var(--warm-gray);">
+                  <!-- Highlights -->
+                </ul>
+              </div>
+              <div>
+                <img id="overview-img" src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80" alt="State Imagery" style="width:100%; height:400px; object-fit:cover; border:1px solid rgba(0,0,0,0.1); margin-bottom:16px;">
+                <div style="font-size:0.75rem; color:var(--muted-gray); background:var(--white); padding:12px; border:1px solid rgba(0,0,0,0.06);">
+                  📷 <span id="overview-credit">Photo: Archaeological Survey of India / Archives</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: TRADITIONAL DRESS -->
+          <div class="tab-pane" id="tab-dress">
+            <div class="exhibition-block">
+              <h3>👗 Traditional Attire & Weaving Customs</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Ethnic garments, ornaments, fabrics, and traditional clothing heritage of the region.</p>
+              
+              <div class="editorial-grid-3" id="state-dresses-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: TRADITIONAL FOOD -->
+          <div class="tab-pane" id="tab-food">
+            <div class="exhibition-block">
+              <h3>🍲 Traditional Food & Culinary Delicacies</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Indigenous flavors, festive banquets, authentic spices, and sweet delicacies.</p>
+
+              <div class="editorial-grid-3" id="state-foods-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: MUSEUMS -->
+          <div class="tab-pane" id="tab-museums">
+            <div class="exhibition-block">
+              <h3>🏛️ Famous Museums & Art Galleries</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Key cultural institutions, relic vaults, and historical museums preserving royal artifacts.</p>
+              <div class="editorial-grid-3" id="state-museums-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: TOURIST PLACES -->
+          <div class="tab-pane" id="tab-tourist">
+            <div class="exhibition-block">
+              <h3>🏔️ Tourist Places (Recommended)</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Popular tourist destinations, hill stations, lakes, national parks, and holy spots in this state.</p>
+              <div class="editorial-grid-3" id="state-tourist-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: HERITAGE PLACES -->
+          <div class="tab-pane" id="tab-heritage">
+            <div class="exhibition-block">
+              <h3>🏰 Architectural Monuments & World Heritage Sites</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">UNESCO World Heritage Sites, ancient fortresses, and stone temple complexes.</p>
+              <div class="editorial-grid-3" id="state-heritage-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 7: FESTIVALS -->
+          <div class="tab-pane" id="tab-festivals">
+            <div class="exhibition-block">
+              <h3>🪔 Festivals & Seasonal Fairs</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Religious, harvest, and cultural celebrations observed across the region.</p>
+              <div class="editorial-grid-3" id="state-festivals-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 8: ARCHIVAL RECORDS -->
+          <div class="tab-pane" id="tab-sources">
+            <div class="exhibition-block">
+              <h3>📜 Archival Holdings & Primary Sources</h3>
+              <p style="color:var(--warm-gray); margin-bottom:30px;">Primary documentation, official state gazetteers, epigraphic inscriptions, and manuscript repositories.</p>
+              <div class="editorial-grid-3" id="state-sources-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/state_details_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('states');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      function resolveStateFromParam(param) {
+        if (!param || !window.DCHA_DATA || !window.DCHA_DATA.STATES) return null;
+        const clean = String(param).trim().toLowerCase().replace(/_/g, '-');
+        
+        const ALIASES = {
+          'od': 'or', 'odisha': 'or',
+          'uk': 'ut', 'uttarakhand': 'ut',
+          'dh': 'dn', 'dadra-and-nagar-haveli-and-daman-and-diu': 'dn',
+          'andaman-and-nicobar-islands': 'an',
+          'jammu-and-kashmir': 'jk'
+        };
+
+        const target = ALIASES[clean] || clean;
+        const states = window.DCHA_DATA.STATES;
+
+        let found = states.find(s => s.id && s.id.toLowerCase() === target);
+        if (found) return found;
+        found = states.find(s => s.slug && s.slug.toLowerCase() === target);
+        if (found) return found;
+        found = states.find(s => s.name && s.name.toLowerCase() === target);
+        if (found) return found;
+        found = states.find(s => s.name && s.name.toLowerCase().replace(/\s+/g, '-') === target);
+        if (found) return found;
+        if (target.length >= 3) {
+          found = states.find(s => s.name.toLowerCase().includes(target) || (s.slug && s.slug.toLowerCase().includes(target)));
+        }
+        return found;
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramToTest = urlParams.get('id') || urlParams.get('state') || urlParams.get('name') || urlParams.get('slug') || window.location.hash.replace('#', '') || sessionStorage.getItem('selected_state_id');
+
+      let stateBase = resolveStateFromParam(paramToTest);
+
+      if (!stateBase && window.DCHA_DATA && window.DCHA_DATA.STATES) {
+        stateBase = window.DCHA_DATA.STATES[0]; // Default to Andhra Pradesh (ap)
+      }
+
+      if (stateBase) {
+        sessionStorage.setItem('selected_state_id', stateBase.id);
+      }
+
+      const stateDetail = window.STATE_DETAILS ? window.STATE_DETAILS[stateBase.id] : null;
+      const state = { ...stateBase, ...stateDetail };
+
+      if (state) {
+        document.title = `${state.name} Archive — Digital Culture Heritage Archive`;
+        document.getElementById('hero-state-name').textContent = state.name;
+        document.getElementById('hero-state-type').textContent = `${state.type === 'union_territory' ? 'UNION TERRITORY' : 'STATE'} ARCHIVE`;
+        document.getElementById('meta-capital').textContent = state.capital;
+        document.getElementById('meta-region').textContent = state.region;
+        document.getElementById('meta-languages').textContent = (state.languages || []).join(', ');
+        document.getElementById('meta-year').textContent = state.established_year || 'Historical';
+        
+        // Geo & overview
+        document.getElementById('geo-location-desc').textContent = state.location_geography || state.cultural_significance || state.description;
+        document.getElementById('geo-mountains-rivers').textContent = state.mountains_rivers || 'Himalayan, Western/Eastern Ghats or River Basins.';
+
+        const heroEl = document.getElementById('state-hero');
+        if (heroEl && state.image) {
+          heroEl.style.backgroundImage = `linear-gradient(180deg, rgba(18,18,18,0.4) 0%, rgba(18,18,18,0.92) 100%), url('${state.image}')`;
+        }
+
+        const overviewImg = document.getElementById('overview-img');
+        if (overviewImg && state.image) {
+          overviewImg.src = state.image;
+        }
+
+        const creditEl = document.getElementById('overview-credit');
+        if (creditEl && state.image_credit) {
+          creditEl.textContent = state.image_credit;
+        }
+
+        if (state.highlights) {
+          const list = document.getElementById('overview-highlights-list');
+          if (list) {
+            list.innerHTML = state.highlights.map(h => `<li>${h}</li>`).join('');
+          }
+        }
+
+        const defaultDressImg = state.image || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+        const defaultFoodImg = 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80';
+
+        // Traditional Dresses Grid
+        const dressesGrid = document.getElementById('state-dresses-grid');
+        if (dressesGrid) {
+          const dresses = state.traditional_dresses || [state.traditional_dress || { name: 'Traditional Attire', description: state.description, image: defaultDressImg }];
+          dressesGrid.innerHTML = dresses.map(d => `
+            <div class="archival-card">
+              <img src="${d.image || defaultDressImg}" class="card-media" alt="${d.name}" onerror="this.onerror=null; this.src='${defaultDressImg}';">
+              <div class="card-content">
+                <span class="catalogue-tag">${d.type || 'Attire'}</span>
+                <h3>${d.name}</h3>
+                <p class="description">${d.description}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Traditional Foods Grid
+        const foodsGrid = document.getElementById('state-foods-grid');
+        if (foodsGrid) {
+          const foods = state.traditional_foods || [state.traditional_food || { name: 'Traditional Cuisine', description: 'Indigenous recipes and delicacies.', image: defaultFoodImg }];
+          foodsGrid.innerHTML = foods.map(f => `
+            <div class="archival-card">
+              <img src="${f.image || defaultFoodImg}" class="card-media" alt="${f.name}" onerror="this.onerror=null; this.src='${defaultFoodImg}';">
+              <div class="card-content">
+                <span class="catalogue-tag">${f.category || 'Cuisine'}</span>
+                <h3>${f.name}</h3>
+                <p class="description">${f.description}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Tab Switching & Automatic Tab Activation from URL parameter (e.g. ?id=ap&tab=tab-food)
+        const tabs = document.querySelectorAll('.tab');
+        const panes = document.querySelectorAll('.tab-pane');
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.target).classList.add('active');
+          });
+        });
+
+        const targetTabKey = urlParams.get('tab') || urlParams.get('section') || urlParams.get('category');
+        if (targetTabKey) {
+          const matchingTab = document.querySelector(`.tab[data-target="${targetTabKey}"]`);
+          const matchingPane = document.getElementById(targetTabKey);
+          if (matchingTab && matchingPane) {
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => p.classList.remove('active'));
+            matchingTab.classList.add('active');
+            matchingPane.classList.add('active');
+            setTimeout(() => {
+              matchingPane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+          }
+        }
+
+        // Museums Grid
+        const museumsGrid = document.getElementById('state-museums-grid');
+        if (museumsGrid) {
+          const museums = state.museums || [];
+          if (museums.length === 0) {
+            museumsGrid.innerHTML = `<p style="grid-column:1/-1; color:var(--warm-gray);">Museum records catalogued under State Cultural Directorate.</p>`;
+          } else {
+            museumsGrid.innerHTML = museums.map(m => `
+              <div class="archival-card">
+                <img src="${m.image || state.image}" class="card-media" alt="${m.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80';">
+                <div class="card-content">
+                  <span class="catalogue-tag">${m.city}</span>
+                  <h3>${m.name}</h3>
+                  <p class="description">${m.highlight}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Tourist Spots Grid
+        const touristGrid = document.getElementById('state-tourist-grid');
+        if (touristGrid) {
+          const spots = state.tourist_places || [];
+          if (spots.length === 0) {
+            touristGrid.innerHTML = `<p style="grid-column:1/-1; color:var(--warm-gray);">Tourist destinations registered under State Tourism Board.</p>`;
+          } else {
+            touristGrid.innerHTML = spots.map(tp => `
+              <div class="archival-card">
+                <img src="${tp.image || state.image}" class="card-media" alt="${tp.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80';">
+                <div class="card-content">
+                  <span class="catalogue-tag">${tp.type}</span>
+                  <h3>${tp.name}</h3>
+                  <p class="description">${tp.description}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Heritage Sites Grid
+        const heritageGrid = document.getElementById('state-heritage-grid');
+        if (heritageGrid) {
+          const sites = state.heritage_places || [];
+          if (sites.length === 0) {
+            heritageGrid.innerHTML = `<p style="grid-column:1/-1; color:var(--warm-gray);">Heritage monuments registered under Archaeological Survey of India.</p>`;
+          } else {
+            heritageGrid.innerHTML = sites.map(hp => `
+              <div class="archival-card">
+                <img src="${hp.image || state.image}" class="card-media" alt="${hp.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=600&q=80';">
+                <div class="card-content">
+                  <span class="catalogue-tag">${hp.category}</span>
+                  <h3>${hp.name}</h3>
+                  <p class="description">${hp.description}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Festivals Grid
+        const festivalsGrid = document.getElementById('state-festivals-grid');
+        if (festivalsGrid) {
+          const festivals = state.festivals || (window.DCHA_DATA?.FESTIVALS || []).filter(f => (f.state || '').toLowerCase().includes(state.name.toLowerCase()));
+          if (!festivals || festivals.length === 0) {
+            festivalsGrid.innerHTML = `<p style="grid-column:1/-1; color:var(--warm-gray);">Cultural festivals catalogued under State Cultural Directorate.</p>`;
+          } else {
+            festivalsGrid.innerHTML = festivals.map(f => `
+              <div class="archival-card">
+                <img src="${f.image || f.image_url || state.image}" class="card-media" alt="${f.name}" onerror="this.onerror=null; this.src='${state.image}';">
+                <div class="card-content">
+                  <span class="catalogue-tag">${f.month || 'Seasonal'} • ${f.category || 'Festival'}</span>
+                  <h3>${f.name}</h3>
+                  <p class="description">${f.description}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Archival Sources Grid
+        const sourcesGrid = document.getElementById('state-sources-grid');
+        if (sourcesGrid) {
+          const sources = state.archival_sources || [
+            { title: `Archaeological Survey of India (${state.region || 'National'} Circle)`, category: 'Epigraphic & Monument Records', description: `Official conservation surveys, excavation reports, and protected heritage site documentation for ${state.name}.`, image: 'assets/images/monuments_unesco_explore.jpg' },
+            { title: `${state.name} State Archives & Manuscripts Repository`, category: 'State Gazetteers & Manuscripts', description: `Palm-leaf manuscripts, royal firmans, copper plate inscriptions, and historical district gazetteers housed at ${state.capital || 'State Archives'}.`, image: 'assets/images/telugu_inscriptions.jpg' },
+            { title: 'National Mission for Manuscripts (NMM)', category: 'Rare Codices & Manuscripts', description: `Indigenous literary codices, ancient Sanskrit/Pali folios, and folk ballad manuscripts catalogued under the Ministry of Culture.`, image: 'assets/images/mughal_manuscript.png' },
+            { title: `Gazetteers of ${state.name} & Ethnographic Registries`, category: 'Imperial & State Gazetteers', description: `Historical ethnographic surveys, land settlement records, and traditional craft registries of ${state.name}.`, image: 'assets/images/ancient_coins.jpg' }
+          ];
+          sourcesGrid.innerHTML = sources.map(s => `
+            <div class="archival-card">
+              <img src="${s.image || state.image}" class="card-media" alt="${s.title}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=600&q=80';">
+              <div class="card-content">
+                <span class="catalogue-tag">${s.category}</span>
+                <h3>${s.title}</h3>
+                <p class="description">${s.description}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Favorite & Collection Buttons
+        const favBtn = document.getElementById('fav-state-btn');
+        if (favBtn && window.favorites) {
+          favBtn.addEventListener('click', () => {
+            window.favorites.toggleFavorite(state.id, 'state');
+          });
+        }
+
+        const colBtn = document.getElementById('col-state-btn');
+        if (colBtn && window.components) {
+          colBtn.addEventListener('click', () => {
+            window.components.openAddToCollectionModal('state', state.id, state.name);
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

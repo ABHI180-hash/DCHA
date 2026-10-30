@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folk Stories & Lore — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>Oral Literature</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Folk Tales, Myths <span class="hero-symbol">&</span> Oral Legends</h1>
+        <p class="hero-lead">Timeless stories, Panchatantra fables, and tribal mythology handed down through generations across Indian regions.</p>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="editorial-grid-3" id="stories-grid"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('culture'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('stories-grid');
+      const stories = [
+        { title: 'The Legend of Vikram and Betal', state: 'Madhya Pradesh', moral: 'Wisdom under adversity', text: 'Classic tales of King Vikramaditya solving 25 moral riddles posed by the celestial spirit Betal.', image: 'assets/images/vikram_betal.png' },
+        { title: 'Tenali Rama and the Bricks of Gold', state: 'Andhra Pradesh', moral: 'Witticism and justice', text: 'Humorous court tales of Tenali Ramakrishna outsmarting corrupt royal courtiers in Vijayanagara.', image: 'assets/images/tenali_rama.jpg' },
+        { title: 'Gopal Bhar and the Nawab\'s Feast', state: 'West Bengal', moral: 'Laughter and intellect', text: 'Folk stories of Gopal Bhar, the legendary court jester of Raja Krishnachandra of Nadia.', image: 'assets/images/gopal_bhar.png' }
+      ];
+      if (grid) {
+        grid.innerHTML = stories.map(s => window.components.createCard({ id: s.title, name: s.title, category: `Moral: ${s.moral}`, description: s.text, image: s.image, state: s.state, source: 'Oral Folklore Registry' }, 'culture')).join('');
+      }
+    });
+  </script>
+</body>
+</html>

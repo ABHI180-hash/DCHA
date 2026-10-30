@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archival Gallery — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .gallery-masonry-container {
+      column-count: 3;
+      column-gap: 20px;
+    }
+    .gallery-item-card {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .gallery-item-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .gallery-item-card img { width: 100%; display: block; }
+    .gallery-item-card .caption { padding: 14px; }
+    @media (max-width: 992px) { .gallery-masonry-container { column-count: 2; } }
+    @media (max-width: 576px) { .gallery-masonry-container { column-count: 1; } }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span>Photographic Vault</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Archival Photographic Gallery</h1>
+        <p class="hero-lead">High-resolution archival photography of monuments, living festivals, and indigenous art across India.</p>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="gallery-masonry-container" id="gallery-container"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('culture'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const container = document.getElementById('gallery-container');
+      const galleryPhotos = [
+        { title: 'Taj Mahal Marble Inlay Detail', state: 'Uttar Pradesh', src: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80', credit: 'UNESCO World Heritage Archives' },
+        { title: 'Hampi Stone Chariot Pavilion', state: 'Karnataka', src: 'assets/images/hampi_stone_chariot.png', credit: 'ASI Karnataka Circle' },
+        { title: 'Kathakali Face Painting Makeup', state: 'Kerala', src: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80', credit: 'Kerala Tourism Archives' },
+        { title: 'Durga Puja Pandal Illuminations', state: 'West Bengal', src: 'https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=800&q=80', credit: 'Kolkata Cultural Trust' },
+        { title: 'Golden Temple Sanctum View', state: 'Punjab', src: 'assets/images/golden_temple.jpg', credit: 'SGPC Cultural Archives' },
+        { title: 'Hawa Mahal Palace Windows', state: 'Rajasthan', src: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', credit: 'ASI Jaipur Circle' }
+      ];
+
+      if (container) {
+        container.innerHTML = galleryPhotos.map(p => `
+          <div class="gallery-item-card">
+            <img src="${p.src}" alt="${p.title}" loading="lazy">
+            <div class="caption">
+              <span style="font-size:0.65rem; font-weight:700; color:var(--gold); text-transform:uppercase;">${p.state}</span>
+              <h4 style="margin:4px 0; font-size:1rem;">${p.title}</h4>
+              <p style="font-size:0.75rem; color:var(--muted-gray); margin:0;">📷 ${p.credit}</p>
+            </div>
+          </div>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

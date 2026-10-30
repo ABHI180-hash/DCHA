@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Detail — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .monument-hero {
+      position: relative;
+      height: 420px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      color: var(--ivory);
+      border-bottom: 3px solid var(--gold);
+    }
+    .monument-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(18,18,18,0.3) 0%, rgba(18,18,18,0.92) 100%);
+    }
+    .monument-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 40px 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO -->
+    <section class="monument-hero" id="monument-hero" style="background-image: url('https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=80');">
+      <div class="monument-overlay"></div>
+      <div class="container">
+        <div class="monument-hero-content">
+          <span class="catalogue-tag" id="h-cat" style="background:var(--gold); color:var(--obsidian); border-color:var(--gold);">UNESCO Site</span>
+          <h1 style="color:var(--white); font-size:3.5rem; margin-bottom:8px;" id="h-title">Taj Mahal</h1>
+          <p style="font-size:1.1rem; color:var(--gold);" id="h-meta">Agra, Uttar Pradesh • Mughal Dynasty (1631–1648 CE)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container">
+        <div class="editorial-grid-2">
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:36px;">
+            <h3>Architectural & Historical Description</h3>
+            <p id="h-desc" style="font-size:1.05rem; line-height:1.8; color:var(--charcoal); margin-bottom:24px;">An ivory-white marble mausoleum on the south bank of the Yamuna River. Commissioned in 1631 by Mughal Emperor Shah Jahan to house the tomb of his favourite wife, Mumtaz Mahal.</p>
+            
+            <div class="motif-divider"></div>
+
+            <h4>Historical Context</h4>
+            <p id="h-history" style="line-height:1.7; color:var(--warm-gray);">Considered one of the finest examples of Mughal architecture, combining elements from Islamic, Persian, Ottoman Turkish and Indian architectural styles.</p>
+
+            <div style="margin-top:30px; padding:20px; background:var(--cream); border-left:3px solid var(--gold);">
+              <h5 style="margin-bottom:6px;">Archival Attribution & Sources</h5>
+              <p style="font-size:0.85rem; color:var(--warm-gray); margin:0;" id="h-source">Source: Archaeological Survey of India (ASI) / UNESCO World Heritage Centre Archives (CC BY-SA 4.0)</p>
+            </div>
+          </div>
+
+          <div>
+            <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:30px; margin-bottom:30px;">
+              <h4>Location & Regional Context</h4>
+              <p style="color:var(--warm-gray); font-size:0.9rem;" id="h-location">Location: Agra, Uttar Pradesh, India</p>
+              <div style="height:220px; background:var(--obsidian); color:var(--gold); display:flex; align-items:center; justify-content:center; border:1px solid rgba(196,154,42,0.3); margin:16px 0;">
+                <span>📍 Map Coordinates: 27.1751° N, 78.0421° E</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
+                <button id="save-h-btn" class="btn btn-primary btn-sm" style="width:100%;">♥ Save Monument to Favorites</button>
+                <button id="add-col-h-btn" class="btn btn-secondary btn-sm" style="width:100%;">📁 Add to Collection</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('heritage');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const idParam = urlParams.get('id') || '1';
+
+      let monument = window.DCHA_DATA?.FEATURED_HERITAGE.find(h => String(h.id) === String(idParam) || h.slug === idParam);
+      if (!monument && window.DCHA_DATA) {
+        monument = window.DCHA_DATA.FEATURED_HERITAGE[0];
+      }
+
+      if (monument) {
+        document.title = `${monument.name} — Digital Culture Heritage Archive`;
+        document.getElementById('h-title').textContent = monument.name;
+        document.getElementById('h-cat').textContent = monument.category || 'UNESCO Site';
+        document.getElementById('h-meta').textContent = `${monument.state} • ${monument.period || 'Historical Era'}`;
+        document.getElementById('h-desc').textContent = monument.description;
+        document.getElementById('h-history').textContent = monument.historical_significance || monument.description;
+        document.getElementById('h-source').textContent = `Source: ${monument.source || 'Archaeological Survey of India (ASI)'}`;
+        document.getElementById('h-location').textContent = `Location: ${monument.state}, India`;
+
+        const hero = document.getElementById('monument-hero');
+        if (hero && monument.image) {
+          hero.style.backgroundImage = `url('${monument.image}')`;
+        }
+
+        const btn = document.getElementById('save-h-btn');
+        if (btn && window.favorites) {
+          btn.addEventListener('click', () => window.favorites.toggleFavorite(monument.id, 'heritage'));
+        }
+
+        const colBtn = document.getElementById('add-col-h-btn');
+        if (colBtn && window.components) {
+          colBtn.addEventListener('click', () => window.components.openAddToCollectionModal('heritage', monument.id, monument.name));
+        }
+      }
+    });
+  </script>
+</body>
+</html>

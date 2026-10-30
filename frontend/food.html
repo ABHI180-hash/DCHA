@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flavours of India — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            <span>Gastronomy Registry</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Flavours of India <span class="hero-symbol">&</span> Culinary Traditions</h1>
+        <p class="hero-lead">Royal court cuisines, festive banana leaf feasts, desert delicacies, and GI-tagged sweets.</p>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="editorial-grid-3" id="food-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('culture');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('food-grid');
+      if (grid && window.DCHA_DATA) {
+        grid.innerHTML = window.DCHA_DATA.FOOD_ITEMS.map(fd => window.components.createCard({
+          id: fd.id,
+          name: fd.name,
+          category: fd.category,
+          description: `${fd.description} ${fd.context}`,
+          image: fd.image,
+          state: fd.state,
+          source: 'Indian Culinary Heritage Archive'
+        }, 'food')).join('');
+      }
+    });
+  </script>
+</body>
+</html>

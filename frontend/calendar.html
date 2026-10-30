@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cultural Calendar — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .month-filter-btn {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .month-filter-btn.active, .month-filter-btn:hover {
+      background: var(--gold);
+      color: var(--obsidian);
+      border-color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Cyclical Heritage Vault</span>
+        <h1 style="color:var(--white)">Pan-Indian Cultural Calendar</h1>
+        <p style="color:var(--muted-gray); max-width:650px; margin:0 auto 20px auto;">Comprehensive directory of harvest celebrations, sacred yatras, temple chariot festivals, and tribal gatherings across all Indian States & UTs.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <!-- MONTH FILTER BAR -->
+        <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:35px;" id="month-filter-bar">
+          <button class="month-filter-btn active" data-month="all">All Months</button>
+          <button class="month-filter-btn" data-month="January">January</button>
+          <button class="month-filter-btn" data-month="February">February</button>
+          <button class="month-filter-btn" data-month="March">March</button>
+          <button class="month-filter-btn" data-month="April">April</button>
+          <button class="month-filter-btn" data-month="May">May</button>
+          <button class="month-filter-btn" data-month="June">June</button>
+          <button class="month-filter-btn" data-month="July">July</button>
+          <button class="month-filter-btn" data-month="August">August</button>
+          <button class="month-filter-btn" data-month="September">September</button>
+          <button class="month-filter-btn" data-month="October">October</button>
+          <button class="month-filter-btn" data-month="November">November</button>
+          <button class="month-filter-btn" data-month="December">December</button>
+        </div>
+
+        <div class="editorial-grid-3" id="calendar-grid"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('calendar'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('calendar-grid');
+      const filterBtns = document.querySelectorAll('.month-filter-btn');
+
+      const renderFestivals = (selectedMonth = 'all') => {
+        if (!grid || !window.DCHA_DATA || !window.DCHA_DATA.FESTIVALS) return;
+        const festivals = window.DCHA_DATA.FESTIVALS;
+        const filtered = selectedMonth === 'all' 
+          ? festivals 
+          : festivals.filter(f => (f.month || '').toLowerCase() === selectedMonth.toLowerCase());
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--warm-gray);">No festivals currently archived for ${selectedMonth}.</div>`;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(e => `
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 4px 15px rgba(0,0,0,0.05); border-top:4px solid var(--gold);">
+            ${e.image ? `<div style="height:170px; overflow:hidden; position:relative;">
+              <img src="${e.image}" alt="${e.name}" style="width:100%; height:100%; object-fit:cover;">
+              <span class="catalogue-tag" style="position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.75); color:var(--gold); border-color:var(--gold);">📅 ${e.month || 'Annual'}</span>
+            </div>` : ''}
+            <div style="padding:20px; flex:1; display:flex; flex-direction:column;">
+              <span style="font-size:0.75rem; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; font-weight:600; margin-bottom:4px;">${e.category || 'Cultural Festival'}</span>
+              <h3 style="font-size:1.2rem; margin-bottom:6px; color:var(--obsidian); line-height:1.3;">${e.name}</h3>
+              <p style="font-size:0.85rem; color:var(--gold-dark); font-weight:600; margin-bottom:10px;">📍 ${e.state}</p>
+              <p style="font-size:0.85rem; color:var(--warm-gray); line-height:1.5; flex:1;">${e.description}</p>
+            </div>
+          </div>
+        `).join('');
+      };
+
+      renderFestivals('all');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderFestivals(btn.dataset.month);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Fee & Refund Statement — Digital Culture Heritage Archive (DCHA)</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .legal-content-card {
+      background: var(--white);
+      border: 1px solid rgba(198, 161, 91, 0.25);
+      border-radius: 6px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      line-height: 1.85;
+      color: #2C2D2B;
+    }
+    .legal-content-card h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--obsidian);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(198, 161, 91, 0.2);
+      padding-bottom: 8px;
+    }
+    .legal-content-card h2:first-of-type {
+      margin-top: 10px;
+    }
+    .legal-meta-box {
+      background: #F8F5EE;
+      border-left: 4px solid var(--gold);
+      padding: 16px 20px;
+      margin-bottom: 30px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="nav-container"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Open Access Fiscal Transparency</span>
+        <h1 style="color:var(--white); margin: 12px 0;">Service Fee & Refund Policy</h1>
+        <p style="color:var(--muted-gray); max-width:680px; margin:0 auto; font-size:1.05rem;">
+          Official statement regarding the non-commercial nature of DCHA services and financial transactions.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container-narrow">
+        <div class="legal-content-card">
+
+          <div class="legal-meta-box">
+            <strong>Operating Model:</strong> 100% Free Public Digital Archive &nbsp;|&nbsp;
+            <strong>Commercial Status:</strong> Non-Commercial Cultural Humanities Initiative &nbsp;|&nbsp;
+            <strong>Payment Processing:</strong> None Active
+          </div>
+
+          <h2>1. Free Public Access Guarantee</h2>
+          <p>
+            The <strong>Digital Culture Heritage Archive (DCHA)</strong> operates as a completely free, open-access public educational knowledge resource. We do not charge subscription fees, access paywalls, membership dues, or download tariffs for any of our standard public features, including:
+          </p>
+          <ul>
+            <li>Browsing and reading archival profiles of India's 28 States and 8 Union Territories.</li>
+            <li>Consulting the 5,000-year subcontinent historical timeline.</li>
+            <li>Listening to audio archives, oral recordings, and sacred chants.</li>
+            <li>Viewing the virtual museum repository and high-resolution 2D artifact vault.</li>
+            <li>Using the interactive geospatial heritage map.</li>
+            <li>Interacting with the AI Cultural Heritage Assistant.</li>
+            <li>Registering an archival account to bookmark favorites and submit community contributions.</li>
+          </ul>
+
+          <h2>2. No Payment Gateways or Transactions</h2>
+          <p>
+            The DCHA web application does not integrate commercial payment gateways, credit card processing scripts, or electronic wallet integrations. We do not solicit, store, or process any payment card information, UPI IDs, or net-banking credentials.
+          </p>
+
+          <h2>3. Refund & Cancellation Terms for Future Services</h2>
+          <p>
+            In the event that DCHA introduces voluntary patron donations, ticketed academic workshops, or paid physical symposium registrations in the future:
+          </p>
+          <ul>
+            <li><strong>Voluntary Donations:</strong> Donations made to support server upkeep or field preservation research will be considered non-refundable charitable cultural contributions, except in cases of verified technical double-billing.</li>
+            <li><strong>Ticketed Academic Events:</strong> Cancellations requested at least 7 calendar days prior to a scheduled virtual symposium or workshop will be eligible for a full refund minus applicable payment processing fees.</li>
+            <li><strong>Notification of Commercial Amendments:</strong> Any introduction of paid services will be accompanied by explicit pre-transaction disclosures and an updated commercial terms schedule.</li>
+          </ul>
+
+          <h2>4. Inquiries Regarding Billing Inaccuracies</h2>
+          <p>
+            If any entity or third-party website fraudulently solicits payments under the name of "Digital Culture Heritage Archive" or "DCHA", please report it immediately to our security desk at <a href="mailto:security@dcha.org">security@dcha.org</a>.
+          </p>
+
+          <div style="margin-top:40px; padding-top:20px; border-top:1px solid #EAEAEA; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <a href="terms.html" class="btn btn-secondary btn-sm">&larr; Terms & Conditions</a>
+            <a href="contact.html" class="btn btn-secondary btn-sm">Contact Information &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav(); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+    });
+  </script>
+</body>
+</html>

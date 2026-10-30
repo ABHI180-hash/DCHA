@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Cultural Heritage Archive (ICHA) — Preserving India's Living Heritage</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Hero Magazine Styling */
+    .hero-magazine {
+      position: relative;
+      background: linear-gradient(180deg, rgba(13,14,13,0.88) 0%, rgba(13,14,13,0.42) 50%, rgba(13,14,13,0.88) 100%), 
+                  url('assets/images/hero/hawa_mahal_hero_actual.jpg') center/cover no-repeat;
+      min-height: 85vh;
+      padding: 140px 0 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ivory);
+      border-bottom: 1px solid rgba(198, 161, 91, 0.22);
+    }
+    .hero-magazine .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-magazine .archival-tag-top {
+      display: inline-block;
+      font-family: var(--font-sans);
+      color: var(--gold);
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      padding: 6px 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-variant: small-caps;
+      margin-bottom: 28px;
+      background: rgba(18,18,18,0.75);
+      border-radius: 50px;
+    }
+    .hero-magazine h1 {
+      font-family: var(--font-serif);
+      color: var(--white);
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .hero-magazine h1 span { color: var(--gold); font-style: italic; font-weight: 600; }
+    .hero-magazine p.lead {
+      font-family: var(--font-sans);
+      color: #E2DDD4;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      max-width: 740px;
+      margin: 0 auto 38px;
+      font-weight: 400;
+    }
+    .hero-magazine .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #C6A15B 0%, #A8813B 100%);
+      color: #0E0F0E !important;
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 230, 160, 0.45);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    .hero-btn-primary:hover {
+      background: linear-gradient(135deg, #D4AF67 0%, #B88E44 100%);
+      box-shadow: 0 8px 26px rgba(198, 161, 91, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      color: #000000 !important;
+    }
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(18, 20, 18, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ECE8DE !important;
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 13px 26px;
+      border-radius: 4px;
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    .hero-btn-secondary:hover {
+      background: rgba(28, 30, 26, 0.85);
+      border-color: rgba(225, 185, 90, 0.8);
+      color: #FFF2C6 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+    }
+    .hero-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #C6C2B8 !important;
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 13px 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    .hero-btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(198, 161, 91, 0.45);
+      color: #ECE8DE !important;
+      transform: translateY(-2px);
+    }
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: rgba(198, 161, 91, 0.8);
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      animation: gentleBounce 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes gentleBounce {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 5px); }
+    }
+
+    /* ========================================================
+       MINIMAL ARCHITECTURAL REPOSITORY METRICS (BEIGE EDITORIAL)
+       ======================================================== */
+    .stats-bar-magazine {
+      position: relative;
+      background: #F4EEE4;
+      border-top: 1px solid rgba(198, 161, 91, 0.32);
+      border-bottom: 1px solid rgba(198, 161, 91, 0.32);
+      padding: 26px 0 22px;
+      overflow: hidden;
+    }
+    
+    /* Header Archival Pill */
+    .stats-badge-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .badge-accent-line {
+      flex: 1;
+      max-width: 90px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(198, 161, 91, 0.4));
+    }
+    .badge-accent-line:last-child {
+      background: linear-gradient(90deg, rgba(198, 161, 91, 0.4), transparent);
+    }
+    .stats-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #E2D7C3;
+      border: 1px solid rgba(184, 146, 70, 0.45);
+      border-radius: 20px;
+      padding: 4px 16px;
+    }
+    .stats-badge-pill span {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #524225;
+    }
+    .badge-diamond {
+      color: #9C782E;
+      font-size: 0.62rem;
+    }
+
+    /* Monolithic Museum Ledger Container (Dark Beige Archival Tone) */
+    .stats-ledger-wrap {
+      background: #EAE2D2;
+      border: 1px solid rgba(184, 146, 70, 0.38);
+      border-radius: 6px;
+      box-shadow: 0 4px 18px rgba(45, 38, 28, 0.06);
+      overflow: hidden;
+    }
+    .stats-grid-luxury {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+    }
+    .stat-card-luxury {
+      position: relative;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 16px 10px 15px;
+      text-align: center;
+      transition: all 0.25s ease;
+      box-shadow: none;
+    }
+    /* Hairline divider between metric columns */
+    .stat-card-luxury:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 18%;
+      height: 64%;
+      width: 1px;
+      background: linear-gradient(180deg, transparent 0%, rgba(184, 146, 70, 0.32) 50%, transparent 100%);
+    }
+    .stat-card-luxury:hover {
+      background: rgba(184, 146, 70, 0.08);
+    }
+
+    /* Minimalist Floating Icon */
+    .stat-icon-wrap {
+      width: auto;
+      height: auto;
+      margin: 0 auto 5px;
+      border-radius: 0;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8C6D33;
+      transition: all 0.25s ease;
+    }
+    .stat-card-luxury:hover .stat-icon-wrap {
+      color: #554220;
+      transform: translateY(-1px);
+    }
+
+    /* Classical Number Typography */
+    .stat-number-wrap {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .stat-counter {
+      font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.65rem, 2vw, 2.05rem);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #181512;
+      line-height: 1;
+    }
+    .stat-suffix {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #9C782E;
+      margin-left: 2px;
+      font-style: italic;
+    }
+
+    /* Architectural Labels */
+    .stat-title {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4C4233;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      line-height: 1.3;
+      transition: color 0.25s ease;
+    }
+    .stat-card-luxury:hover .stat-title {
+      color: #181512;
+    }
+
+    /* Provenance Footer Note */
+    .stats-footer-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 14px;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: #7A6F5E;
+      text-align: center;
+    }
+
+    @media (max-width: 1200px) {
+      .stats-grid-luxury { grid-template-columns: repeat(3, 1fr); }
+      .stat-card-luxury:nth-child(3n)::after { display: none; }
+      .stat-card-luxury:nth-child(-n+3) { border-bottom: 1px solid rgba(198, 161, 91, 0.15); }
+    }
+    @media (max-width: 768px) {
+      .stats-grid-luxury { grid-template-columns: repeat(2, 1fr); }
+      .stat-card-luxury:nth-child(n)::after { display: none; }
+      .stat-card-luxury:nth-child(odd) { border-right: 1px solid rgba(198, 161, 91, 0.15); }
+      .stat-card-luxury:not(:nth-last-child(-n+2)) { border-bottom: 1px solid rgba(198, 161, 91, 0.15); }
+      .hero-magazine h1 { font-size: 2.6rem; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid-luxury { grid-template-columns: 1fr; }
+      .stat-card-luxury:nth-child(n) { border-right: none; border-bottom: 1px solid rgba(198, 161, 91, 0.15); }
+      .stat-card-luxury:last-child { border-bottom: none; }
+    }
+
+    /* Mid-Page Full-Bleed Panoramic Feature */
+    .panoramic-banner {
+      position: relative;
+      background: linear-gradient(180deg, rgba(13,14,13,0.85) 0%, rgba(13,14,13,0.65) 50%, rgba(13,14,13,0.88) 100%), 
+                  url('https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=85') center/cover no-repeat;
+      padding: 130px 0;
+      color: var(--ivory);
+      text-align: center;
+      border-top: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+    }
+    .panoramic-content {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .panoramic-quote {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--white);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    /* State Slider */
+    .states-horizontal-scroll {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding: 10px 0 24px;
+      scroll-snap-type: x mandatory;
+    }
+    .state-mini-card {
+      flex: 0 0 270px;
+      scroll-snap-align: start;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px !important;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+    .state-mini-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(198,161,91,0.6);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+    .state-mini-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    .state-mini-card .state-card-body {
+      padding: 16px;
+    }
+    .state-mini-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 4px 0 2px;
+      color: var(--obsidian);
+    }
+    .state-mini-card .region-tag {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Section Feature Highlight */
+    .feature-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    @media (max-width: 992px) {
+      .feature-split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-magazine">
+      <div class="container">
+        <div class="hero-content">
+          <span class="archival-tag-top">National Cultural Preservation Initiative</span>
+          <h1>Preserving India's <span>Living Heritage</span></h1>
+          <p class="lead">A digital museum & open archive documenting monuments, living rituals, and indigenous knowledge across 36 regions of India.</p>
+          <div class="hero-actions">
+            <a href="explore.html" class="hero-btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Explore Cultural Archive</span>
+            </a>
+            <a href="states.html" class="hero-btn-secondary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+              <span>Browse 36 States & UTs</span>
+            </a>
+            <a href="map.html" class="hero-btn-ghost">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+              <span>Interactive Map</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-indicator">
+        <span>SCROLL TO EXPLORE</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </section>
+
+    <!-- NATIONAL ARCHIVE LIVE METRICS BANNER -->
+    <section class="stats-bar-magazine">
+      <div class="container">
+        <div class="stats-badge-header">
+          <span class="badge-accent-line"></span>
+          <div class="stats-badge-pill">
+            <span class="badge-diamond">✦</span>
+            <span>National Cultural Repository Index</span>
+            <span class="badge-diamond">✦</span>
+          </div>
+          <span class="badge-accent-line"></span>
+        </div>
+
+        <div class="stats-ledger-wrap">
+          <div class="stats-grid-luxury">
+            <!-- ITEM 1: STATES & UNION TERRITORIES -->
+            <div class="stat-card-luxury" data-target="36">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-states">36</span>
+              </div>
+              <div class="stat-title">States & UTs</div>
+            </div>
+
+            <!-- ITEM 2: MONUMENTS & HERITAGE SITES -->
+            <div class="stat-card-luxury" data-target="385">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18M4 18h16M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4l8-5z"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-monuments">385</span>
+                <span class="stat-suffix">+</span>
+              </div>
+              <div class="stat-title">Monuments & Sites</div>
+            </div>
+
+            <!-- ITEM 3: FESTIVALS & LIVING RITUALS -->
+            <div class="stat-card-luxury" data-target="173">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-festivals">173</span>
+              </div>
+              <div class="stat-title">Living Traditions</div>
+            </div>
+
+            <!-- ITEM 4: CUISINES & TRADITIONAL ATTIRES -->
+            <div class="stat-card-luxury" data-target="144">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-crafts">144</span>
+              </div>
+              <div class="stat-title">Cuisines & Textiles</div>
+            </div>
+
+            <!-- ITEM 5: MUSEUMS & ARTIFACT COLLECTIONS -->
+            <div class="stat-card-luxury" data-target="57">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M2 12h20M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7M4 7l8-4 8 4M10 12v5M14 12v5"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-museums">57</span>
+              </div>
+              <div class="stat-title">Museums & Archives</div>
+            </div>
+
+            <!-- ITEM 6: CURATED ARCHIVAL ASSETS TOTAL -->
+            <div class="stat-card-luxury highlight-card" data-target="759">
+              <div class="stat-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="stat-number-wrap">
+                <span class="stat-counter" id="stat-total">750</span>
+                <span class="stat-suffix">+</span>
+              </div>
+              <div class="stat-title">Curated Records</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-footer-note">
+          <span>Verified Cultural Registry · Archaeological Survey of India & UNESCO Archives</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORE CATEGORIES -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Cultural Taxonomy</span>
+          <h2>Explore By Cultural Domain</h2>
+          <p>Navigate through centuries of architecture, living traditions, textiles, music, and sacred practices.</p>
+          <div class="section-divider"></div>
+        </div>
+        <div class="editorial-grid-4" id="categories-grid">
+          <!-- CARD 1: HERITAGE MONUMENTS -->
+          <a href="heritage.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/taj_mahal_heritage_card.jpg" alt="Heritage Monuments - Taj Mahal" class="card-media" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Architecture</span>
+            </div>
+            <div class="card-content">
+              <h3>Heritage Monuments</h3>
+              <div class="meta-location">📍 UNESCO Sites & Ancient Forts</div>
+              <p class="description">UNESCO World Heritage sites, rock-cut cave temples, royal forts, and sacred shrines.</p>
+              <div class="attribution-bar">
+                <span>📷 ASI / UNESCO Archives</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 2: FESTIVALS & FAIRS -->
+          <a href="festivals.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/holi_festival_card.png" alt="Festivals & Fairs - Holi Celebration" class="card-media" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Living Rituals</span>
+            </div>
+            <div class="card-content">
+              <h3>Festivals & Fairs</h3>
+              <div class="meta-location">📍 Pan-Indian Celebrations</div>
+              <p class="description">Living rituals, seasonal harvest celebrations, and sacred traditional fairs across 36 regions.</p>
+              <div class="attribution-bar">
+                <span>📷 Cultural Festival Trust</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 3: TEXTILES & ATTIRE -->
+          <a href="culture.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/textiles_attire_card.jpg" alt="Textiles & Attire - Handloom Silk Saree" class="card-media" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Handloom</span>
+            </div>
+            <div class="card-content">
+              <h3>Textiles & Attire</h3>
+              <div class="meta-location">📍 Artisan Handloom Traditions</div>
+              <p class="description">Master handloom weaving, royal silk sarees, Pashmina cashmere, and indigenous tribal textiles.</p>
+              <div class="attribution-bar">
+                <span>📷 National Handloom Board</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 4: FLAVOURS OF INDIA -->
+          <a href="food.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/flavours_of_india_card.png" alt="Flavours of India - Traditional Banana Leaf Feast" class="card-media" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Gastronomy</span>
+            </div>
+            <div class="card-content">
+              <h3>Flavours of India</h3>
+              <div class="meta-location">📍 Regional Culinary Arts</div>
+              <p class="description">Regional gastronomy, royal feast recipes, sacred temple prashad, and traditional culinary arts.</p>
+              <div class="attribution-bar">
+                <span>📷 Heritage Culinary Archive</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 36 STATES & UTs EXPLORER -->
+    <section class="section" style="background: var(--ivory);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Geographic Coverage</span>
+          <h2>28 States + 8 Union Territories</h2>
+          <p>Discover distinct cultural identities, official languages, and heritage monuments across all 36 regions.</p>
+          <div class="section-divider"></div>
+        </div>
+        <div class="states-horizontal-scroll" id="states-carousel">
+          <!-- Dynamically populated from DCHA_DATA -->
+        </div>
+        <div style="text-align:center; margin-top:24px;">
+          <a href="states.html" class="btn btn-secondary">Open All 36 States & UTs Directory →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MID-PAGE PANORAMIC FEATURE BANNER -->
+    <section class="panoramic-banner">
+      <div class="container">
+        <div class="panoramic-content">
+          <span class="archival-tag-top" style="margin-bottom:20px; background:rgba(0,0,0,0.6);">Curated Archival Philosophy</span>
+          <blockquote class="panoramic-quote">
+            "Heritage is not merely what we inherit from our past, but what we curate for our future."
+          </blockquote>
+          <p style="font-family: var(--font-sans); color: #E2DDD4; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 0;">
+            — Department of Cultural Heritage Archives
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED HERITAGE MONUMENTS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Archival Highlights</span>
+          <h2>Featured Heritage Monuments</h2>
+          <p>Curated architectural masterpieces documenting ancient engineering, rock-cut art, and imperial grandeur.</p>
+          <div class="section-divider"></div>
+        </div>
+        <div class="editorial-grid-3" id="featured-monuments-grid">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE MAP FEATURE -->
+    <section class="section" style="background: var(--obsidian); color: var(--ivory);">
+      <div class="container">
+        <div class="feature-split">
+          <div>
+            <span class="section-label" style="color:var(--gold)">Geographic Explorer</span>
+            <h2 style="color:var(--ivory)">Interactive India Heritage Map</h2>
+            <p style="color:var(--muted-gray); font-size:1.05rem; margin-bottom:24px;">Explore state boundaries, click on heritage hotspots, and view location coordinates for monuments across the subcontinent.</p>
+            <ul style="list-style:none; padding:0; margin-bottom:30px;">
+              <li style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1); color:var(--light-gray)">🗺️ Interactive regional boundary selection</li>
+              <li style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1); color:var(--light-gray)">📍 UNESCO monument location pins</li>
+              <li style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1); color:var(--light-gray)">📱 GPS Location integration</li>
+            </ul>
+            <a href="map.html" class="btn btn-primary">Open Fullscreen Map →</a>
+          </div>
+          <div style="width:100%; min-height:480px;" id="homepage-india-map">
+            <!-- Rendered interactively by map.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURAL ARCHIVE SECTIONS PREVIEW -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Living Expressions</span>
+          <h2>Performing Arts & Craftsmanship</h2>
+          <p>Classical dance, traditional music, and GI-tagged handicrafts passed down through generations.</p>
+          <div class="section-divider"></div>
+        </div>
+        <div class="editorial-grid-2">
+          <!-- Dance & Music -->
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:30px;">
+            <span style="color:var(--gold); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em;">Classical Performing Arts</span>
+            <h3 style="margin:10px 0 16px;">Bharatanatyam, Kathakali & Classical Music</h3>
+            <div style="width:100%; height:320px; background:#000000; border-radius:4px; margin-bottom:16px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,0,0,0.15); overflow:hidden;">
+              <img src="assets/images/bharatanatyam_dance.png" alt="Bharatanatyam Classical Dance" style="width:100%; height:100%; object-fit:contain; background:#000000;">
+            </div>
+            <p style="color:var(--warm-gray); font-size:0.92rem; line-height:1.7;">From 2000-year-old temple devadasi roots to high-energy folk drumming, explore rhythmic mudras, vocal ragas, and traditional musical instruments.</p>
+            <a href="culture.html" class="btn btn-secondary btn-sm" style="margin-top:10px;">Explore Performing Arts →</a>
+          </div>
+
+          <!-- Arts & Crafts -->
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:30px;">
+            <span style="color:var(--gold); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em;">Master Handicrafts</span>
+            <h3 style="margin:10px 0 16px;">Madhubani, Bidriware & Tanjore Gold Art</h3>
+            <div style="width:100%; height:320px; border-radius:4px; margin-bottom:16px; border:1px solid rgba(0,0,0,0.15); overflow:hidden;">
+              <img src="assets/images/madhubani_tanjore_art.png" alt="Madhubani & Tanjore Indian Handicraft Art" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+            </div>
+            <p style="color:var(--warm-gray); font-size:0.92rem; line-height:1.7;">Discover indigenous wall murals, silver inlay metalwork, gold foil temple painting, and wood-carved relics preserving artisanal heritage.</p>
+            <a href="culture.html" class="btn btn-secondary btn-sm" style="margin-top:10px;">Explore Master Crafts →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERITAGE AT RISK ALERT -->
+    <section class="section" style="background: rgba(192, 57, 43, 0.04); border-top:2px solid var(--danger);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label" style="color:var(--danger)">⚠ Preservation Urgency</span>
+          <h2>Endangered Cultural Heritage</h2>
+          <p>Documenting monuments, vulnerable textiles, and oral dialects facing threat from climate, urbanization, or neglect.</p>
+          <div class="section-divider" style="background:var(--danger)"></div>
+        </div>
+        <div class="editorial-grid-3">
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); border-left:4px solid var(--danger); padding:24px;">
+            <span style="background:var(--danger); color:var(--white); font-size:0.65rem; font-weight:700; padding:2px 8px; text-transform:uppercase;">Critical Threat</span>
+            <h4 style="margin:12px 0 6px;">Hampi Boulder Encroachments</h4>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">Regulated buffer zone violations threatening ancient Vijayanagara Bazaar structures.</p>
+          </div>
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); border-left:4px solid var(--warning); padding:24px;">
+            <span style="background:var(--warning); color:var(--obsidian); font-size:0.65rem; font-weight:700; padding:2px 8px; text-transform:uppercase;">Moderate Threat</span>
+            <h4 style="margin:12px 0 6px;">Chettinad Heritage Mansions</h4>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">Historic palatial residences facing decay due to migration and maintenance costs.</p>
+          </div>
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); border-left:4px solid var(--terracotta); padding:24px;">
+            <span style="background:var(--terracotta); color:var(--white); font-size:0.65rem; font-weight:700; padding:2px 8px; text-transform:uppercase;">High Threat</span>
+            <h4 style="margin:12px 0 6px;">Moidams of Ahom Kings</h4>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">Royal mound tombs in Assam requiring urgent conservation documentation.</p>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:30px;">
+          <a href="at-risk.html" class="btn btn-secondary" style="border-color:var(--danger); color:var(--danger);">View Heritage at Risk Registry →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/state_details_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('home');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      // Dynamic Exact Counts calculation & Animated Counter
+      const statCards = document.querySelectorAll('.stat-card-luxury');
+      if (statCards.length > 0) {
+        // Compute exact counts from repository datasets if loaded
+        if (window.STATE_DETAILS && window.DCHA_DATA) {
+          const sd = window.STATE_DETAILS;
+          const dcha = window.DCHA_DATA;
+          const allStates = dcha.STATES || [];
+          const numStates = allStates.filter(s => s.type === 'state').length || 28;
+          const numUts = allStates.filter(s => s.type === 'union_territory' || s.type === 'ut').length || 8;
+          const totalEntities = numStates + numUts;
+
+          let totalMonuments = 0;
+          let totalFestivals = 0;
+          let totalFoods = 0;
+          let totalDresses = 0;
+          let totalMuseums = 0;
+
+          Object.values(sd).forEach(s => {
+            totalMonuments += (s.heritage_places || []).length + (s.tourist_places || []).length;
+            totalFestivals += (s.festivals || []).length;
+            totalFoods += (s.traditional_foods || []).length;
+            totalDresses += (s.traditional_dresses || []).length;
+            totalMuseums += (s.museums || []).length;
+          });
+
+          const totalLivingCrafts = totalFoods + totalDresses;
+          const totalCurated = totalMonuments + totalFestivals + totalLivingCrafts + totalMuseums;
+
+          const cardStates = document.querySelector('.stat-card-luxury:nth-child(1)');
+          if (cardStates && totalEntities) cardStates.setAttribute('data-target', totalEntities);
+
+          const cardMonuments = document.querySelector('.stat-card-luxury:nth-child(2)');
+          if (cardMonuments && totalMonuments) cardMonuments.setAttribute('data-target', totalMonuments);
+
+          const cardFestivals = document.querySelector('.stat-card-luxury:nth-child(3)');
+          if (cardFestivals && totalFestivals) cardFestivals.setAttribute('data-target', totalFestivals);
+
+          const cardCrafts = document.querySelector('.stat-card-luxury:nth-child(4)');
+          if (cardCrafts && totalLivingCrafts) cardCrafts.setAttribute('data-target', totalLivingCrafts);
+
+          const cardMuseums = document.querySelector('.stat-card-luxury:nth-child(5)');
+          if (cardMuseums && totalMuseums) cardMuseums.setAttribute('data-target', totalMuseums);
+
+          const cardTotal = document.querySelector('.stat-card-luxury:nth-child(6)');
+          if (cardTotal && totalCurated) cardTotal.setAttribute('data-target', totalCurated);
+        }
+
+        // Animated counting effect
+        let animated = false;
+        const runCounters = () => {
+          if (animated) return;
+          const banner = document.querySelector('.stats-bar-magazine');
+          if (!banner) return;
+          const rect = banner.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.95 && rect.bottom >= 0) {
+            animated = true;
+            statCards.forEach(card => {
+              const target = parseInt(card.getAttribute('data-target'), 10);
+              const counter = card.querySelector('.stat-counter');
+              if (!counter || isNaN(target)) return;
+              const duration = 1400;
+              const startTime = performance.now();
+              const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // easeOutCubic
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const currentVal = Math.floor(ease * target);
+                counter.textContent = currentVal;
+                if (progress < 1) {
+                  requestAnimationFrame(updateCount);
+                } else {
+                  counter.textContent = target;
+                }
+              };
+              requestAnimationFrame(updateCount);
+            });
+          }
+        };
+
+        window.addEventListener('scroll', runCounters, { passive: true });
+        runCounters();
+      }
+
+      // Populate States Carousel (All 36 States & UTs)
+      const carousel = document.getElementById('states-carousel');
+      if (carousel && window.DCHA_DATA) {
+        carousel.innerHTML = window.DCHA_DATA.STATES.map(s => `
+          <a href="state-detail.html?id=${s.id}" class="state-mini-card">
+            <img src="${s.image}" alt="${s.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80';">
+            <div class="state-card-body">
+              <span class="region-tag">${s.region || 'India'}</span>
+              <h4>${s.name}</h4>
+              <p style="font-size:0.75rem; color:var(--warm-gray); margin:0;">Capital: ${s.capital}</p>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      // Populate Featured Heritage Monuments
+      const monumentsGrid = document.getElementById('featured-monuments-grid');
+      if (monumentsGrid && window.DCHA_DATA) {
+        monumentsGrid.innerHTML = window.DCHA_DATA.FEATURED_HERITAGE.map(h => 
+          window.components.createCard(h, 'heritage')
+        ).join('');
+      }
+    });
+  </script>
+</body>
+</html>

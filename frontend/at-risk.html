@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage at Risk — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .level-filter-btn {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .level-filter-btn.active, .level-filter-btn:hover {
+      background: var(--danger, #C0392B);
+      color: var(--white);
+      border-color: var(--danger, #C0392B);
+    }
+    .risk-level-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+    .tag-critical { background: #900C3F; color: #FFF; }
+    .tag-high { background: #C0392B; color: #FFF; }
+    .tag-moderate { background: #D35400; color: #FFF; }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--danger);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--danger); border-color:var(--danger);">Urgent Conservation Registry</span>
+        <h1 style="color:var(--white)">Pan-Indian Heritage at Risk Vault</h1>
+        <p style="color:var(--muted-gray); max-width:650px; margin:0 auto 20px auto;">Documenting endangered monuments, imperiled rock art, fading dialects, and vulnerable handloom crafts across all 28 States & 8 UTs requiring urgent conservation intervention.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <!-- FILTER BAR & SEARCH -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin-bottom:30px;">
+          <div style="display:flex; gap:10px; flex-wrap:wrap;" id="risk-level-filters">
+            <button class="level-filter-btn active" data-level="all">All Risk Levels</button>
+            <button class="level-filter-btn" data-level="CRITICAL">🔴 Critical Risk</button>
+            <button class="level-filter-btn" data-level="HIGH">🟠 High Risk</button>
+            <button class="level-filter-btn" data-level="MODERATE">🟡 Moderate Risk</button>
+          </div>
+          <div>
+            <input type="text" id="risk-search-input" placeholder="Search state or site..." style="padding:8px 14px; border:1px solid rgba(0,0,0,0.15); border-radius:6px; font-size:0.85rem; width:240px; outline:none;">
+          </div>
+        </div>
+
+        <div class="editorial-grid-3" id="risk-grid"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('at-risk'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('risk-grid');
+      const levelBtns = document.querySelectorAll('.level-filter-btn');
+      const searchInput = document.getElementById('risk-search-input');
+
+      let currentLevel = 'all';
+      let searchQuery = '';
+
+      const getLevelClass = (level) => {
+        if (level === 'CRITICAL') return 'tag-critical';
+        if (level === 'HIGH') return 'tag-high';
+        return 'tag-moderate';
+      };
+
+      const renderRiskItems = () => {
+        if (!grid || !window.DCHA_DATA || !window.DCHA_DATA.HERITAGE_AT_RISK_ITEMS) return;
+        let items = window.DCHA_DATA.HERITAGE_AT_RISK_ITEMS;
+
+        if (currentLevel !== 'all') {
+          items = items.filter(r => (r.level || '').toUpperCase() === currentLevel.toUpperCase());
+        }
+
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.toLowerCase();
+          items = items.filter(r => 
+            (r.site || '').toLowerCase().includes(q) || 
+            (r.state || '').toLowerCase().includes(q) ||
+            (r.threat || '').toLowerCase().includes(q)
+          );
+        }
+
+        if (items.length === 0) {
+          grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--warm-gray);">No heritage risk entries found matching your search.</div>`;
+          return;
+        }
+
+        grid.innerHTML = items.map(r => `
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); border-left:4px solid ${r.level === 'CRITICAL' ? '#900C3F' : r.level === 'HIGH' ? '#C0392B' : '#D35400'}; padding:22px; border-radius:6px; display:flex; flex-direction:column; box-shadow:0 4px 15px rgba(0,0,0,0.04);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span class="risk-level-tag ${getLevelClass(r.level)}">${r.level} RISK</span>
+              <span style="font-size:0.8rem; color:var(--gold-dark); font-weight:600;">📍 ${r.state}</span>
+            </div>
+            <h3 style="font-size:1.15rem; margin-bottom:10px; color:var(--obsidian); line-height:1.3;">${r.site}</h3>
+            <div style="background:var(--ivory); padding:10px; border-radius:4px; margin-bottom:10px;">
+              <p style="font-size:0.82rem; color:var(--warm-gray); margin:0;"><strong>Threat:</strong> ${r.threat}</p>
+            </div>
+            <p style="font-size:0.82rem; color:var(--charcoal); margin:0; line-height:1.4; flex:1;"><strong>Action Required:</strong> ${r.action}</p>
+          </div>
+        `).join('');
+      };
+
+      renderRiskItems();
+
+      levelBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          levelBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentLevel = btn.dataset.level;
+          renderRiskItems();
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value;
+          renderRiskItems();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

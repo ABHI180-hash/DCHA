@@ -1,0 +1,91 @@
+/* admin.css */
+body.admin-mode { background-color: #f8f9fa; }
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+.admin-sidebar {
+  width: 250px;
+  background-color: var(--obsidian);
+  color: var(--ivory);
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  padding: 1.5rem 0;
+}
+
+.admin-sidebar-nav { list-style: none; }
+.admin-sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  color: var(--light-gray);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.admin-sidebar-nav li a:hover,
+.admin-sidebar-nav li a.active {
+  background-color: rgba(255,255,255,0.05);
+  color: var(--gold);
+  border-left-color: var(--gold);
+}
+
+.admin-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 2rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.admin-card {
+  background: var(--white);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--light-gray);
+}
+
+.admin-metric { display: flex; align-items: center; gap: 1rem; }
+.admin-metric-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background-color: rgba(196, 154, 42, 0.1);
+  color: var(--gold);
+  display: flex; justify-content: center; align-items: center;
+  font-size: 1.5rem;
+}
+.admin-metric-info h4 { margin: 0; font-size: 0.875rem; color: var(--muted-gray); }
+.admin-metric-info p { margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
+
+.admin-table-wrapper {
+  background: var(--white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th, .admin-table td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--light-gray); text-align: left; }
+.admin-table th { background-color: #f8f9fa; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.admin-actions { display: flex; gap: 0.5rem; }
+
+@media (max-width: 992px) {
+  .admin-sidebar { transform: translateX(-100%); transition: transform var(--transition-normal); z-index: 1050; }
+  .admin-sidebar.show { transform: translateX(0); }
+  .admin-content { margin-left: 0; }
+}

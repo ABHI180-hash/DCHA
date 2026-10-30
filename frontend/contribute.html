@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribution Portal — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .contribution-box {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 40px;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; }
+    .form-control {
+      width: 100%; padding: 12px; border: 1px solid rgba(0,0,0,0.15);
+      font-family: var(--font-body); font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Community Archive</span>
+        <h1 style="color:var(--white)">Cultural Contribution Portal</h1>
+        <p style="color:var(--muted-gray); max-width:600px; margin:0 auto;">Submit local heritage sites, oral histories, folk songs, or traditional recipes for peer curation.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contribution-box">
+          <form id="contribution-form">
+            <div class="form-group">
+              <label>Heritage Title / Topic</label>
+              <input type="text" id="contrib-title" class="form-control" placeholder="e.g. Traditional Wood Carving of Chamba" required>
+            </div>
+            <div class="form-group">
+              <label>State / Union Territory</label>
+              <select id="contrib-state" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Cultural Category</label>
+              <select id="contrib-cat" class="form-control" required>
+                <option value="Heritage Monument">Heritage Monument</option>
+                <option value="Festival & Ritual">Festival & Ritual</option>
+                <option value="Culinary Tradition">Culinary Tradition</option>
+                <option value="Textiles & Attire">Textiles & Attire</option>
+                <option value="Performing Art">Performing Art</option>
+                <option value="Folk Story">Folk Story</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Cultural & Historical Description</label>
+              <textarea id="contrib-desc" class="form-control" rows="5" placeholder="Provide detailed historical background, cultural significance, and community context..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Image / Media URL (Open License / Public Domain)</label>
+              <input type="url" id="contrib-url" class="form-control" placeholder="https://commons.wikimedia.org/wiki/File:...">
+            </div>
+
+            <!-- LICENSING & ETHICAL CONTRIBUTOR DECLARATION -->
+            <div class="contribute-license-box" style="background:rgba(198,161,91,0.08); border:1px solid rgba(198,161,91,0.25); border-radius:6px; padding:14px; margin-bottom:18px; font-size:0.84rem; color:var(--text-secondary); line-height:1.5;">
+              <strong style="color:var(--gold);">Archival Open Licensing (CC BY-SA 4.0):</strong>
+              Contributions accepted into the Indian Cultural Heritage Archive are published under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" style="color:var(--gold); text-decoration:underline;">Creative Commons Attribution-ShareAlike 4.0 International</a> license. You retain copyright while granting public attribution and educational reuse.
+            </div>
+
+            <div class="form-group" style="margin-bottom:20px;">
+              <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.84rem; font-weight:normal; cursor:pointer; color:var(--text-primary);">
+                <input type="checkbox" id="contrib-license-agree" required style="accent-color:var(--gold); transform:scale(1.15); margin-top:2px;">
+                <span>I confirm that this contribution is original or from public domain/open-access archives, respects living community traditions, and I agree to the <a href="terms.html#contributions" target="_blank" style="color:var(--gold); text-decoration:underline;">Contributor Terms</a>. <span style="color:#C6A15B;">*</span></span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit to Editorial Curator Panel</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('contribute'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const stateSel = document.getElementById('contrib-state');
+      if (stateSel && window.DCHA_DATA) {
+        window.DCHA_DATA.STATES.forEach(st => {
+          const opt = document.createElement('option'); opt.value = st.id; opt.textContent = st.name; stateSel.appendChild(opt);
+        });
+      }
+
+      document.getElementById('contribution-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!window.api || !window.api.isLoggedIn()) {
+          window.auth?.showLoginPrompt();
+          return;
+        }
+
+        const agreeCheck = document.getElementById('contrib-license-agree');
+        if (agreeCheck && !agreeCheck.checked) {
+          window.components?.showToast('Please confirm the licensing agreement before submitting.', 'error');
+          agreeCheck.focus();
+          return;
+        }
+
+        const title = document.getElementById('contrib-title').value.trim();
+        const stateIdVal = document.getElementById('contrib-state').value;
+        const category = document.getElementById('contrib-cat').value;
+        const description = document.getElementById('contrib-desc').value.trim();
+        const imageUrl = document.getElementById('contrib-url').value.trim();
+
+        // Convert numeric ID or default to 1 if string slug
+        const numericStateId = parseInt(stateIdVal) || 1;
+
+        try {
+          await window.api.post('/contributions', {
+            title: title,
+            state: { id: numericStateId },
+            category: category,
+            description: description,
+            imageUrl: imageUrl
+          });
+          window.components?.showToast('Contribution submitted successfully! Pending editorial curation.', 'success');
+          e.target.reset();
+        } catch (error) {
+          window.components?.showToast(error.message || 'Submission failed. Please try again.', 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCHA Admin - Submissions</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    body { margin: 0; font-family: var(--font-inter, sans-serif); background-color: #f4f6f8; display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 250px; background: #1a1a1a; color: #fff; height: 100vh; position: fixed; left: 0; top: 0; padding-top: 20px; }
+    .admin-sidebar .logo { font-family: var(--font-playfair, serif); color: var(--color-gold, #d4af37); font-size: 24px; text-align: center; margin-bottom: 30px; display: block; text-decoration: none; }
+    .admin-sidebar nav a { display: block; padding: 15px 20px; color: #ccc; text-decoration: none; border-left: 3px solid transparent; }
+    .admin-sidebar nav a:hover, .admin-sidebar nav a.active { background: #333; color: #fff; border-left-color: var(--color-gold, #d4af37); }
+    .admin-main { margin-left: 250px; padding: 20px; width: calc(100% - 250px); box-sizing: border-box; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    .admin-table-container { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 20px; overflow-x: auto; }
+    .filter-bar { display: flex; gap: 15px; margin-bottom: 20px; }
+    .filter-bar select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+    th { font-weight: bold; color: #555; background: #f9f9f9; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .badge.pending { background: #fff3cd; color: #856404; }
+    .badge.approved { background: #d4edda; color: #155724; }
+    .badge.rejected { background: #f8d7da; color: #721c24; }
+    .btn-action { padding: 6px 12px; font-size: 12px; cursor: pointer; border: none; border-radius: 4px; color: #fff; text-decoration: none; display: inline-block; margin-right: 5px; }
+    .btn-action.approve { background: #28a745; }
+    .btn-action.reject { background: #dc3545; }
+    .btn-action.view { background: #6c757d; }
+  </style>
+</head>
+<body>
+  <script>
+    const token = localStorage.getItem('dcha_token');
+    const user = JSON.parse(localStorage.getItem('dcha_user') || '{}');
+    if (!token || user.role !== 'admin') {
+      window.location.href = '../login.html';
+    }
+  </script>
+
+  <aside class="admin-sidebar">
+    <a href="dashboard.html" class="logo">DCHA Admin</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="states.html">States</a>
+      <a href="heritage.html">Heritage</a>
+      <a href="submissions.html" class="active">Submissions</a>
+      <a href="users.html">Users</a>
+      <a href="analytics.html">Analytics</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h2>Contributions Review</h2>
+    </header>
+
+    <div class="admin-table-container">
+      <div class="filter-bar">
+        <select id="status-filter">
+          <option value="all">All Statuses</option>
+          <option value="pending" selected>Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>State</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="submissions-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const tbody = document.getElementById('submissions-table-body');
+      
+      const dummySubmissions = [
+        { id: 1, title: 'Local Folk Dance Details', category: 'Culture', state: 'Gujarat', date: '2024-03-01', status: 'pending' },
+        { id: 2, title: 'Old Temple Photos', category: 'Heritage', state: 'Tamil Nadu', date: '2024-03-02', status: 'approved' },
+        { id: 3, title: 'Traditional Recipe', category: 'Food', state: 'Punjab', date: '2024-03-05', status: 'pending' }
+      ];
+
+      function renderTable(filter) {
+        tbody.innerHTML = '';
+        const filtered = filter === 'all' ? dummySubmissions : dummySubmissions.filter(s => s.status === filter);
+        filtered.forEach(s => {
+          const badgeClass = s.status === 'pending' ? 'pending' : (s.status === 'approved' ? 'approved' : 'rejected');
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${s.title}</td>
+            <td>${s.category}</td>
+            <td>${s.state}</td>
+            <td>${s.date}</td>
+            <td><span class="badge ${badgeClass}">${s.status.charAt(0).toUpperCase() + s.status.slice(1)}</span></td>
+            <td>
+              <button class="btn-action view" onclick="alert('View details for ${s.id}')">View</button>
+              ${s.status === 'pending' ? `
+              <button class="btn-action approve" onclick="alert('Approve ${s.id}')">Approve</button>
+              <button class="btn-action reject" onclick="alert('Reject ${s.id}')">Reject</button>
+              ` : ''}
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      renderTable('pending');
+
+      document.getElementById('status-filter').addEventListener('change', (e) => {
+        renderTable(e.target.value);
+      });
+    });
+  </script>
+</body>
+</html>

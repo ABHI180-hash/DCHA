@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curated & Personal Collections — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Archival Anthology</span>
+        <h1 style="color:var(--white)">Heritage Collections</h1>
+        <p style="color:var(--muted-gray); max-width:600px; margin:0 auto;">Curate custom personal anthologies or explore thematic exhibitions compiled by cultural historians.</p>
+      </div>
+    </section>
+
+    <!-- USER CUSTOM COLLECTIONS SECTION -->
+    <section class="section" style="padding-bottom:20px;">
+      <div class="container">
+        <div id="user-collections-section"></div>
+      </div>
+    </section>
+
+    <!-- CURATED THEMATIC ANTHOLOGIES SECTION -->
+    <section class="section" style="background:#FAF8F5; border-top:1px solid rgba(0,0,0,0.06);">
+      <div class="container">
+        <h2 style="font-family:var(--font-heading, serif); margin-bottom:6px; color:var(--obsidian);">Curated Institutional Anthologies</h2>
+        <p style="color:var(--warm-gray); font-size:0.95rem; margin-bottom:30px;">Featured thematic collections curated by museum archivists.</p>
+        <div class="editorial-grid-3">
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:24px; border-radius:6px;">
+            <span class="catalogue-tag">Thematic Anthology</span>
+            <h3 style="font-size:1.3rem; margin:10px 0;">UNESCO World Heritage of India</h3>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">34 cultural and 7 natural UNESCO sites documenting millenia of architecture and ecology.</p>
+            <a href="heritage.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">View Anthology →</a>
+          </div>
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:24px; border-radius:6px;">
+            <span class="catalogue-tag">Living Traditions</span>
+            <h3 style="font-size:1.3rem; margin:10px 0;">Master Silk Weaving Regions</h3>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">Kanchipuram, Banaras, Patan Patola, and Muga silk weaving traditions.</p>
+            <a href="culture.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">View Anthology →</a>
+          </div>
+          <div style="background:var(--white); border:1px solid rgba(0,0,0,0.08); padding:24px; border-radius:6px;">
+            <span class="catalogue-tag">Gastronomy</span>
+            <h3 style="font-size:1.3rem; margin:10px 0;">Royal Court Feasts of India</h3>
+            <p style="font-size:0.85rem; color:var(--warm-gray);">Deccani Nizami biryani, Awadhi dum pukht, and Rajput royal game court recipes.</p>
+            <a href="food.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">View Anthology →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/collections.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('collections'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+    });
+  </script>
+</body>
+</html>

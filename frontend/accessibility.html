@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Statement — Digital Culture Heritage Archive (DCHA)</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .legal-content-card {
+      background: var(--white);
+      border: 1px solid rgba(198, 161, 91, 0.25);
+      border-radius: 6px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      line-height: 1.85;
+      color: #2C2D2B;
+    }
+    .legal-content-card h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--obsidian);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(198, 161, 91, 0.2);
+      padding-bottom: 8px;
+    }
+    .legal-content-card h2:first-of-type {
+      margin-top: 10px;
+    }
+    .legal-meta-box {
+      background: #F8F5EE;
+      border-left: 4px solid var(--gold);
+      padding: 16px 20px;
+      margin-bottom: 30px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92rem;
+    }
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .checklist-item {
+      background: #FAF8F4;
+      border: 1px solid #E2D9C4;
+      padding: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .checklist-icon {
+      font-size: 1.2rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .checklist-text strong {
+      display: block;
+      color: var(--obsidian);
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+    .checklist-text span {
+      font-size: 0.88rem;
+      color: #555;
+    }
+    @media (max-width: 768px) {
+      .checklist-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="nav-container"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Universal Design & Inclusive Access</span>
+        <h1 style="color:var(--white); margin: 12px 0;">Accessibility Statement</h1>
+        <p style="color:var(--muted-gray); max-width:680px; margin:0 auto; font-size:1.05rem;">
+          Our commitment to ensuring the cultural wealth of India is accessible to all individuals, regardless of ability or assistive technology.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container-narrow">
+        <div class="legal-content-card">
+
+          <div class="legal-meta-box">
+            <strong>Target Standard:</strong> Web Content Accessibility Guidelines (WCAG) 2.2 Level AA &nbsp;|&nbsp;
+            <strong>Conformance Status:</strong> Substantially Conformant &nbsp;|&nbsp;
+            <strong>Accessibility Coordinator:</strong> <a href="mailto:accessibility@dcha.org">accessibility@dcha.org</a>
+          </div>
+
+          <h2>1. Our Commitment</h2>
+          <p>
+            The <strong>Digital Culture Heritage Archive (DCHA)</strong> is firmly committed to digital inclusion. Cultural heritage belongs to humanity, and access to historical knowledge, monumental architecture, and traditional arts must be barrier-free. We strive to meet and exceed the <strong>Web Content Accessibility Guidelines (WCAG) 2.2 Level AA</strong> standards developed by the World Wide Web Consortium (W3C).
+          </p>
+
+          <h2>2. Implemented Accessibility Features</h2>
+          <p>We have integrated accessible engineering principles across the application lifecycle:</p>
+
+          <div class="checklist-grid">
+            <div class="checklist-item">
+              <span class="checklist-icon">⌨️</span>
+              <div class="checklist-text">
+                <strong>Keyboard Navigation & Skip Links</strong>
+                <span>All interactive controls (links, buttons, modal dialogues, and tabs) can be accessed via keyboard. A visible "Skip to main content" link bypasses extensive headers.</span>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <span class="checklist-icon">👁️</span>
+              <div class="checklist-text">
+                <strong>Visible Focus Indicators</strong>
+                <span>Interactive elements feature high-contrast, dual-tone focus rings (<code>:focus-visible</code>) to clearly signify active focus for keyboard and switch device users.</span>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <span class="checklist-icon">🎨</span>
+              <div class="checklist-text">
+                <strong>Color Contrast & Typography</strong>
+                <span>Text and interactive controls meet or exceed the minimum 4.5:1 contrast ratio against both light parchment and obsidian dark backgrounds. Hierarchy is not communicated through color alone.</span>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <span class="checklist-icon">🖼️</span>
+              <div class="checklist-text">
+                <strong>Informative Image Descriptions</strong>
+                <span>Archival photographs of monuments, textiles, and artifacts include descriptive <code>alt</code> text detailing subject matter, geographic region, and architectural style.</span>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <span class="checklist-icon">🏷️</span>
+              <div class="checklist-text">
+                <strong>Form Labels & Error Associations</strong>
+                <span>All input fields across registration, login, search, and contribution forms have explicit <code>&lt;label&gt;</code> elements and programmatic error associations (<code>aria-describedby</code>).</span>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <span class="checklist-icon">🌀</span>
+              <div class="checklist-text">
+                <strong>Respect for Reduced Motion</strong>
+                <span>The system supports the <code>prefers-reduced-motion</code> operating system setting, automatically disabling decorative animations and pulsating effects for users with vestibular sensitivities.</span>
+              </div>
+            </div>
+          </div>
+
+          <h2>3. Screen Reader Optimization</h2>
+          <p>
+            The Archive utilizes semantic HTML5 structural elements (<code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;article&gt;</code>). Dynamic notifications (such as adding items to personal collections or submission acknowledgments) are routed to an accessible live region (<code>aria-live="polite"</code>) for automatic auditory announcement.
+          </p>
+
+          <h2>4. Known Limitations & Ongoing Enhancements</h2>
+          <p>While we strive for comprehensive coverage, certain complex historical media present technical challenges that our engineering team is actively resolving:</p>
+          <ul>
+            <li><strong>Interactive SVG Cartography:</strong> High-density historical vector maps on <code>map.html</code> are continually being paired with structured HTML tabular alternatives to ensure full screen-reader parity.</li>
+            <li><strong>Archival Audio Recordings:</strong> Historic oral chants and folk recordings on <code>audio.html</code> feature textual musical commentary, with full lyric transcriptions being expanded incrementally.</li>
+            <li><strong>Ancient Scripts & Inscriptions:</strong> Historic epigraphs (such as Brahmi and Kharosthi) are presented with romanized linguistic transliterations wherever available.</li>
+          </ul>
+
+          <h2>5. Feedback & Remediation Requests</h2>
+          <p>
+            If you encounter an accessibility barrier on any DCHA page or require archival materials in an alternate accessible format, please contact our Accessibility Coordinator:
+          </p>
+          <div class="legal-meta-box" style="background:#FFFFFF; border:1px solid #D4AF37;">
+            <strong>Accessibility Coordinator:</strong> Digital Humanities Accessibility Desk<br>
+            <strong>Email:</strong> <a href="mailto:accessibility@dcha.org">accessibility@dcha.org</a><br>
+            <strong>Response Commitment:</strong> We aim to acknowledge reports within 48 hours and deploy technical remediations within 10 business days.
+          </div>
+
+          <div style="margin-top:40px; padding-top:20px; border-top:1px solid #EAEAEA; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <a href="contact.html" class="btn btn-secondary btn-sm">&larr; Institutional Contact</a>
+            <a href="attributions.html" class="btn btn-primary btn-sm">Media Attribution Register &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav(); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+    });
+  </script>
+</body>
+</html>

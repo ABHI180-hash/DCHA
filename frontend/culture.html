@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art & Culture Archive — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Culture Hero - Minimalist & Pure (Matches Explore Cultural Domains) */
+    .culture-hero {
+      background: linear-gradient(180deg, rgba(13,14,13,0.96) 0%, rgba(20,18,16,0.92) 100%);
+      padding: 100px 0 75px;
+      color: var(--ivory);
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+    .culture-hero .archival-tag-top {
+      display: inline-block;
+      font-family: var(--font-sans);
+      color: var(--gold);
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      padding: 6px 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-variant: small-caps;
+      background: rgba(18,18,18,0.75);
+      border-radius: 50px;
+      margin-bottom: 0;
+    }
+    .culture-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--white) !important;
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      -webkit-text-fill-color: var(--white) !important;
+      margin: 14px 0 16px;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .culture-hero p.lead {
+      font-family: var(--font-sans);
+      color: #E2DDD4;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .culture-hero h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO -->
+    <section class="culture-hero">
+      <div class="container">
+        <span class="archival-tag-top">Intangible Cultural Heritage</span>
+        <h1>Art, Dance, Music & Textiles</h1>
+        <p class="lead">Classical performing arts, GI-tagged master handicrafts, and traditional weaving practices preserved across dynasties.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 id="dance" style="margin-bottom:30px;">Classical & Folk Dance Traditions</h2>
+        <div class="editorial-grid-3" id="dance-grid"></div>
+
+        <div class="motif-divider"></div>
+
+        <h2 id="crafts" style="margin-bottom:30px;">Master Handicrafts & Craftsmanship</h2>
+        <div class="editorial-grid-3" id="art-grid"></div>
+
+        <div class="motif-divider"></div>
+
+        <h2 id="textiles" style="margin-bottom:30px;">Handloom Textiles & Traditional Attire</h2>
+        <div class="editorial-grid-3" id="textiles-grid"></div>
+
+        <div class="motif-divider"></div>
+
+        <h2 id="stories" style="margin-bottom:30px;">Folk Tales & Oral Legends</h2>
+        <div class="editorial-grid-3" id="stories-grid"></div>
+
+        <div class="motif-divider"></div>
+
+        <h2 id="languages" style="margin-bottom:30px;">Ancient Languages, Epigraphy & Scripts</h2>
+        <div class="editorial-grid-3" id="languages-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('culture');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      if (window.DCHA_DATA) {
+        const danceGrid = document.getElementById('dance-grid');
+        if (danceGrid) {
+          danceGrid.innerHTML = window.DCHA_DATA.DANCE_MUSIC_ITEMS.map(d => window.components.createCard(d, 'culture')).join('');
+        }
+
+        const artGrid = document.getElementById('art-grid');
+        if (artGrid) {
+          artGrid.innerHTML = window.DCHA_DATA.ART_CRAFT_ITEMS.map(a => window.components.createCard(a, 'culture')).join('');
+        }
+
+        const textilesGrid = document.getElementById('textiles-grid');
+        if (textilesGrid) {
+          textilesGrid.innerHTML = window.DCHA_DATA.TEXTILE_ITEMS.map(t => window.components.createCard(t, 'culture')).join('');
+        }
+
+        const storiesGrid = document.getElementById('stories-grid');
+        if (storiesGrid) {
+          const stories = [
+            { id: 101, name: 'The Legend of Vikram and Betal', state: 'Madhya Pradesh', category: 'Moral Legend', description: 'Classic tales of King Vikramaditya solving 25 moral riddles posed by the celestial spirit Betal.', image: 'assets/images/vikram_betal.png', source: 'Oral Folklore Registry' },
+            { id: 102, name: 'Tenali Rama and the Bricks of Gold', state: 'Andhra Pradesh', category: 'Court Folklore', description: 'Humorous court tales of Tenali Ramakrishna outsmarting corrupt royal courtiers in Vijayanagara.', image: 'assets/images/tenali_rama.jpg', source: 'Oral Folklore Registry' },
+            { id: 103, name: 'Gopal Bhar and the Nawab\'s Feast', state: 'West Bengal', category: 'Folk Tales', description: 'Folk stories of Gopal Bhar, the legendary court jester of Raja Krishnachandra of Nadia.', image: 'assets/images/gopal_bhar.png', source: 'Oral Folklore Registry' }
+          ];
+          storiesGrid.innerHTML = stories.map(s => window.components.createCard(s, 'culture')).join('');
+        }
+
+        const languagesGrid = document.getElementById('languages-grid');
+        if (languagesGrid && window.DCHA_DATA.LANGUAGE_ITEMS) {
+          languagesGrid.innerHTML = window.DCHA_DATA.LANGUAGE_ITEMS.map(l => window.components.createCard(l, 'culture')).join('');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive India Map — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .map-page-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .map-display-card {
+      background: transparent;
+      padding: 0;
+      border: none;
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+    .map-sidebar {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 24px;
+    }
+    @media (max-width: 992px) {
+      .map-page-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <section class="section-sm" style="background:var(--ivory); border-bottom:1px solid var(--light-gray);">
+      <div class="container flex-between" style="flex-wrap:wrap; gap:16px;">
+        <div>
+          <span class="catalogue-tag">Subcontinent Cartography</span>
+          <h2>Interactive India Heritage Map</h2>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button id="geo-btn" class="btn btn-secondary btn-sm">📍 Use My Location</button>
+          <input type="text" id="map-search" class="search-input-field" placeholder="Search state on map..." style="max-width:220px;">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="map-page-layout">
+          <!-- MAP CONTAINER -->
+          <div class="map-display-card" id="india-map">
+            <!-- Rendered by map.js -->
+          </div>
+
+          <!-- SIDEBAR -->
+          <div class="map-sidebar" id="map-info-panel">
+            <span class="catalogue-tag" id="panel-tag">Selected Region</span>
+            <h3 id="panel-name">Select a State on the Map</h3>
+            <p id="panel-desc" style="color:var(--warm-gray); font-size:0.9rem; margin-top:10px;">Click any state marker or state outline on the map to view regional heritage details, capital, and monuments.</p>
+            <div id="panel-details" style="margin-top:20px; display:none;">
+              <p>Capital: <strong id="panel-capital">--</strong></p>
+              <p>Region: <strong id="panel-region">--</strong></p>
+              <p>Languages: <strong id="panel-lang">--</strong></p>
+              <a id="panel-link" href="states.html" class="btn btn-primary btn-sm" style="width:100%; margin-top:16px;">Open State Archive →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('map');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      // Geolocation button
+      const geoBtn = document.getElementById('geo-btn');
+      if (geoBtn) {
+        geoBtn.addEventListener('click', () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                window.components?.showToast(`Location detected: ${pos.coords.latitude.toFixed(2)}°N, ${pos.coords.longitude.toFixed(2)}°E`, 'success');
+              },
+              (err) => {
+                window.components?.showToast('Location access denied. Displaying national map view.', 'info');
+              }
+            );
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Member Account — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .auth-page-wrapper {
+      min-height: calc(100vh - 180px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 16px;
+      background: radial-gradient(circle at 50% 20%, rgba(30, 26, 22, 0.6) 0%, rgba(13, 14, 13, 0.98) 100%), #0D0E0D;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 500px;
+      background: #141311;
+      border: 1px solid rgba(198, 161, 91, 0.35);
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      padding: 40px 36px;
+      color: var(--ivory);
+      position: relative;
+    }
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      padding: 4px 14px;
+      border-radius: 30px;
+      background: rgba(198, 161, 91, 0.08);
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+    .auth-sub {
+      color: #B8B0A2;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 24px;
+      gap: 10px;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #9E9689;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .auth-tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      font-weight: 700;
+    }
+    .auth-tab-btn:hover:not(.active) {
+      color: var(--ivory);
+    }
+
+    /* Form controls */
+    .auth-form-group {
+      margin-bottom: 18px;
+    }
+    .auth-form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #DDD5C7;
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrapper input, .input-wrapper select {
+      width: 100%;
+      padding: 12px 16px;
+      background: #1C1B18;
+      border: 1px solid rgba(198, 161, 91, 0.3);
+      border-radius: 5px;
+      color: var(--white);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus, .input-wrapper select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.2);
+    }
+    .input-wrapper select option {
+      background: #141311;
+      color: var(--white);
+    }
+    .toggle-pass-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: #8C8476;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-pass-btn:hover {
+      color: var(--gold);
+    }
+
+    /* Password Match Indicator */
+    .pass-match-hint {
+      font-size: 0.75rem;
+      margin-top: 4px;
+      display: none;
+    }
+    .pass-match-hint.match {
+      display: block;
+      color: #72e48e;
+    }
+    .pass-match-hint.no-match {
+      display: block;
+      color: #ff858d;
+    }
+
+    /* Feedback Alert */
+    .auth-alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 5px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .auth-alert.error {
+      display: block;
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid #dc3545;
+      color: #ff858d;
+    }
+    .auth-alert.success {
+      display: block;
+      background: rgba(40, 167, 69, 0.15);
+      border: 1px solid #28a745;
+      color: #72e48e;
+    }
+
+    .auth-submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #D4AF37 0%, #AA8222 100%);
+      color: #0D0E0D;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(198, 161, 91, 0.3);
+      margin-top: 6px;
+    }
+    .auth-submit-btn:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(198, 161, 91, 0.45);
+    }
+    .auth-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .auth-footer-links {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #8E877B;
+    }
+    .auth-footer-links a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .auth-footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GLOBAL ARCHIVAL HEADER -->
+  <div id="nav-container"></div>
+
+  <main class="auth-page-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-tag">Join Archive Community</span>
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-sub">Create your membership to save cultural relics, access oral archives, and submit discoveries.</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <a href="login.html" class="auth-tab-btn">Sign In</a>
+        <a href="register.html" class="auth-tab-btn active">Create Account</a>
+      </div>
+
+      <!-- FEEDBACK ALERT BANNER -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- REGISTRATION FORM -->
+      <form id="register-form">
+        <div class="auth-form-group">
+          <label for="reg-name">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="reg-name" placeholder="e.g. Abhijit Sharma" required autocomplete="name">
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="reg-email" placeholder="name@domain.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-role">Primary Interest / Role</label>
+          <div class="input-wrapper">
+            <select id="reg-role">
+              <option value="user" selected>Cultural Explorer & Enthusiast</option>
+              <option value="researcher">Academic Researcher / Historian</option>
+              <option value="contributor">Heritage Contributor / Photographer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-password">Password (Minimum 6 characters)</label>
+          <div class="input-wrapper">
+            <input type="password" id="reg-password" placeholder="Create a secure password" required minlength="6" autocomplete="new-password" style="padding-right:42px;">
+            <button type="button" id="toggle-reg-pass-btn" class="toggle-pass-btn" title="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="reg-confirm-password" placeholder="Re-enter your password" required minlength="6" autocomplete="new-password">
+          </div>
+          <div id="pass-match-hint" class="pass-match-hint"></div>
+        </div>
+
+        <!-- POINT-OF-COLLECTION PRIVACY NOTICE (DPDP ACT 2023 SEC 5) -->
+        <div class="auth-privacy-notice" style="background:rgba(198,161,91,0.06); border:1px solid rgba(198,161,91,0.25); border-radius:6px; padding:12px; margin-bottom:16px; font-size:0.8rem; color:#DDD5C7; line-height:1.5;">
+          <strong style="color:var(--gold);">Archival Notice:</strong> Your name and email are collected solely for account authentication, bookmark management, and cultural discovery attribution. Data is never sold or shared with commercial brokers.
+        </div>
+
+        <!-- MANDATORY CONSENT -->
+        <div class="auth-form-group" style="margin-bottom:12px;">
+          <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.82rem; font-weight:normal; cursor:pointer; color:#DDD5C7;">
+            <input type="checkbox" id="reg-terms-consent" required style="accent-color:var(--gold); transform:scale(1.15); margin-top:2px;">
+            <span>I have read and agree to the <a href="terms.html" target="_blank" style="color:var(--gold); text-decoration:underline;">Terms & Conditions</a> and acknowledge the <a href="privacy.html" target="_blank" style="color:var(--gold); text-decoration:underline;">Privacy Policy</a>. <span style="color:#C6A15B;">*</span></span>
+          </label>
+        </div>
+
+        <!-- OPTIONAL NEWSLETTER CONSENT (SEPARATE & UNBUNDLED) -->
+        <div class="auth-form-group" style="margin-bottom:18px;">
+          <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.82rem; font-weight:normal; cursor:pointer; color:#DDD5C7;">
+            <input type="checkbox" id="reg-newsletter-consent" style="accent-color:var(--gold); transform:scale(1.15); margin-top:2px;">
+            <span>(Optional) Send me periodic updates regarding newly digitized Indian monuments, folk arts, and exhibitions.</span>
+          </label>
+        </div>
+
+        <button type="submit" id="reg-submit-btn" class="auth-submit-btn">
+          Create Account & Sign In →
+        </button>
+      </form>
+
+      <div class="auth-footer-links">
+        Already have an archival membership? <a href="login.html">Sign in here</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize layout
+      if (window.components) {
+        window.components.createNav();
+        window.components.createFooter();
+      }
+
+      const alertBox = document.getElementById('auth-alert');
+      const nameInput = document.getElementById('reg-name');
+      const emailInput = document.getElementById('reg-email');
+      const roleSelect = document.getElementById('reg-role');
+      const passInput = document.getElementById('reg-password');
+      const confirmPassInput = document.getElementById('reg-confirm-password');
+      const matchHint = document.getElementById('pass-match-hint');
+      const submitBtn = document.getElementById('reg-submit-btn');
+      const form = document.getElementById('register-form');
+
+      function showAlert(message, type = 'error') {
+        alertBox.className = `auth-alert ${type}`;
+        alertBox.innerHTML = message;
+        alertBox.style.display = 'block';
+      }
+
+      function hideAlert() {
+        alertBox.style.display = 'none';
+        alertBox.className = 'auth-alert';
+        alertBox.innerHTML = '';
+      }
+
+      // 2. Toggle password visibility
+      const toggleBtn = document.getElementById('toggle-reg-pass-btn');
+      toggleBtn?.addEventListener('click', () => {
+        if (passInput.type === 'password') {
+          passInput.type = 'text';
+          toggleBtn.textContent = '🙈';
+        } else {
+          passInput.type = 'password';
+          toggleBtn.textContent = '👁️';
+        }
+      });
+
+      // 3. Live confirm password matching indicator
+      function checkPasswordsMatch() {
+        if (!confirmPassInput.value) {
+          matchHint.style.display = 'none';
+          return;
+        }
+        if (passInput.value === confirmPassInput.value) {
+          matchHint.textContent = '✓ Passwords match';
+          matchHint.className = 'pass-match-hint match';
+        } else {
+          matchHint.textContent = '✕ Passwords do not match';
+          matchHint.className = 'pass-match-hint no-match';
+        }
+      }
+
+      confirmPassInput?.addEventListener('input', checkPasswordsMatch);
+      passInput?.addEventListener('input', () => {
+        if (confirmPassInput.value) checkPasswordsMatch();
+      });
+
+      // 4. Form Submit
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideAlert();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const role = roleSelect.value;
+        const password = passInput.value;
+        const confirmPassword = confirmPassInput.value;
+
+        if (!name) {
+          showAlert('Please enter your full name.', 'error');
+          nameInput.focus();
+          return;
+        }
+
+        if (!email) {
+          showAlert('Please enter a valid email address.', 'error');
+          emailInput.focus();
+          return;
+        }
+
+        if (password.length < 6) {
+          showAlert('Password must be at least 6 characters long.', 'error');
+          passInput.focus();
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showAlert('Passwords do not match. Please re-enter.', 'error');
+          confirmPassInput.focus();
+          return;
+        }
+
+        const termsConsent = document.getElementById('reg-terms-consent');
+        if (termsConsent && !termsConsent.checked) {
+          showAlert('You must agree to the Terms & Conditions and Privacy Policy to create an account.', 'error');
+          termsConsent.focus();
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating Account & Signing In...';
+
+        try {
+          const res = await window.auth.register(name, email, password, role);
+          showAlert(`✓ Account created successfully! Welcome to the Archive, <strong>${res.user.name}</strong>! Redirecting...`, 'success');
+
+          // Check for redirect param
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get('redirect') || 'profile.html';
+
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 800);
+        } catch (err) {
+          showAlert(`⚠ ${err.message || 'Registration failed. Please try again.'}`, 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account & Sign In →';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

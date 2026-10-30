@@ -1,0 +1,23 @@
+{
+  "java.import.maven.enabled": true,
+  "maven.pomPath": "backend-spring/pom.xml",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "liveServer.settings.root": "/frontend",
+  "liveServer.settings.port": 3000,
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/target": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/target": true,
+    "**/*.mv.db": true
+  }
+}

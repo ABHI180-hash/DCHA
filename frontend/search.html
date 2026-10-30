@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Search — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .search-hero {
+      background: var(--obsidian);
+      color: var(--ivory);
+      padding: 70px 0 50px;
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+    .search-box-large {
+      max-width: 700px;
+      margin: 24px auto 0;
+      display: flex;
+    }
+    .search-box-large input {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      border: 1px solid var(--gold);
+      background: var(--cream);
+      color: var(--obsidian);
+      border-radius: 4px;
+    }
+    .chip-filter {
+      display: inline-block;
+      padding: 6px 14px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: var(--white);
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-right: 6px;
+      margin-bottom: 8px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+    .chip-filter.active {
+      background: var(--gold);
+      color: var(--obsidian);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <section class="search-hero">
+      <div class="container">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Cross-Archive Query Engine</span>
+        <h1 style="color:var(--white)">Global Heritage Search</h1>
+        <p style="color:var(--muted-gray); max-width:600px; margin:0 auto;">Search across all 36 States & UTs, monuments, festivals, foods, textiles, dance forms, arts, and museums.</p>
+        
+        <div class="search-box-large">
+          <input type="text" id="global-search-input" placeholder="Type a state, monument, dance, festival, craft, or museum (e.g., Puducherry, Taj Mahal, Kathakali, Garba, Salar Jung)..." aria-label="Search term">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <!-- FILTER CHIPS -->
+        <div style="margin-bottom:30px; text-align:center;" id="category-chips">
+          <span class="chip-filter active" data-cat="all">All Domains</span>
+          <span class="chip-filter" data-cat="state">States & UTs</span>
+          <span class="chip-filter" data-cat="heritage">Monuments</span>
+          <span class="chip-filter" data-cat="festival">Festivals</span>
+          <span class="chip-filter" data-cat="food">Food</span>
+          <span class="chip-filter" data-cat="textile">Textiles</span>
+          <span class="chip-filter" data-cat="dance">Dance & Music</span>
+          <span class="chip-filter" data-cat="art">Arts & Crafts</span>
+          <span class="chip-filter" data-cat="museum">Museums</span>
+        </div>
+
+        <div id="search-results-info" style="margin-bottom:20px; font-size:0.95rem; color:var(--warm-gray); text-align:center;">
+          Enter a query to explore archival records.
+        </div>
+
+        <!-- RESULTS GRID -->
+        <div class="editorial-grid-3" id="search-results-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/state_details_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('search');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      const input = document.getElementById('global-search-input');
+      const grid = document.getElementById('search-results-grid');
+      const info = document.getElementById('search-results-info');
+      let activeCat = 'all';
+
+      // Parse query string from URL parameters if passed from navbar search box
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQ = urlParams.get('q') || urlParams.get('query') || urlParams.get('search') || '';
+      if (initialQ && input) {
+        input.value = initialQ;
+      }
+
+      function normalizeText(text) {
+        if (!text) return '';
+        let str = String(text).toLowerCase();
+        // Common alias / typo mappings
+        const aliases = {
+          'puduicherry': 'puducherry',
+          'pondicherry': 'puducherry',
+          'pondicherri': 'puducherry',
+          'pondy': 'puducherry',
+          'orissa': 'odisha',
+          'calcutta': 'kolkata',
+          'bombay': 'mumbai',
+          'madras': 'chennai',
+          'trivandrum': 'thiruvananthapuram',
+          'banaras': 'varanasi',
+          'benares': 'varanasi'
+        };
+        for (const [key, val] of Object.entries(aliases)) {
+          if (str.includes(key)) {
+            str = str.replace(new RegExp(key, 'g'), val);
+          }
+        }
+        return str;
+      }
+
+      const executeSearch = () => {
+        if (!grid) return;
+        const rawQ = input.value.trim();
+        const normalizedQ = normalizeText(rawQ);
+        const tokens = normalizedQ ? normalizedQ.split(/\s+/).filter(Boolean) : [];
+
+        let pool = window.components?.getGlobalSearchPool ? window.components.getGlobalSearchPool() : [];
+
+        let results = pool.filter(item => {
+          const matchCat = activeCat === 'all' || item.itemType === activeCat;
+          if (!matchCat) return false;
+          if (tokens.length === 0) return true;
+
+          const fieldsText = normalizeText([
+            item.title || item.name || '',
+            item.description || '',
+            item.state || '',
+            item.city || '',
+            item.capital || '',
+            item.region || '',
+            item.category || '',
+            item.type || '',
+            item.technique || '',
+            item.period || '',
+            item.cultural_significance || '',
+            item.context || '',
+            item.provenance || '',
+            Array.isArray(item.languages) ? item.languages.join(' ') : (item.languages || ''),
+            Array.isArray(item.highlights) ? item.highlights.join(' ') : (item.highlights || ''),
+            Array.isArray(item.key_artifacts) ? item.key_artifacts.join(' ') : (item.key_artifacts || '')
+          ].join(' '));
+
+          return tokens.every(token => fieldsText.includes(token));
+        });
+
+        if (info) {
+          info.textContent = rawQ 
+            ? `Found ${results.length} archival match${results.length === 1 ? '' : 'es'} for "${rawQ}"` 
+            : `Displaying all ${results.length} archival entries across domains`;
+        }
+
+        if (results.length === 0) {
+          grid.innerHTML = window.components.createEmptyState(`No archival items found matching "${rawQ}". Try searching for another term like "Puducherry", "Taj Mahal", "Kathakali", "Saree", or "Museum".`);
+          return;
+        }
+
+        grid.innerHTML = results.map(r => window.components.createCard(r, r.itemType)).join('');
+      };
+
+      if (input) {
+        input.addEventListener('input', window.components.debounce(executeSearch, 200));
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') executeSearch();
+        });
+      }
+
+      const chips = document.querySelectorAll('.chip-filter');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeCat = chip.dataset.cat;
+          executeSearch();
+        });
+      });
+
+      executeSearch();
+    });
+  </script>
+</body>
+</html>

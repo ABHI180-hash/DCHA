@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Policy & Storage Disclosure — Digital Culture Heritage Archive (DCHA)</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .legal-content-card {
+      background: var(--white);
+      border: 1px solid rgba(198, 161, 91, 0.25);
+      border-radius: 6px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      line-height: 1.85;
+      color: #2C2D2B;
+    }
+    .legal-content-card h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--obsidian);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(198, 161, 91, 0.2);
+      padding-bottom: 8px;
+    }
+    .legal-content-card h2:first-of-type {
+      margin-top: 10px;
+    }
+    .legal-meta-box {
+      background: #F8F5EE;
+      border-left: 4px solid var(--gold);
+      padding: 16px 20px;
+      margin-bottom: 30px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92rem;
+    }
+    .legal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+    .legal-table th, .legal-table td {
+      border: 1px solid #E2DDD5;
+      padding: 12px 14px;
+      text-align: left;
+    }
+    .legal-table th {
+      background: #F4EFE6;
+      font-weight: 600;
+      color: var(--obsidian);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="nav-container"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Transparency & Client Storage</span>
+        <h1 style="color:var(--white); margin: 12px 0;">Cookie Policy</h1>
+        <p style="color:var(--muted-gray); max-width:680px; margin:0 auto; font-size:1.05rem;">
+          How the Digital Culture Heritage Archive utilizes essential browser storage, local preferences, and privacy controls.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container-narrow">
+        <div class="legal-content-card">
+
+          <div class="legal-meta-box">
+            <strong>Last Updated:</strong> October 30, 2026 &nbsp;|&nbsp;
+            <strong>Platform Principle:</strong> Zero Third-Party Advertising Trackers &nbsp;|&nbsp;
+            <strong>User Control:</strong> Customizable via Consent Manager
+          </div>
+
+          <h2>1. What Are Cookies & Local Storage?</h2>
+          <p>
+            Cookies and browser Web Storage (specifically <code>localStorage</code> and <code>sessionStorage</code>) are small text and data files stored on your device by your web browser. They allow web applications to remember your logged-in session, interface preferences, and locally saved cultural bookmarks without requiring continuous server re-authentication.
+          </p>
+
+          <h2>2. Our Storage Philosophy: No Commercial Tracking</h2>
+          <p>
+            Unlike commercial platforms, <strong>the Digital Culture Heritage Archive does not use third-party advertising cookies, behavioral tracking pixels, or cross-site profiling scripts</strong>. We believe cultural heritage research should be conducted in private.
+          </p>
+          <p>
+            We use browser storage strictly for system security, persistent authentication, user interface preferences (such as light or dark theme), and user-curated favorites.
+          </p>
+
+          <div style="background:#F7F4EC; border:1px solid #C6A15B; padding:20px; border-radius:6px; margin:24px 0; text-align:center;">
+            <p style="margin-bottom:12px; font-weight:600; color:var(--obsidian);">Want to adjust your browser storage settings right now?</p>
+            <button type="button" class="btn btn-primary btn-sm" onclick="if(window.components && window.components.openCookiePreferences){ window.components.openCookiePreferences(); }">
+              ⚙️ Open Cookie & Storage Preferences
+            </button>
+          </div>
+
+          <h2>3. Complete Inventory of Storage Keys Used</h2>
+          <p>Below is an exhaustive inventory of the client-side storage keys utilized by the DCHA application:</p>
+
+          <table class="legal-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Storage Key</th>
+                <th>Type & Lifespan</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Strictly Necessary</strong></td>
+                <td><code>dcha_token</code></td>
+                <td>LocalStorage / 24 hours</td>
+                <td>Contains the cryptographic JWT token required to authenticate authorized API requests.</td>
+              </tr>
+              <tr>
+                <td><strong>Strictly Necessary</strong></td>
+                <td><code>dcha_user</code></td>
+                <td>LocalStorage / Session</td>
+                <td>Caches the authenticated user's display name, role, and avatar for immediate navigation display.</td>
+              </tr>
+              <tr>
+                <td><strong>Strictly Necessary</strong></td>
+                <td><code>dcha_cookie_consent</code></td>
+                <td>LocalStorage / 12 months</td>
+                <td>Records your explicit cookie consent preferences so you are not repeatedly prompted.</td>
+              </tr>
+              <tr>
+                <td><strong>Functional Preferences</strong></td>
+                <td><code>dcha_theme</code></td>
+                <td>LocalStorage / Persistent</td>
+                <td>Stores your UI mode preference (light parchment vs. obsidian dark mode).</td>
+              </tr>
+              <tr>
+                <td><strong>Functional Preferences</strong></td>
+                <td><code>dcha_favorites</code></td>
+                <td>LocalStorage / Persistent</td>
+                <td>Maintains your personal list of saved heritage site IDs locally on your browser.</td>
+              </tr>
+              <tr>
+                <td><strong>Functional Preferences</strong></td>
+                <td><code>dcha_collections</code></td>
+                <td>LocalStorage / Persistent</td>
+                <td>Allows offline creation and editing of customized archival study anthologies.</td>
+              </tr>
+              <tr>
+                <td><strong>Optional Analytics</strong></td>
+                <td><em>(None active by default)</em></td>
+                <td>Optional / Opt-in</td>
+                <td>Reserved for privacy-preserving, self-hosted aggregate performance diagnostics. No data is sent to advertising networks.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>4. Managing and Disabling Cookies in Your Browser</h2>
+          <p>
+            In addition to our on-site Cookie Consent Manager, you can manage or delete cookies directly through your browser settings:
+          </p>
+          <ul>
+            <li><strong>Google Chrome:</strong> Settings &rarr; Privacy and security &rarr; Third-party cookies.</li>
+            <li><strong>Mozilla Firefox:</strong> Settings &rarr; Privacy &amp; Security &rarr; Cookies and Site Data.</li>
+            <li><strong>Apple Safari:</strong> Preferences &rarr; Privacy &rarr; Manage Website Data.</li>
+            <li><strong>Microsoft Edge:</strong> Settings &rarr; Cookies and site permissions.</li>
+          </ul>
+          <p>
+            <em>Note:</em> Disabling strictly necessary storage (such as <code>dcha_token</code>) will prevent you from signing in to your member account or submitting new contributions.
+          </p>
+
+          <h2>5. Contact for Storage Queries</h2>
+          <p>
+            If you have questions regarding our storage practices or wish to submit feedback, please reach out to our technical team at <a href="mailto:privacy@dcha.org">privacy@dcha.org</a>.
+          </p>
+
+          <div style="margin-top:40px; padding-top:20px; border-top:1px solid #EAEAEA; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <a href="terms.html" class="btn btn-secondary btn-sm">&larr; Terms & Conditions</a>
+            <a href="data-rights.html" class="btn btn-secondary btn-sm">Data Rights &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav(); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+    });
+  </script>
+</body>
+</html>

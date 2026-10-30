@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Licensing — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Mission Statement</span>
+        <h1 style="color:var(--white)">About DCHA & Open Access Mission</h1>
+        <p style="color:var(--muted-gray); max-width:600px; margin:0 auto;">Democratizing cultural knowledge across India's 28 states and 8 union territories.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container-narrow">
+        <div style="background:var(--white); padding:40px; border:1px solid rgba(0,0,0,0.08); line-height:1.8;">
+          <h2>Preserving India's Cultural Legacy</h2>
+          <p>The <strong>Digital Culture Heritage Archive (DCHA)</strong> is an academic cultural technology initiative built to systematically document, preserve, and showcase the tangible and intangible heritage of India.</p>
+          
+          <div class="motif-divider"></div>
+
+          <h3>Open Licensing & Media Sources</h3>
+          <p>All photographs, archival texts, and historical records on DCHA are aggregated under Creative Commons (CC BY-SA 4.0), Public Domain, or official government open-data archives (ASI, UNESCO, Ministry of Culture).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('about'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>States & Union Territories — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* States Hero - Minimalist & Pure (Matches Explore Cultural Domains) */
+    .states-hero {
+      background: linear-gradient(180deg, rgba(13,14,13,0.96) 0%, rgba(20,18,16,0.92) 100%);
+      padding: 110px 0 80px;
+      color: var(--ivory);
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+    .states-hero .archival-tag-top {
+      display: inline-block;
+      font-family: var(--font-sans);
+      color: var(--gold);
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      padding: 6px 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-variant: small-caps;
+      background: rgba(18,18,18,0.75);
+      border-radius: 50px;
+      margin-bottom: 0;
+    }
+    .states-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--white) !important;
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      -webkit-text-fill-color: var(--white) !important;
+      margin: 14px 0 16px;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .states-hero p.lead {
+      font-family: var(--font-sans);
+      color: #E2DDD4;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Refined Minimal Filter Bar */
+    .filter-bar {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 14px 22px;
+      margin-bottom: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    }
+    .filter-controls-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-group span {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--warm-gray);
+    }
+    .filter-select {
+      padding: 8px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      background: #FAF7F2;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--obsidian);
+      outline: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .filter-select:focus,
+    .filter-select:hover {
+      border-color: var(--gold);
+    }
+    #results-count {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .state-card-museum {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .state-card-museum:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .state-card-museum img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .state-card-museum .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .state-card-museum h3 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+    .state-card-museum .meta {
+      font-size: 0.8rem;
+      color: var(--warm-gray);
+      margin-bottom: 10px;
+    }
+    .state-card-museum .highlights-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .state-card-museum .highlight-chip {
+      font-size: 0.68rem;
+      background: var(--cream);
+      padding: 3px 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+      color: var(--charcoal);
+    }
+
+    /* Modal Styles */
+    .state-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .state-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .state-modal-card {
+      background: var(--white);
+      width: 100%;
+      max-width: 950px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .state-modal-hero {
+      position: relative;
+      height: 240px;
+      background-size: cover;
+      background-position: center;
+      color: var(--white);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .state-modal-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%);
+    }
+    .state-modal-hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .state-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background: rgba(0,0,0,0.6);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .state-modal-close:hover {
+      background: var(--gold);
+      color: var(--obsidian);
+    }
+    .modal-tab-bar {
+      display: flex;
+      overflow-x: auto;
+      background: var(--obsidian);
+      border-bottom: 2px solid var(--gold);
+    }
+    .modal-tab-btn {
+      padding: 12px 18px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--light-gray);
+      background: none;
+      border: none;
+      white-space: nowrap;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .modal-tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      background: rgba(255,255,255,0.05);
+    }
+    .modal-body-content {
+      padding: 24px;
+    }
+    .detail-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 650px) {
+      .detail-card-grid { grid-template-columns: 1fr; }
+    }
+    .info-subcard {
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 16px;
+      border-radius: 6px;
+    }
+    .info-subcard h4 {
+      font-size: 1.05rem;
+      color: var(--obsidian);
+      margin-bottom: 4px;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 4px;
+    }
+    .photo-display-box {
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--white);
+      margin-bottom: 16px;
+    }
+    .photo-display-box img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .photo-display-box .caption {
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO -->
+    <section class="states-hero">
+      <div class="container">
+        <span class="archival-tag-top" style="margin-bottom:0; background:rgba(18,18,18,0.75);">Taxonomy Directory</span>
+        <h1>28 States & 8 Union Territories</h1>
+        <p class="lead">Comprehensive archival classification of India's living traditions, monuments, performing arts, textiles, and indigenous knowledge systems across all 36 regions.</p>
+        <div style="max-width:640px; margin:28px auto 0;">
+          <div style="display:flex; width:100%; box-shadow:0 8px 24px rgba(0,0,0,0.35); border-radius:6px; overflow:hidden;">
+            <input type="text" id="search-state" placeholder="Search state name, capital, or language..." style="flex:1; padding:16px 20px; font-size:1rem; border:1px solid var(--gold); border-right:none; border-radius:6px 0 0 6px; background:var(--cream); color:var(--obsidian); outline:none;">
+            <button type="button" id="search-btn" class="btn-signup-gold" style="border-radius:0 6px 6px 0; padding:0 28px; font-size:0.95rem; font-weight:700; border:none; cursor:pointer;">SEARCH ARCHIVE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORER SECTION -->
+    <section class="section" id="states-results">
+      <div class="container">
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div class="filter-controls-left">
+            <div class="filter-group">
+              <span>Category:</span>
+              <select id="filter-type" class="filter-select">
+                <option value="all">All 36 Regions</option>
+                <option value="state">28 States</option>
+                <option value="union_territory">8 Union Territories</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span>Region:</span>
+              <select id="filter-region" class="filter-select">
+                <option value="all">All Regions</option>
+                <option value="north">North India</option>
+                <option value="south">South India</option>
+                <option value="east">East India</option>
+                <option value="west">West India</option>
+                <option value="central">Central India</option>
+                <option value="northeast">Northeast India</option>
+                <option value="islands">Islands</option>
+              </select>
+            </div>
+          </div>
+          <span id="results-count">Showing 36 Regions</span>
+        </div>
+
+        <!-- GRID -->
+        <div class="editorial-grid-3" id="states-grid">
+          <!-- Dynamically generated -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- QUICK STATE DETAIL MODAL -->
+  <div id="state-modal" class="state-modal-backdrop">
+    <div class="state-modal-card">
+      <button class="state-modal-close" id="modal-close-btn">&times;</button>
+      
+      <div class="state-modal-hero" id="modal-hero">
+        <div class="state-modal-hero-overlay"></div>
+        <div class="state-modal-hero-content">
+          <span id="modal-badge" class="type-pill" style="margin-bottom:6px;">STATE ARCHIVE</span>
+          <h2 id="modal-title" style="color:var(--white); font-size:2.2rem; margin:0;">State Name</h2>
+          <p id="modal-subtitle" style="color:var(--gold); margin:4px 0 0; font-size:0.95rem;">Capital: Jaipur | Languages: Hindi, Rajasthani</p>
+        </div>
+      </div>
+
+      <div class="modal-tab-bar">
+        <button class="modal-tab-btn active" data-tab="tab-geo">📍 Geography & Location</button>
+        <button class="modal-tab-btn" data-tab="tab-dress">👗 Traditional Dress</button>
+        <button class="modal-tab-btn" data-tab="tab-food">🍲 Traditional Food</button>
+        <button class="modal-tab-btn" data-tab="tab-museums">🏛️ Museums</button>
+        <button class="modal-tab-btn" data-tab="tab-tourist">🏔️ Tourist Places</button>
+        <button class="modal-tab-btn" data-tab="tab-heritage">🏰 Heritage Sites</button>
+        <button class="modal-tab-btn" data-tab="tab-festivals">🪔 Festivals & Fairs</button>
+        <button class="modal-tab-btn" data-tab="tab-archive">📜 Archival Records</button>
+      </div>
+
+      <div class="modal-body-content" id="modal-body">
+        <!-- Dynamically rendered tab panels -->
+      </div>
+
+      <div style="padding:16px 24px; background:var(--cream); border-top:1px solid rgba(0,0,0,0.08); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <span style="font-size:0.8rem; color:var(--warm-gray);" id="modal-meta-footer">Verified State Archives</span>
+        <a id="modal-full-link" href="#" class="btn btn-primary">Open Dedicated Page ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/state_details_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('states');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      const grid = document.getElementById('states-grid');
+      const typeFilter = document.getElementById('filter-type');
+      const regionFilter = document.getElementById('filter-region');
+      const searchInput = document.getElementById('search-state');
+      const countEl = document.getElementById('results-count');
+
+      // Modal elements
+      const modal = document.getElementById('state-modal');
+      const closeBtn = document.getElementById('modal-close-btn');
+      const modalHero = document.getElementById('modal-hero');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBadge = document.getElementById('modal-badge');
+      const modalSubtitle = document.getElementById('modal-subtitle');
+      const modalBody = document.getElementById('modal-body');
+      const modalFullLink = document.getElementById('modal-full-link');
+      const modalTabBtns = document.querySelectorAll('.modal-tab-btn');
+
+      let currentActiveState = null;
+
+      const openStateModal = (stateId) => {
+        const stateBase = window.DCHA_DATA?.STATES.find(s => s.id === stateId);
+        const stateDetail = window.STATE_DETAILS ? window.STATE_DETAILS[stateId] : null;
+
+        if (!stateBase) return;
+        currentActiveState = { ...stateBase, ...stateDetail };
+
+        modalTitle.textContent = currentActiveState.name;
+        modalBadge.textContent = `${currentActiveState.type === 'union_territory' ? 'UNION TERRITORY' : 'STATE'} ARCHIVE • ${currentActiveState.region.toUpperCase()}`;
+        modalSubtitle.textContent = `Capital: ${currentActiveState.capital} | Spoken Languages: ${(currentActiveState.languages || []).join(', ')}`;
+        
+        if (currentActiveState.image) {
+          modalHero.style.backgroundImage = `url('${currentActiveState.image}')`;
+        }
+
+        // Set session storage and target URL
+        sessionStorage.setItem('selected_state_id', currentActiveState.id);
+        modalFullLink.href = `state-detail.html?id=${encodeURIComponent(currentActiveState.id)}`;
+        modalFullLink.onclick = () => {
+          sessionStorage.setItem('selected_state_id', currentActiveState.id);
+        };
+
+        // Reset tab
+        modalTabBtns.forEach((btn, idx) => {
+          if (idx === 0) btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        renderModalTab('tab-geo');
+        modal.classList.add('active');
+      };
+
+      const renderModalTab = (tabKey) => {
+        if (!currentActiveState) return;
+        const s = currentActiveState;
+
+        const defaultFoodImg = 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80';
+        const defaultDressImg = s.image || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+
+        if (tabKey === 'tab-geo') {
+          modalBody.innerHTML = `
+            <div class="detail-card-grid">
+              <div class="info-subcard" style="grid-column: 1/-1;">
+                <h4>📍 Location & Geography Overview</h4>
+                <p style="font-size:0.95rem; line-height:1.7; color:var(--charcoal); margin:0;">${s.location_geography || s.description || 'Geographical landscape and location details.'}</p>
+              </div>
+              <div class="info-subcard">
+                <h4>🏔️ Mountains & Physical Features</h4>
+                <p style="font-size:0.9rem; line-height:1.6; color:var(--charcoal); margin:0;">${s.mountains_rivers || 'Himalayas, Western/Eastern Ghats, and high plateau ranges.'}</p>
+              </div>
+              <div class="info-subcard">
+                <h4>🏛️ Key Administrative Profile</h4>
+                <ul style="font-size:0.88rem; line-height:1.8; color:var(--charcoal); margin:0; padding-left:18px;">
+                  <li><strong>Capital:</strong> ${s.capital}</li>
+                  <li><strong>Region:</strong> ${s.region}</li>
+                  <li><strong>Official Languages:</strong> ${(s.languages || []).join(', ')}</li>
+                  <li><strong>Established Year:</strong> ${s.established_year || 'Historical'}</li>
+                </ul>
+              </div>
+            </div>
+          `;
+        } else if (tabKey === 'tab-dress') {
+          const dresses = s.traditional_dresses || [s.traditional_dress || { name: 'Traditional Ethnic Attire', description: s.description, image: defaultDressImg }];
+          modalBody.innerHTML = `
+            <div class="detail-card-grid">
+              ${dresses.map(d => `
+                <div class="photo-display-box">
+                  <img src="${d.image || defaultDressImg}" alt="${d.name}" onerror="this.onerror=null; this.src='${defaultDressImg}';">
+                  <div class="caption">
+                    <span style="font-size:0.65rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${d.type || 'Traditional Attire'}</span>
+                    <h4 style="margin:4px 0 6px; color:var(--obsidian);">${d.name}</h4>
+                    <p style="font-size:0.85rem; color:var(--warm-gray); line-height:1.5; margin:0;">${d.description}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else if (tabKey === 'tab-food') {
+          const foods = s.traditional_foods || [s.traditional_food || { name: 'Traditional State Cuisine', description: 'Famous indigenous culinary recipes.', image: defaultFoodImg }];
+          modalBody.innerHTML = `
+            <div class="detail-card-grid">
+              ${foods.map(f => `
+                <div class="photo-display-box">
+                  <img src="${f.image || defaultFoodImg}" alt="${f.name}" onerror="this.onerror=null; this.src='${defaultFoodImg}';">
+                  <div class="caption">
+                    <span style="font-size:0.65rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${f.category || 'Culinary Dish'}</span>
+                    <h4 style="margin:4px 0 6px; color:var(--obsidian);">${f.name}</h4>
+                    <p style="font-size:0.85rem; color:var(--warm-gray); line-height:1.5; margin:0;">${f.description}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else if (tabKey === 'tab-museums') {
+          const museums = s.museums || [];
+          if (museums.length === 0) {
+            modalBody.innerHTML = `<p style="text-align:center; color:var(--warm-gray); padding:30px;">Museum records registered under State Archives.</p>`;
+          } else {
+            modalBody.innerHTML = `
+              <div class="detail-card-grid">
+                ${museums.map(m => `
+                  <div class="info-subcard">
+                    <h4>🏛️ ${m.name} (${m.city})</h4>
+                    <p style="font-size:0.88rem; color:var(--charcoal); line-height:1.6; margin:0;">${m.highlight}</p>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }
+        } else if (tabKey === 'tab-tourist') {
+          const spots = s.tourist_places || [];
+          if (spots.length === 0) {
+            modalBody.innerHTML = `<p style="text-align:center; color:var(--warm-gray); padding:30px;">Tourist destinations registered under State Tourism Board.</p>`;
+          } else {
+            modalBody.innerHTML = `
+              <div class="detail-card-grid">
+                ${spots.map(tp => `
+                  <div class="info-subcard">
+                    <h4>🏔️ ${tp.name}</h4>
+                    <span style="font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${tp.type}</span>
+                    <p style="font-size:0.88rem; color:var(--charcoal); line-height:1.6; margin-top:6px;">${tp.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }
+        } else if (tabKey === 'tab-heritage') {
+          const sites = s.heritage_places || [];
+          if (sites.length === 0) {
+            modalBody.innerHTML = `<p style="text-align:center; color:var(--warm-gray); padding:30px;">Historical heritage sites catalogued under Archaeological Survey of India.</p>`;
+          } else {
+            modalBody.innerHTML = `
+              <div class="detail-card-grid">
+                ${sites.map(hp => `
+                  <div class="info-subcard">
+                    <h4>🏰 ${hp.name}</h4>
+                    <span style="font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${hp.category}</span>
+                    <p style="font-size:0.88rem; color:var(--charcoal); line-height:1.6; margin-top:6px;">${hp.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }
+        } else if (tabKey === 'tab-festivals') {
+          const festivals = s.festivals || (window.DCHA_DATA?.FESTIVALS || []).filter(f => (f.state || '').toLowerCase().includes(s.name.toLowerCase()));
+          if (!festivals || festivals.length === 0) {
+            modalBody.innerHTML = `<p style="text-align:center; color:var(--warm-gray); padding:30px;">Cultural festivals catalogued under State Cultural Directorate.</p>`;
+          } else {
+            modalBody.innerHTML = `
+              <div class="detail-card-grid">
+                ${festivals.map(f => `
+                  <div class="info-subcard">
+                    <h4>🪔 ${f.name}</h4>
+                    <span style="font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${f.month || 'Seasonal'} • ${f.category || 'Cultural Fair'}</span>
+                    <p style="font-size:0.88rem; color:var(--charcoal); line-height:1.6; margin-top:6px;">${f.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }
+        } else if (tabKey === 'tab-archive') {
+          const sources = s.archival_sources || [
+            { title: `Archaeological Survey of India (${s.region || 'National'} Circle)`, category: 'Epigraphic & Monument Records', description: `Official conservation surveys, excavation reports, and protected heritage site documentation for ${s.name}.` },
+            { title: `${s.name} State Archives & Manuscripts Repository`, category: 'State Gazetteers & Manuscripts', description: `Palm-leaf manuscripts, royal firmans, copper plate inscriptions, and historical district gazetteers housed at ${s.capital || 'State Archives'}.` },
+            { title: 'National Mission for Manuscripts (NMM)', category: 'Rare Codices & Manuscripts', description: `Indigenous literary codices, ancient Sanskrit/Pali folios, and folk ballad manuscripts catalogued under the Ministry of Culture.` },
+            { title: `Gazetteers of ${s.name} & Ethnographic Registries`, category: 'Imperial & State Gazetteers', description: `Historical ethnographic surveys, land settlement records, and traditional craft registries of ${s.name}.` }
+          ];
+          modalBody.innerHTML = `
+            <div class="detail-card-grid">
+              ${sources.map(src => `
+                <div class="info-subcard">
+                  <h4>📜 ${src.title}</h4>
+                  <span style="font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase;">${src.category}</span>
+                  <p style="font-size:0.88rem; color:var(--charcoal); line-height:1.6; margin-top:6px;">${src.description}</p>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      };
+
+      modalTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modalTabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderModalTab(btn.dataset.tab);
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.classList.remove('active');
+        });
+      }
+
+      const renderStates = () => {
+        if (!window.DCHA_DATA || !grid) return;
+
+        const typeVal = typeFilter ? typeFilter.value : 'all';
+        const regionVal = regionFilter ? regionFilter.value : 'all';
+        const searchVal = searchInput ? searchInput.value : '';
+
+        const normalizeText = (text) => {
+          if (!text) return '';
+          let str = String(text).toLowerCase();
+          const aliases = {
+            'puduicherry': 'puducherry', 'pondicherry': 'puducherry', 'pondicherri': 'puducherry',
+            'pondy': 'puducherry', 'orissa': 'odisha', 'calcutta': 'kolkata', 'bombay': 'mumbai'
+          };
+          for (const [k, v] of Object.entries(aliases)) {
+            if (str.includes(k)) str = str.replace(new RegExp(k, 'g'), v);
+          }
+          return str;
+        };
+
+        const normSearch = normalizeText(searchVal);
+
+        const filtered = window.DCHA_DATA.STATES.filter(s => {
+          const matchType = typeVal === 'all' || s.type === typeVal;
+          const matchRegion = regionVal === 'all' || s.region.toLowerCase() === regionVal.toLowerCase();
+          
+          const searchable = normalizeText([
+            s.name, s.capital, s.description || '', s.cultural_significance || '',
+            Array.isArray(s.languages) ? s.languages.join(' ') : '',
+            Array.isArray(s.highlights) ? s.highlights.join(' ') : ''
+          ].join(' '));
+
+          const matchSearch = !normSearch || searchable.includes(normSearch);
+          return matchType && matchRegion && matchSearch;
+        });
+
+        if (countEl) {
+          countEl.textContent = `Showing ${filtered.length} of 36 Regions`;
+        }
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center; padding:50px 20px; background:var(--white); border:1px solid rgba(0,0,0,0.08); border-radius:8px;">
+              <div style="font-size:3rem; margin-bottom:12px;">🔍</div>
+              <h3>No State matched "${searchVal}"</h3>
+              <p style="color:var(--warm-gray); max-width:500px; margin:8px auto 20px;">Looking for monuments, dance forms, festivals, foods, textiles, or museums?</p>
+              <a href="search.html?q=${encodeURIComponent(searchVal)}" class="btn-signup-gold" style="display:inline-block; text-decoration:none; padding:12px 28px;">Search Full Archive for "${searchVal}" →</a>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(s => `
+          <div class="state-card-museum" data-id="${s.id}">
+            <img src="${s.image}" alt="${s.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80';">
+            <div class="card-body">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; color:var(--gold); letter-spacing:0.1em;">${s.type === 'union_territory' ? 'Union Territory' : 'State'} • ${s.region}</span>
+              </div>
+              <h3>${s.name}</h3>
+              <div class="meta">Capital: <strong>${s.capital}</strong> | Languages: ${(s.languages || []).join(', ')}</div>
+              <p style="font-size:0.88rem; color:var(--warm-gray); line-height:1.6; flex:1;">${(s.description || '').substring(0, 110)}...</p>
+              ${s.highlights ? `
+                <div class="highlights-list">
+                  ${s.highlights.slice(0, 3).map(h => `<span class="highlight-chip">✦ ${h}</span>`).join('')}
+                </div>
+              ` : ''}
+              <div style="margin-top:16px; border-top:1px solid rgba(0,0,0,0.06); padding-top:12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                <button class="btn btn-primary btn-sm view-details-btn" data-id="${s.id}">Quick View 👁</button>
+                <a href="state-detail.html?id=${s.id}" class="btn btn-secondary btn-sm explore-direct-link" data-id="${s.id}" onclick="sessionStorage.setItem('selected_state_id', '${s.id}');">Explore Page ↗</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // Attach click listeners to cards and buttons
+        document.querySelectorAll('.state-card-museum').forEach(card => {
+          card.addEventListener('click', (e) => {
+            if (e.target.classList.contains('explore-direct-link')) {
+              e.stopPropagation();
+              sessionStorage.setItem('selected_state_id', e.target.dataset.id);
+              return;
+            }
+            if (e.target.classList.contains('view-details-btn')) {
+              e.stopPropagation();
+              openStateModal(e.target.dataset.id);
+            } else {
+              openStateModal(card.dataset.id);
+            }
+          });
+        });
+      };
+
+      if (typeFilter) typeFilter.addEventListener('change', renderStates);
+      if (regionFilter) regionFilter.addEventListener('change', renderStates);
+      if (searchInput) {
+        searchInput.addEventListener('input', window.components.debounce(renderStates, 250));
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            renderStates();
+            document.getElementById('states-results')?.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+
+      const searchBtn = document.getElementById('search-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+          renderStates();
+          document.getElementById('states-results')?.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      // Initial render
+      renderStates();
+    });
+  </script>
+</body>
+</html>

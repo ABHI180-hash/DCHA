@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .auth-page-wrapper {
+      min-height: calc(100vh - 180px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 16px;
+      background: radial-gradient(circle at 50% 20%, rgba(30, 26, 22, 0.6) 0%, rgba(13, 14, 13, 0.98) 100%), #0D0E0D;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: #141311;
+      border: 1px solid rgba(198, 161, 91, 0.35);
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      padding: 40px 36px;
+      color: var(--ivory);
+      position: relative;
+    }
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      border: 1px solid rgba(198, 161, 91, 0.4);
+      padding: 4px 14px;
+      border-radius: 30px;
+      background: rgba(198, 161, 91, 0.08);
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+    .auth-sub {
+      color: #B8B0A2;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 26px;
+      gap: 10px;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #9E9689;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .auth-tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      font-weight: 700;
+    }
+    .auth-tab-btn:hover:not(.active) {
+      color: var(--ivory);
+    }
+
+    /* Form controls */
+    .auth-form-group {
+      margin-bottom: 20px;
+    }
+    .auth-form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #DDD5C7;
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrapper input {
+      width: 100%;
+      padding: 13px 42px 13px 16px;
+      background: #1C1B18;
+      border: 1px solid rgba(198, 161, 91, 0.3);
+      border-radius: 5px;
+      color: var(--white);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.2);
+    }
+    .toggle-pass-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: #8C8476;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-pass-btn:hover {
+      color: var(--gold);
+    }
+
+    /* Quick Demo Login Bar */
+    .quick-login-box {
+      margin-bottom: 24px;
+      background: rgba(198, 161, 91, 0.06);
+      border: 1px dashed rgba(198, 161, 91, 0.35);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .quick-login-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quick-btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .quick-btn {
+      flex: 1;
+      padding: 8px 10px;
+      background: #24221D;
+      border: 1px solid rgba(198, 161, 91, 0.3);
+      color: var(--ivory);
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .quick-btn:hover {
+      background: var(--gold);
+      color: var(--obsidian);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Feedback Alert */
+    .auth-alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 5px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .auth-alert.error {
+      display: block;
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid #dc3545;
+      color: #ff858d;
+    }
+    .auth-alert.success {
+      display: block;
+      background: rgba(40, 167, 69, 0.15);
+      border: 1px solid #28a745;
+      color: #72e48e;
+    }
+
+    .auth-submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #D4AF37 0%, #AA8222 100%);
+      color: #0D0E0D;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(198, 161, 91, 0.3);
+    }
+    .auth-submit-btn:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(198, 161, 91, 0.45);
+    }
+    .auth-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .auth-footer-links {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #8E877B;
+    }
+    .auth-footer-links a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .auth-footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Already logged in banner */
+    .active-session-box {
+      display: none;
+      background: rgba(198, 161, 91, 0.1);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GLOBAL ARCHIVAL HEADER -->
+  <div id="nav-container"></div>
+
+  <main class="auth-page-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-tag">Member Archival Portal</span>
+        <h1 class="auth-title">Sign In</h1>
+        <p class="auth-sub">Access your curated collections, historical artifacts, and research archives.</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <a href="login.html" class="auth-tab-btn active">Sign In</a>
+        <a href="register.html" class="auth-tab-btn">Create Account</a>
+      </div>
+
+      <!-- ACTIVE SESSION BANNER (shown if already logged in) -->
+      <div id="active-session-box" class="active-session-box">
+        <p style="margin:0 0 12px; font-size:0.95rem; color:var(--white);">
+          You are currently signed in as <strong id="active-user-name" style="color:var(--gold);">Member</strong>.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <a href="profile.html" class="btn-signup-gold" style="padding:8px 18px; font-size:0.85rem;">Go to Profile & Vault →</a>
+          <button type="button" id="logout-from-login-page" class="btn btn-secondary btn-sm" style="padding:8px 16px;">Log Out</button>
+        </div>
+      </div>
+
+      <!-- QUICK 1-CLICK DEMO LOGIN -->
+      <div class="quick-login-box">
+        <div class="quick-login-label">
+          <span>⚡ Instant 1-Click Demo Login</span>
+        </div>
+        <div class="quick-btn-group">
+          <button type="button" class="quick-btn" id="btn-demo-user">
+            👤 Cultural Explorer
+          </button>
+          <button type="button" class="quick-btn" id="btn-demo-admin">
+            🛡️ System Admin
+          </button>
+        </div>
+      </div>
+
+      <!-- FEEDBACK ALERT BANNER -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- MAIN LOGIN FORM -->
+      <form id="login-form">
+        <div class="auth-form-group">
+          <label for="login-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="login-email" placeholder="name@domain.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <label for="login-password" style="margin-bottom:0;">Password</label>
+            <a href="contact.html?subject=Account%20Recovery" id="forgot-pass-link" style="color:var(--gold); font-size:0.78rem; text-decoration:none;">Forgot?</a>
+          </div>
+          <div class="input-wrapper">
+            <input type="password" id="login-password" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" id="toggle-pass-btn" class="toggle-pass-btn" title="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:24px;">
+          <input type="checkbox" id="remember-me" checked style="accent-color:var(--gold); cursor:pointer;">
+          <label for="remember-me" style="font-size:0.82rem; color:#DDD5C7; cursor:pointer;">Keep me signed in</label>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="auth-submit-btn">
+          Sign In to Archive →
+        </button>
+      </form>
+
+      <div class="auth-footer-links">
+        Don't have an archival account? <a href="register.html">Register free here</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize layout
+      if (window.components) {
+        window.components.createNav();
+        window.components.createFooter();
+      }
+
+      const alertBox = document.getElementById('auth-alert');
+      const emailInput = document.getElementById('login-email');
+      const passInput = document.getElementById('login-password');
+      const submitBtn = document.getElementById('login-submit-btn');
+      const form = document.getElementById('login-form');
+
+      function showAlert(message, type = 'error') {
+        alertBox.className = `auth-alert ${type}`;
+        alertBox.innerHTML = message;
+        alertBox.style.display = 'block';
+      }
+
+      function hideAlert() {
+        alertBox.style.display = 'none';
+        alertBox.className = 'auth-alert';
+        alertBox.innerHTML = '';
+      }
+
+      // 2. Check if already logged in
+      const currentUser = window.auth?.getCurrentUser();
+      if (currentUser) {
+        const sessionBox = document.getElementById('active-session-box');
+        const nameEl = document.getElementById('active-user-name');
+        if (sessionBox && nameEl) {
+          nameEl.textContent = `${currentUser.name} (${currentUser.email})`;
+          sessionBox.style.display = 'block';
+        }
+        document.getElementById('logout-from-login-page')?.addEventListener('click', () => {
+          window.auth.logout();
+          sessionBox.style.display = 'none';
+          showAlert('Signed out successfully.', 'success');
+        });
+      }
+
+      // 3. Password Toggle Visibility
+      const toggleBtn = document.getElementById('toggle-pass-btn');
+      toggleBtn?.addEventListener('click', () => {
+        if (passInput.type === 'password') {
+          passInput.type = 'text';
+          toggleBtn.textContent = '🙈';
+        } else {
+          passInput.type = 'password';
+          toggleBtn.textContent = '👁️';
+        }
+      });
+
+      // 4. Handle Login Execution
+      async function executeLogin(email, password) {
+        hideAlert();
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Authenticating...';
+
+        try {
+          const res = await window.auth.login(email, password);
+          showAlert(`✓ Welcome back, <strong>${res.user.name}</strong>! Redirecting to archive...`, 'success');
+
+          // Check if redirect query param exists
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get('redirect') || 'profile.html';
+
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 600);
+        } catch (err) {
+          showAlert(`⚠ ${err.message || 'Login failed. Please verify your email and password.'}`, 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In to Archive →';
+        }
+      }
+
+      // 5. Form Submit Listener
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passInput.value.trim();
+        await executeLogin(email, password);
+      });
+
+      // 6. Quick Demo Login Handlers
+      document.getElementById('btn-demo-user')?.addEventListener('click', () => {
+        emailInput.value = 'user@dcha.org';
+        passInput.value = 'Password123';
+        executeLogin('user@dcha.org', 'Password123');
+      });
+
+      document.getElementById('btn-demo-admin')?.addEventListener('click', () => {
+        emailInput.value = 'admin@dcha.org';
+        passInput.value = 'Admin123';
+        executeLogin('admin@dcha.org', 'Admin123');
+      });
+
+      // 7. Forgot password prompt
+      document.getElementById('forgot-pass-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showAlert('Demo Environment Notice: Use the 1-Click Demo buttons above or create a new free account.', 'success');
+      });
+    });
+  </script>
+</body>
+</html>

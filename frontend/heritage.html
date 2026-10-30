@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Directory — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .heritage-hero {
+      background: linear-gradient(180deg, rgba(18,18,18,0.85) 0%, rgba(18,18,18,0.95) 100%), 
+                  url('assets/images/hampi_stone_chariot.png') center/cover no-repeat;
+      padding: 80px 0 60px;
+      color: var(--ivory);
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO -->
+    <section class="heritage-hero">
+      <div class="container">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">National Monument Registry</span>
+        <h1 style="color:var(--white)">Heritage Monuments & UNESCO Sites</h1>
+        <p style="color:var(--light-gray); max-width:650px; margin:0 auto; font-size:1.1rem;">Architectural masterpieces, rock-cut cave temples, ancient fortresses, and sacred shrines across India.</p>
+      </div>
+    </section>
+
+    <!-- DIRECTORY SECTION -->
+    <section class="section">
+      <div class="container">
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase;">State/UT:</span>
+            <select id="filter-state" class="filter-select">
+              <option value="all">All 36 States & UTs</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+          <div class="filter-group">
+            <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase;">Category:</span>
+            <select id="filter-category" class="filter-select">
+              <option value="all">All Categories</option>
+              <option value="UNESCO Site">UNESCO World Heritage</option>
+              <option value="Sacred Site">Sacred & Temple Site</option>
+              <option value="Fort">Fortress & Palace</option>
+              <option value="Cave">Cave & Rock-Cut</option>
+              <option value="Monument">Historic Monument</option>
+            </select>
+          </div>
+          <input type="text" id="search-heritage" class="search-input-field" placeholder="Search monument name, location, or dynasty...">
+          <span id="heritage-count" style="font-weight:700; color:var(--gold); font-size:0.85rem;">Showing Monuments</span>
+        </div>
+
+        <!-- GRID -->
+        <div class="editorial-grid-3" id="heritage-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('heritage');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+
+      const stateSelect = document.getElementById('filter-state');
+      if (stateSelect && window.DCHA_DATA) {
+        window.DCHA_DATA.STATES.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.name;
+          stateSelect.appendChild(opt);
+        });
+      }
+
+      const grid = document.getElementById('heritage-grid');
+      const categorySelect = document.getElementById('filter-category');
+      const searchInput = document.getElementById('search-heritage');
+      const countEl = document.getElementById('heritage-count');
+
+      const renderHeritage = () => {
+        if (!window.DCHA_DATA || !grid) return;
+
+        const stateVal = stateSelect ? stateSelect.value : 'all';
+        const catVal = categorySelect ? categorySelect.value : 'all';
+        const searchVal = searchInput ? searchInput.value.trim() : '';
+        const normalizeText = (text) => {
+          if (!text) return '';
+          let str = String(text).toLowerCase();
+          const aliases = {
+            'puduicherry': 'puducherry', 'pondicherry': 'puducherry', 'pondicherri': 'puducherry',
+            'pondy': 'puducherry', 'orissa': 'odisha', 'calcutta': 'kolkata', 'bombay': 'mumbai'
+          };
+          for (const [k, v] of Object.entries(aliases)) {
+            if (str.includes(k)) str = str.replace(new RegExp(k, 'g'), v);
+          }
+          return str;
+        };
+
+        const normSearch = normalizeText(searchVal);
+
+        const filtered = window.DCHA_DATA.FEATURED_HERITAGE.filter(h => {
+          const matchState = stateVal === 'all' || h.state_id === stateVal;
+          const matchCat = catVal === 'all' || h.category === catVal;
+          const searchable = normalizeText([h.name, h.description || '', h.state || '', h.period || '', h.category || '', h.source || ''].join(' '));
+          const matchSearch = !normSearch || searchable.includes(normSearch);
+          return matchState && matchCat && matchSearch;
+        });
+
+        if (countEl) {
+          countEl.textContent = `Showing ${filtered.length} Archival Monuments`;
+        }
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center; padding:50px 20px; background:var(--white); border:1px solid rgba(0,0,0,0.08); border-radius:8px;">
+              <div style="font-size:3rem; margin-bottom:12px;">🔍</div>
+              <h3>No Monument matched "${searchVal}"</h3>
+              <p style="color:var(--warm-gray); max-width:500px; margin:8px auto 20px;">Looking for states, dance forms, festivals, foods, textiles, or museums?</p>
+              <a href="search.html?q=${encodeURIComponent(searchVal)}" class="btn-signup-gold" style="display:inline-block; text-decoration:none; padding:12px 28px;">Search Full Heritage Archive for "${searchVal}" →</a>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(h => window.components.createCard(h, 'heritage')).join('');
+      };
+
+      if (stateSelect) stateSelect.addEventListener('change', renderHeritage);
+      if (categorySelect) categorySelect.addEventListener('change', renderHeritage);
+      if (searchInput) searchInput.addEventListener('input', window.components.debounce(renderHeritage, 250));
+
+      renderHeritage();
+    });
+  </script>
+</body>
+</html>

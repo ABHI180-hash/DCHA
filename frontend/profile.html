@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile & Data Rights — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .profile-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+    .danger-box {
+      border: 1px solid rgba(217, 83, 79, 0.4);
+      background: rgba(217, 83, 79, 0.04);
+      border-radius: 6px;
+      padding: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main id="main-content">
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container flex-between" style="flex-wrap:wrap; gap:16px;">
+        <div>
+          <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Member Archival Profile</span>
+          <h1 style="color:var(--white); margin:6px 0;" id="user-display-name">Cultural Explorer</h1>
+          <p style="color:var(--muted-gray); margin:0;" id="user-display-email">user@dcha.org</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a href="data-rights.html" class="btn btn-outline btn-sm" style="color:var(--gold); border-color:var(--gold);">Statutory Rights Guide</a>
+          <button id="logout-btn-profile" class="btn btn-secondary btn-sm">Log Out</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; margin-bottom:36px;">
+          
+          <!-- PROFILE EDIT CARD -->
+          <div class="profile-card">
+            <h2 class="profile-card-title">👤 Archival Profile Details</h2>
+            <form id="profile-edit-form">
+              <div class="form-group" style="margin-bottom:14px;">
+                <label for="edit-profile-name" style="font-weight:600; font-size:0.85rem; color:var(--text-secondary);">Full Name</label>
+                <input type="text" id="edit-profile-name" class="form-control" required style="width:100%; padding:10px 14px; border-radius:5px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);">
+              </div>
+              <div class="form-group" style="margin-bottom:14px;">
+                <label for="edit-profile-email" style="font-weight:600; font-size:0.85rem; color:var(--text-secondary);">Registered Email (Primary Identity)</label>
+                <input type="email" id="edit-profile-email" class="form-control" disabled style="width:100%; padding:10px 14px; border-radius:5px; border:1px solid var(--border-color); background:rgba(0,0,0,0.08); color:var(--text-muted); cursor:not-allowed;">
+                <small style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:4px;">Email modifications require identity re-verification via our institutional desk.</small>
+              </div>
+              <div class="form-group" style="margin-bottom:18px;">
+                <label for="edit-profile-bio" style="font-weight:600; font-size:0.85rem; color:var(--text-secondary);">Archival Bio / Research Interests</label>
+                <textarea id="edit-profile-bio" class="form-control" rows="3" placeholder="e.g. Enthusiast of Chola architecture and Carnatic oral histories..." style="width:100%; padding:10px 14px; border-radius:5px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary); font-family:inherit;"></textarea>
+              </div>
+              <button type="submit" id="save-profile-btn" class="btn btn-primary btn-sm">Save Profile Changes</button>
+            </form>
+          </div>
+
+          <!-- DPDP ACT STATUTORY RIGHTS & SELF-SERVICE -->
+          <div class="profile-card">
+            <h2 class="profile-card-title">🛡️ Data Rights & Privacy Controls</h2>
+            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5; margin-bottom:16px;">
+              Under the <strong>Digital Personal Data Protection Act, 2023</strong> (Republic of India), you retain sovereign control over your personal data held by the Archive.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <!-- EXPORT DATA -->
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border-color);">
+                <div>
+                  <div style="font-weight:700; font-size:0.88rem; color:var(--text-primary);">📥 Export Archive Data (Sec 11)</div>
+                  <div style="font-size:0.78rem; color:var(--text-muted);">Download your profile, saved exhibits, and contributions as structured JSON.</div>
+                </div>
+                <button type="button" id="btn-export-data" class="btn btn-outline btn-sm">Export JSON</button>
+              </div>
+
+              <!-- COOKIE PREFERENCES -->
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border-color);">
+                <div>
+                  <div style="font-weight:700; font-size:0.88rem; color:var(--text-primary);">⚙️ Archival Storage Preferences</div>
+                  <div style="font-size:0.78rem; color:var(--text-muted);">Configure optional analytics and local reading bookmarks.</div>
+                </div>
+                <button type="button" id="btn-open-cookie-modal" class="btn btn-outline btn-sm">Configure</button>
+              </div>
+
+              <!-- GRIEVANCE REDRESSAL -->
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border-color);">
+                <div>
+                  <div style="font-weight:700; font-size:0.88rem; color:var(--text-primary);">⚖️ Grievance Redressal (Sec 13)</div>
+                  <div style="font-size:0.78rem; color:var(--text-muted);">Escalate privacy, correction, or consent inquiries directly.</div>
+                </div>
+                <a href="contact.html?subject=DPDP%20Grievance" class="btn btn-secondary btn-sm">Contact Officer</a>
+              </div>
+            </div>
+
+            <!-- DANGER ZONE: ERASURE -->
+            <div class="danger-box" style="margin-top:20px;">
+              <div style="font-weight:700; font-size:0.88rem; color:#d9534f; margin-bottom:4px;">⚠️ Permanent Account Erasure (Sec 12)</div>
+              <p style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4; margin-bottom:12px;">
+                Permanently purge your account, member profile, saved collections, and auth tokens. This action is irreversible.
+              </p>
+              <button type="button" id="btn-delete-account-trigger" class="btn btn-sm" style="background:#d9534f; color:#fff; border:none; cursor:pointer;">Request Account Deletion</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SAVED COLLECTIONS / FAVORITES -->
+        <h2 style="margin-bottom:20px;">Saved Favorites & Collections</h2>
+        <div class="editorial-grid-3" id="favorites-grid"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/favorites.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav(); window.components.createFooter(); }
+      
+      const user = window.auth?.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html?redirect=profile.html';
+        return;
+      }
+
+      // Populate user info
+      document.getElementById('user-display-name').textContent = user.name || 'Cultural Explorer';
+      document.getElementById('user-display-email').innerHTML = `
+        <span>${user.email}</span> 
+        <span style="display:inline-block; margin-left:8px; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; padding:2px 8px; border-radius:10px; background:var(--gold); color:var(--obsidian); font-weight:700;">
+          ${(user.role || 'Member').toUpperCase()}
+        </span>
+      `;
+
+      const nameInput = document.getElementById('edit-profile-name');
+      const emailInput = document.getElementById('edit-profile-email');
+      const bioInput = document.getElementById('edit-profile-bio');
+
+      if (nameInput) nameInput.value = user.name || '';
+      if (emailInput) emailInput.value = user.email || '';
+      if (bioInput) bioInput.value = user.bio || '';
+
+      // Profile edit submit handler
+      document.getElementById('profile-edit-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const updatedName = nameInput.value.trim();
+        const updatedBio = bioInput.value.trim();
+        const saveBtn = document.getElementById('save-profile-btn');
+
+        if (!updatedName) {
+          window.components?.showToast('Please enter your name.', 'error');
+          return;
+        }
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+
+        try {
+          const res = await window.auth.updateProfile(updatedName, updatedBio);
+          document.getElementById('user-display-name').textContent = res.name;
+          window.components?.showToast('Profile updated successfully!', 'success');
+        } catch (err) {
+          window.components?.showToast(err.message || 'Profile update failed.', 'error');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save Profile Changes';
+        }
+      });
+
+      // Export JSON data
+      document.getElementById('btn-export-data')?.addEventListener('click', async () => {
+        try {
+          window.components?.showToast('Generating archive data export...', 'info');
+          await window.auth.exportUserData();
+          window.components?.showToast('Data export downloaded successfully.', 'success');
+        } catch (err) {
+          window.components?.showToast('Export failed. Please try again.', 'error');
+        }
+      });
+
+      // Cookie preferences modal trigger
+      document.getElementById('btn-open-cookie-modal')?.addEventListener('click', () => {
+        window.components?.openCookiePreferences();
+      });
+
+      // Account erasure confirmation modal
+      document.getElementById('btn-delete-account-trigger')?.addEventListener('click', () => {
+        const confirmModal = `
+          <div style="max-width:440px;">
+            <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+              Are you sure you want to permanently delete your archival membership for <strong>${user.email}</strong>?
+            </p>
+            <div style="background:rgba(217,83,79,0.08); border-left:3px solid #d9534f; padding:10px 14px; font-size:0.8rem; color:#d9534f; margin-bottom:18px;">
+              This will permanently erase your personal profile, active sessions, and collection bookmarks in accordance with Section 12 of the DPDP Act, 2023.
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+              <button type="button" id="confirm-delete-account-btn" class="btn btn-sm" style="background:#d9534f; color:#fff; border:none; font-weight:700;">Yes, Delete My Account</button>
+            </div>
+          </div>
+        `;
+        window.components?.showModal(confirmModal, { title: '⚠️ Confirm Account Erasure' });
+
+        document.getElementById('confirm-delete-account-btn')?.addEventListener('click', async () => {
+          try {
+            await window.auth.deleteAccount();
+          } catch (err) {
+            window.components?.showToast('Account deletion failed. Please contact the privacy officer.', 'error');
+          }
+        });
+      });
+
+      // Favorites rendering
+      const grid = document.getElementById('favorites-grid');
+      if (grid && window.DCHA_DATA) {
+        const favIds = window.favorites?.getFavorites() || [];
+        if (favIds.length === 0) {
+          grid.innerHTML = window.components.createEmptyState('You haven\'t saved any items to your favorites yet. Click the heart icon on any monument or state card to save it.');
+        } else {
+          const favItems = window.DCHA_DATA.FEATURED_HERITAGE.filter(h => favIds.includes(h.id));
+          grid.innerHTML = (favItems.length ? favItems : window.DCHA_DATA.FEATURED_HERITAGE.slice(0, 2)).map(h => window.components.createCard(h, 'heritage')).join('');
+        }
+      }
+
+      document.getElementById('logout-btn-profile')?.addEventListener('click', () => {
+        window.auth.logout();
+      });
+    });
+  </script>
+</body>
+</html>

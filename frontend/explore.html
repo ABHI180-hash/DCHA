@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Cultural Domains — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Explore Page Specific Polish */
+    .explore-hero {
+      background: linear-gradient(180deg, rgba(13,14,13,0.95) 0%, rgba(20,18,16,0.92) 100%);
+      padding: 110px 0 80px;
+      color: var(--ivory);
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+    .explore-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 14px 0 16px;
+      letter-spacing: -0.01em;
+    }
+    .explore-hero p.lead {
+      font-family: var(--font-sans);
+      color: #E2DDD4;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .explore-grid-section {
+      background: var(--ivory);
+      padding: 100px 0 120px;
+    }
+
+    .editorial-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    @media (max-width: 992px) {
+      .editorial-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .explore-hero h1 { font-size: 2.5rem; }
+    }
+    @media (max-width: 600px) {
+      .editorial-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div id="nav-container"></div>
+
+  <main>
+    <!-- HERO BANNER -->
+    <section class="explore-hero">
+      <div class="container">
+        <span class="archival-tag-top" style="margin-bottom:0; background:rgba(18,18,18,0.75);">Taxonomy Directory</span>
+        <h1>Explore Cultural Domains</h1>
+        <p class="lead">Comprehensive archival classification of India's living traditions, monuments, performing arts, textiles, and indigenous knowledge systems across all 36 regions.</p>
+        <div style="max-width:640px; margin:28px auto 0;">
+          <form action="search.html" method="GET" style="display:flex; width:100%; box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+            <input type="text" name="q" placeholder="Type to search monuments, states, dance, festivals, crafts, museums..." style="flex:1; padding:16px 20px; font-size:1rem; border:1px solid var(--gold); border-radius:6px 0 0 6px; background:var(--cream); color:var(--obsidian); outline:none;">
+            <button type="submit" class="btn-signup-gold" style="border-radius:0 6px 6px 0; padding:0 28px; font-size:0.95rem; font-weight:700;">SEARCH ARCHIVE</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURAL DOMAINS GRID -->
+    <section class="explore-grid-section">
+      <div class="container">
+        <div class="editorial-grid-3">
+
+          <!-- DOMAIN 1: MONUMENTS & UNESCO SITES -->
+          <a href="heritage.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/monuments_unesco_explore.jpg" class="card-media" alt="Monuments & UNESCO Sites" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80';">
+              <span class="catalogue-badge">Architecture</span>
+            </div>
+            <div class="card-content">
+              <h3>Monuments & UNESCO Sites</h3>
+              <div class="meta-location">📍 UNESCO Sites & Ancient Forts</div>
+              <p class="description">Fortresses, rock-cut caves, royal palaces, and imperial mausoleums across all 28 states and 8 union territories.</p>
+              <div class="attribution-bar">
+                <span>📷 ASI / UNESCO Archives</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 2: FESTIVALS & SEASONAL FAIRS -->
+          <a href="festivals.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/holi_festival_card.png" class="card-media" alt="Festivals & Seasonal Fairs" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Living Rituals</span>
+            </div>
+            <div class="card-content">
+              <h3>Festivals & Seasonal Fairs</h3>
+              <div class="meta-location">📍 Pan-Indian Celebrations</div>
+              <p class="description">Durga Puja, Onam, Hornbill, Garba, Pushkar camel fair, and sacred seasonal harvest rituals.</p>
+              <div class="attribution-bar">
+                <span>📷 Cultural Festival Trust</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 3: TEXTILES & ATTIRE -->
+          <a href="culture.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/textiles_attire_card.jpg" class="card-media" alt="Textiles & Attire" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Handloom</span>
+            </div>
+            <div class="card-content">
+              <h3>Textiles & Master Handlooms</h3>
+              <div class="meta-location">📍 Handloom Weaving Traditions</div>
+              <p class="description">Kanchipuram silks, Banarasi brocades, royal Pashmina cashmere, and indigenous tribal weaves.</p>
+              <div class="attribution-bar">
+                <span>📷 National Handloom Board</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 4: CULINARY TRADITIONS -->
+          <a href="food.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/flavours_of_india_card.png" class="card-media" alt="Culinary Traditions" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Gastronomy</span>
+            </div>
+            <div class="card-content">
+              <h3>Flavours of India</h3>
+              <div class="meta-location">📍 Regional Culinary Arts</div>
+              <p class="description">Hyderabadi biryani, Kerala Sadya, Dal Baati Churma, temple prashad, and royal feast recipes.</p>
+              <div class="attribution-bar">
+                <span>📷 Culinary Heritage Archive</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 5: DANCE & MUSIC -->
+          <a href="culture.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/dance_performing_arts_explore.jpg" class="card-media" alt="Dance & Performing Arts" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Performing Arts</span>
+            </div>
+            <div class="card-content">
+              <h3>Dance & Performing Arts</h3>
+              <div class="meta-location">📍 Classical & Folk Traditions</div>
+              <p class="description">Bharatanatyam, Kathakali, Odissi mudras, Bhangra drumming, and classical Carnatic raga systems.</p>
+              <div class="attribution-bar">
+                <span>📷 Performing Arts Trust</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 6: MASTER HANDICRAFTS -->
+          <a href="culture.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/master_handicrafts_fine_art.jpg" class="card-media" alt="Master Handicrafts" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Craftsmanship</span>
+            </div>
+            <div class="card-content">
+              <h3>Master Handicrafts & Fine Art</h3>
+              <div class="meta-location">📍 Master Artisan Guilds</div>
+              <p class="description">Madhubani wall murals, silver Bidriware inlay metalwork, Tanjore gold foil art, and wood relics.</p>
+              <div class="attribution-bar">
+                <span>📷 National Crafts Council</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 7: FOLK STORIES & ORAL LORE -->
+          <a href="stories.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/folk_stories_sacred_lore.jpg" class="card-media" alt="Folk Stories & Lore" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Oral Heritage</span>
+            </div>
+            <div class="card-content">
+              <h3>Folk Stories & Sacred Lore</h3>
+              <div class="meta-location">📍 Tribal & Village Storytellers</div>
+              <p class="description">Subcontinent epics, animist mythology, Panchatantra fables, and ancestral oral histories.</p>
+              <div class="attribution-bar">
+                <span>📷 Oral History Institute</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- DOMAIN 8: VIRTUAL MUSEUM & ANTIQUITIES -->
+          <a href="museum.html" class="archival-card">
+            <div class="card-media-wrapper">
+              <img src="assets/images/virtual_museum_relics.png" class="card-media" alt="Virtual Museum & Relics" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=85';">
+              <span class="catalogue-badge">Antiquities</span>
+            </div>
+            <div class="card-content">
+              <h3>Virtual Museum & Relics</h3>
+              <div class="meta-location">📍 Curated Relic Galleries</div>
+              <p class="description">Digitized ancient Chola bronzes, Mauryan coins, illuminated manuscripts, and royal weaponry.</p>
+              <div class="attribution-bar">
+                <span>📷 National Museum Archive</span>
+                <span class="view-link">Explore →</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('explore');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) {
+        window.DCHA_AUTH.updateAuthUI();
+      }
+    });
+  </script>
+</body>
+</html>

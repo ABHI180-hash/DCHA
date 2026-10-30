@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music & Folk Instruments Archive — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* ========================================================
+       PREMIUM MUSEUM AUDIO & AURAL ARCHIVE SYSTEM
+       ======================================================== */
+    .audio-card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .audio-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.09);
+      border-color: rgba(198, 161, 91, 0.4);
+    }
+    .audio-card-media {
+      height: 190px;
+      overflow: hidden;
+      position: relative;
+      background: var(--obsidian);
+    }
+    .audio-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .audio-card:hover .audio-card-media img {
+      transform: scale(1.05);
+    }
+    .audio-card-body {
+      padding: 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Player Container */
+    .dcha-audio-player {
+      margin-top: auto;
+      border-radius: 6px;
+      padding: 12px 14px;
+      background: #F7F5F0;
+      border: 1px solid rgba(198, 161, 91, 0.25);
+      transition: all 0.25s ease;
+    }
+    .dcha-audio-player.is-playing {
+      background: #FAF6EC;
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(198, 161, 91, 0.2);
+    }
+
+    /* Active Player Controls */
+    .player-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .play-trigger-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--obsidian);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .play-trigger-btn:hover {
+      background: var(--gold);
+      color: var(--obsidian);
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(198, 161, 91, 0.35);
+    }
+    .player-progress-area {
+      flex: 1;
+      min-width: 0;
+    }
+    .track-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.73rem;
+      margin-bottom: 5px;
+      font-family: var(--font-sans);
+    }
+    .track-title-label {
+      font-weight: 600;
+      color: var(--obsidian);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 145px;
+    }
+    .time-readout {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #6C706A;
+      flex-shrink: 0;
+    }
+    .scrub-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .scrub-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), #D4AF37);
+      border-radius: 3px;
+      transition: width 0.08s linear;
+    }
+    .scrub-track:hover {
+      height: 8px;
+    }
+
+    /* Volume Control */
+    .volume-control-wrap {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .vol-btn {
+      background: transparent;
+      border: none;
+      color: var(--warm-gray);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.2s;
+    }
+    .vol-btn:hover { color: var(--obsidian); }
+    .vol-slider {
+      width: 48px;
+      height: 4px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    /* Pending State (Clean Archival Ingestion Badge) */
+    .audio-pending-state {
+      background: rgba(198, 161, 91, 0.06);
+      border: 1px dashed rgba(198, 161, 91, 0.5);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pending-icon-bubble {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(198, 161, 91, 0.12);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pending-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .pending-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dark-gold);
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pending-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .pending-path {
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      color: #6C706B;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+
+    /* Error Banner */
+    .player-error-banner {
+      font-size: 0.72rem;
+      color: #A83232;
+      background: #FDF2F2;
+      border: 1px solid #FACDCD;
+      border-radius: 4px;
+      padding: 6px 10px;
+      margin-top: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            <span>Aural & Instrumental Heritage</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Music <span class="hero-symbol">&</span> Traditional Folk Instruments</h1>
+        <p class="hero-lead" style="margin-bottom:24px;">State-by-state musical traditions, classical ragas, vocal folklore, and authentic acoustic instruments of India.</p>
+        <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:24px;">
+          <a href="#heritage-songs" class="btn btn-outline" style="border-color:var(--gold); color:var(--gold); font-size:0.85rem; border-radius:30px; padding:8px 20px;">🎵 Heritage State Songs</a>
+          <a href="#folk-instruments" class="btn btn-outline" style="border-color:var(--gold); color:var(--gold); font-size:0.85rem; border-radius:30px; padding:8px 20px;">🪕 Folk Instruments Vault</a>
+        </div>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <!-- SECTION 1: STATE HERITAGE MUSIC & VOCAL TRADITIONS -->
+        <h2 id="heritage-songs" style="margin-bottom:10px;">Regional Heritage Songs & Vocal Traditions</h2>
+        <p style="color:var(--warm-gray); margin-bottom:30px;">Master vocal traditions, folk ballads, devotional chants, and royal court music across India's major states.</p>
+        <div class="editorial-grid-3" id="heritage-songs-grid"></div>
+
+        <div class="motif-divider" style="margin:50px 0;"></div>
+
+        <!-- SECTION 2: MASTER FOLK & CLASSICAL INSTRUMENTS -->
+        <h2 id="folk-instruments" style="margin-bottom:10px;">Traditional Folk & Classical Musical Instruments</h2>
+        <p style="color:var(--warm-gray); margin-bottom:30px;">Acoustic wonders classified under ancient Natya Shastra categories: Tanti (Stringed), Sushira (Wind), Avanaddha (Percussion), and Ghana (Solid Idiophones).</p>
+        <div class="editorial-grid-3" id="folk-instruments-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { 
+        window.components.createNav('audio'); 
+        window.components.createFooter(); 
+      }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      // ========================================================
+      // CENTRALIZED AUDIO PLAYBACK MANAGER
+      // ========================================================
+      class DchaAudioManager {
+        constructor() {
+          this.activeAudio = null;
+          this.activePlayerEl = null;
+        }
+
+        formatTime(seconds) {
+          if (isNaN(seconds) || seconds < 0) return '00:00';
+          const mins = Math.floor(seconds / 60);
+          const secs = Math.floor(seconds % 60);
+          return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        stopCurrent() {
+          if (this.activeAudio) {
+            this.activeAudio.pause();
+            if (this.activePlayerEl) {
+              this.activePlayerEl.classList.remove('is-playing');
+              const playIcon = this.activePlayerEl.querySelector('.icon-play');
+              const pauseIcon = this.activePlayerEl.querySelector('.icon-pause');
+              if (playIcon) playIcon.style.display = 'block';
+              if (pauseIcon) pauseIcon.style.display = 'none';
+            }
+            this.activeAudio = null;
+            this.activePlayerEl = null;
+          }
+        }
+
+        setupPlayer(container, audioUrl, trackTitle) {
+          if (!container) return;
+
+          const pendingBox = container.querySelector('.audio-pending-state');
+          const activeBox = container.querySelector('.audio-active-controls');
+          const playBtn = container.querySelector('.play-trigger-btn');
+          const playIcon = container.querySelector('.icon-play');
+          const pauseIcon = container.querySelector('.icon-pause');
+          const currTimeEl = container.querySelector('.curr-time');
+          const totalTimeEl = container.querySelector('.total-time');
+          const scrubTrack = container.querySelector('.scrub-track');
+          const scrubFill = container.querySelector('.scrub-fill');
+          const volBtn = container.querySelector('.vol-btn');
+          const volSlider = container.querySelector('.vol-slider');
+          const errorBanner = container.querySelector('.player-error-banner');
+
+          // If no audio url is set
+          if (!audioUrl || audioUrl.trim() === '') {
+            if (pendingBox) pendingBox.style.display = 'flex';
+            if (activeBox) activeBox.style.display = 'none';
+            return;
+          }
+
+          // Create audio instance and probe for availability
+          const audio = new Audio();
+          audio.preload = 'metadata';
+          audio.src = audioUrl;
+
+          let isLoaded = false;
+
+          audio.addEventListener('loadedmetadata', () => {
+            isLoaded = true;
+            if (pendingBox) pendingBox.style.display = 'none';
+            if (activeBox) activeBox.style.display = 'block';
+            if (totalTimeEl) totalTimeEl.textContent = this.formatTime(audio.duration);
+            if (currTimeEl) currTimeEl.textContent = '00:00';
+          });
+
+          audio.addEventListener('timeupdate', () => {
+            if (!audio.duration) return;
+            const progress = (audio.currentTime / audio.duration) * 100;
+            if (scrubFill) scrubFill.style.width = `${progress}%`;
+            if (currTimeEl) currTimeEl.textContent = this.formatTime(audio.currentTime);
+          });
+
+          audio.addEventListener('ended', () => {
+            container.classList.remove('is-playing');
+            if (playIcon) playIcon.style.display = 'block';
+            if (pauseIcon) pauseIcon.style.display = 'none';
+            if (scrubFill) scrubFill.style.width = '0%';
+            if (currTimeEl) currTimeEl.textContent = '00:00';
+            this.activeAudio = null;
+            this.activePlayerEl = null;
+          });
+
+          audio.addEventListener('error', () => {
+            // Gracefully handle file not found or not yet uploaded
+            if (!isLoaded) {
+              if (pendingBox) pendingBox.style.display = 'flex';
+              if (activeBox) activeBox.style.display = 'none';
+            } else {
+              if (errorBanner) {
+                errorBanner.style.display = 'block';
+                errorBanner.textContent = `Unable to play audio: file unavailable at ${audioUrl}`;
+              }
+            }
+          });
+
+          // Play / Pause Trigger
+          if (playBtn) {
+            playBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (this.activeAudio === audio) {
+                // Pause current
+                audio.pause();
+                container.classList.remove('is-playing');
+                if (playIcon) playIcon.style.display = 'block';
+                if (pauseIcon) pauseIcon.style.display = 'none';
+                this.activeAudio = null;
+                this.activePlayerEl = null;
+              } else {
+                // Stop any other playing audio first
+                this.stopCurrent();
+
+                audio.play().then(() => {
+                  this.activeAudio = audio;
+                  this.activePlayerEl = container;
+                  container.classList.add('is-playing');
+                  if (playIcon) playIcon.style.display = 'none';
+                  if (pauseIcon) pauseIcon.style.display = 'block';
+                }).catch(err => {
+                  console.warn('Playback error or file missing:', err);
+                  if (errorBanner) {
+                    errorBanner.style.display = 'block';
+                    errorBanner.textContent = `Audio playback requires file at ${audioUrl}`;
+                  }
+                });
+              }
+            });
+          }
+
+          // Scrub bar click/drag to seek
+          if (scrubTrack) {
+            const handleSeek = (e) => {
+              if (!audio.duration) return;
+              const rect = scrubTrack.getBoundingClientRect();
+              const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+              audio.currentTime = ratio * audio.duration;
+              if (scrubFill) scrubFill.style.width = `${ratio * 100}%`;
+              if (currTimeEl) currTimeEl.textContent = this.formatTime(audio.currentTime);
+            };
+
+            scrubTrack.addEventListener('click', handleSeek);
+          }
+
+          // Volume control
+          if (volSlider) {
+            volSlider.addEventListener('input', (e) => {
+              audio.volume = parseFloat(e.target.value);
+            });
+          }
+
+          if (volBtn) {
+            volBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              audio.muted = !audio.muted;
+              volBtn.style.opacity = audio.muted ? '0.4' : '1';
+            });
+          }
+        }
+      }
+
+      const audioManager = new DchaAudioManager();
+
+      // Helper to generate custom player HTML
+      function renderPlayerHTML(item, fallbackPrefix) {
+        const audioUrl = item.audio_url || `${fallbackPrefix}/${item.id}.mp3`;
+        const title = item.audio_title || item.name;
+
+        return `
+          <div class="dcha-audio-player" data-audio-src="${audioUrl}">
+            <!-- PENDING STATE (When audio file awaits upload) -->
+            <div class="audio-pending-state">
+              <div class="pending-icon-bubble">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              </div>
+              <div class="pending-info">
+                <div class="pending-badge"><span class="pulse-dot"></span> Archival Track Ingestion Pending</div>
+                <p class="pending-path">Designated: <code>${audioUrl}</code></p>
+              </div>
+            </div>
+
+            <!-- ACTIVE PLAYER CONTROLS (Activates when audio is available) -->
+            <div class="audio-active-controls" style="display:none;">
+              <div class="player-row">
+                <button class="play-trigger-btn" aria-label="Play or Pause">
+                  <svg class="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <svg class="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                </button>
+                <div class="player-progress-area">
+                  <div class="track-meta-row">
+                    <span class="track-title-label">${title}</span>
+                    <span class="time-readout"><span class="curr-time">00:00</span> / <span class="total-time">--:--</span></span>
+                  </div>
+                  <div class="scrub-track">
+                    <div class="scrub-fill"></div>
+                  </div>
+                </div>
+                <div class="volume-control-wrap">
+                  <button class="vol-btn" aria-label="Mute/Unmute">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  </button>
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="1" aria-label="Volume Slider">
+                </div>
+              </div>
+              <div class="player-error-banner"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Render Section 1: Regional Heritage Songs
+      if (window.DCHA_DATA && window.DCHA_DATA.HERITAGE_MUSIC_ITEMS) {
+        const songsGrid = document.getElementById('heritage-songs-grid');
+        if (songsGrid) {
+          songsGrid.innerHTML = window.DCHA_DATA.HERITAGE_MUSIC_ITEMS.map(item => `
+            <div class="audio-card">
+              <div class="audio-card-media">
+                <img src="${item.image}" alt="${item.name}" loading="lazy">
+                <span class="catalogue-tag" style="position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.8); color:var(--gold); border-color:var(--gold);">${item.state}</span>
+              </div>
+              <div class="audio-card-body">
+                <span style="font-size:0.75rem; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; font-weight:600; margin-bottom:6px;">${item.genre || item.category}</span>
+                <h3 style="font-size:1.15rem; margin-bottom:8px; color:var(--obsidian); line-height:1.3;">${item.name}</h3>
+                <p style="font-size:0.85rem; color:var(--warm-gray); flex:1; line-height:1.5; margin-bottom:15px;">${item.description}</p>
+                <div style="background:var(--ivory); padding:10px 12px; border-radius:6px; margin-bottom:14px; border-left:3px solid var(--gold);">
+                  <span style="font-size:0.72rem; color:var(--muted-gray); display:block; text-transform:uppercase; letter-spacing:0.05em;">Performers / Lineage:</span>
+                  <strong style="font-size:0.82rem; color:var(--obsidian);">${item.performers}</strong>
+                </div>
+                ${renderPlayerHTML(item, 'assets/audio/songs')}
+              </div>
+            </div>
+          `).join('');
+
+          // Initialize players on all song cards
+          songsGrid.querySelectorAll('.dcha-audio-player').forEach(playerEl => {
+            const src = playerEl.getAttribute('data-audio-src');
+            const title = playerEl.closest('.audio-card')?.querySelector('h3')?.textContent || '';
+            audioManager.setupPlayer(playerEl, src, title);
+          });
+        }
+      }
+
+      // Render Section 2: Traditional Folk & Classical Musical Instruments
+      if (window.DCHA_DATA && window.DCHA_DATA.FOLK_INSTRUMENT_ITEMS) {
+        const instrumentsGrid = document.getElementById('folk-instruments-grid');
+        if (instrumentsGrid) {
+          instrumentsGrid.innerHTML = window.DCHA_DATA.FOLK_INSTRUMENT_ITEMS.map(item => `
+            <div class="audio-card">
+              <div class="audio-card-media">
+                <img src="${item.image}" alt="${item.name}" loading="lazy">
+                <span class="catalogue-tag" style="position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.8); color:var(--gold); border-color:var(--gold);">${item.state}</span>
+              </div>
+              <div class="audio-card-body">
+                <span style="font-size:0.75rem; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; font-weight:600; margin-bottom:6px;">${item.type}</span>
+                <h3 style="font-size:1.15rem; margin-bottom:8px; color:var(--obsidian); line-height:1.3;">${item.name}</h3>
+                <p style="font-size:0.85rem; color:var(--warm-gray); flex:1; line-height:1.5; margin-bottom:15px;">${item.description}</p>
+                <div style="background:var(--ivory); padding:10px 12px; border-radius:6px; margin-bottom:14px; border-left:3px solid var(--gold);">
+                  <span style="font-size:0.72rem; color:var(--muted-gray); display:block; text-transform:uppercase; letter-spacing:0.05em;">Craft & Materials:</span>
+                  <span style="font-size:0.82rem; color:var(--obsidian); font-weight:500;">${item.material}</span>
+                </div>
+                ${renderPlayerHTML(item, 'assets/audio/instruments')}
+              </div>
+            </div>
+          `).join('');
+
+          // Initialize players on all instrument cards
+          instrumentsGrid.querySelectorAll('.dcha-audio-player').forEach(playerEl => {
+            const src = playerEl.getAttribute('data-audio-src');
+            const title = playerEl.closest('.audio-card')?.querySelector('h3')?.textContent || '';
+            audioManager.setupPlayer(playerEl, src, title);
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

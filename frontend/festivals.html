@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festivals Archive — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Living Traditions</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Festivals <span class="hero-symbol">&</span> Ritual Celebrations</h1>
+        <p class="hero-lead">Durga Puja, Onam, Hornbill, Navratri Garba, and regional harvest celebrations celebrated across India.</p>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="editorial-grid-3" id="festivals-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) {
+        window.components.createNav('culture');
+        window.components.createFooter();
+      }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('festivals-grid');
+      if (grid && window.DCHA_DATA) {
+        grid.innerHTML = window.DCHA_DATA.FESTIVALS.map(f => window.components.createCard({
+          id: f.id,
+          name: f.name,
+          category: f.category || 'Festival',
+          description: f.description,
+          image: f.image_url,
+          source: 'UNESCO / National Festival Registry'
+        }, 'heritage')).join('');
+      }
+    });
+  </script>
+</body>
+</html>

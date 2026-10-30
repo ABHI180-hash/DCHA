@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compare States — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="section-sm" style="background:var(--obsidian); color:var(--ivory); border-bottom:2px solid var(--gold);">
+      <div class="container text-center">
+        <span class="catalogue-tag" style="background:transparent; color:var(--gold); border-color:var(--gold);">Comparative Analysis</span>
+        <h1 style="color:var(--white)">Compare Regional Heritage</h1>
+        <p style="color:var(--muted-gray); max-width:600px; margin:0 auto;">Side-by-side comparison of architecture, textiles, foods, and performing arts between two Indian states.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="filter-bar" style="justify-content:center; gap:20px;">
+          <select id="state1-select" class="filter-select"></select>
+          <span style="font-weight:700; color:var(--gold); align-self:center;">VS</span>
+          <select id="state2-select" class="filter-select"></select>
+          <button id="compare-btn" class="btn btn-primary btn-sm">Compare Archives</button>
+        </div>
+
+        <div id="compare-result" style="margin-top:30px;"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('compare'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const s1 = document.getElementById('state1-select');
+      const s2 = document.getElementById('state2-select');
+      const res = document.getElementById('compare-result');
+
+      if (window.DCHA_DATA && s1 && s2) {
+        window.DCHA_DATA.STATES.forEach(st => {
+          const opt1 = document.createElement('option'); opt1.value = st.id; opt1.textContent = st.name; s1.appendChild(opt1);
+          const opt2 = document.createElement('option'); opt2.value = st.id; opt2.textContent = st.name; s2.appendChild(opt2);
+        });
+        s2.selectedIndex = 1;
+
+        const executeCompare = () => {
+          const st1 = window.DCHA_DATA.STATES.find(s => s.id === s1.value);
+          const st2 = window.DCHA_DATA.STATES.find(s => s.id === s2.value);
+          if (st1 && st2 && res) {
+            res.innerHTML = `
+              <div class="editorial-grid-2">
+                <div style="background:var(--white); padding:30px; border:1px solid rgba(0,0,0,0.08);">
+                  <img src="${st1.image}" style="width:100%; height:200px; object-fit:cover; margin-bottom:16px;">
+                  <span class="catalogue-tag">${st1.type}</span>
+                  <h2>${st1.name}</h2>
+                  <p><strong>Capital:</strong> ${st1.capital}</p>
+                  <p><strong>Region:</strong> ${st1.region}</p>
+                  <p><strong>Languages:</strong> ${(st1.languages || []).join(', ')}</p>
+                  <p style="margin-top:12px; color:var(--warm-gray);">${st1.cultural_significance || st1.description}</p>
+                </div>
+                <div style="background:var(--white); padding:30px; border:1px solid rgba(0,0,0,0.08);">
+                  <img src="${st2.image}" style="width:100%; height:200px; object-fit:cover; margin-bottom:16px;">
+                  <span class="catalogue-tag">${st2.type}</span>
+                  <h2>${st2.name}</h2>
+                  <p><strong>Capital:</strong> ${st2.capital}</p>
+                  <p><strong>Region:</strong> ${st2.region}</p>
+                  <p><strong>Languages:</strong> ${(st2.languages || []).join(', ')}</p>
+                  <p style="margin-top:12px; color:var(--warm-gray);">${st2.cultural_significance || st2.description}</p>
+                </div>
+              </div>
+            `;
+          }
+        };
+
+        document.getElementById('compare-btn')?.addEventListener('click', executeCompare);
+        executeCompare();
+      }
+    });
+  </script>
+</body>
+</html>

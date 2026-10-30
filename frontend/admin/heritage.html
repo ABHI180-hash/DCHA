@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCHA Admin — Heritage Content Management</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    body { margin: 0; font-family: var(--font-inter, sans-serif); background-color: #f4f6f8; display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 250px; background: #1a1a1a; color: #fff; height: 100vh; position: fixed; left: 0; top: 0; padding-top: 20px; }
+    .admin-sidebar .logo { font-family: var(--font-playfair, serif); color: var(--color-gold, #d4af37); font-size: 24px; text-align: center; margin-bottom: 30px; display: block; text-decoration: none; }
+    .admin-sidebar nav a { display: block; padding: 15px 20px; color: #ccc; text-decoration: none; border-left: 3px solid transparent; }
+    .admin-sidebar nav a:hover, .admin-sidebar nav a.active { background: #333; color: #fff; border-left-color: var(--color-gold, #d4af37); }
+    .admin-main { margin-left: 250px; padding: 25px; width: calc(100% - 250px); box-sizing: border-box; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px; }
+    .admin-table-container { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 20px; overflow-x: auto; }
+    .filter-bar { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-bar select, .filter-bar input { padding: 9px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
+    th { font-weight: bold; color: #555; background: #f9f9f9; }
+    .btn-action { padding: 6px 12px; font-size: 13px; cursor: pointer; border: none; border-radius: 4px; color: #fff; text-decoration: none; display: inline-block; margin-right: 5px; font-weight: 500; }
+    .btn-action.edit { background: #007bff; }
+    .btn-action.delete { background: #dc3545; }
+    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 10000; }
+    .modal-box { background: #fff; width: 620px; max-width: 90%; max-height: 90vh; overflow-y: auto; border-radius: 8px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #333; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .img-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; margin-top: 8px; display: none; }
+  </style>
+</head>
+<body class="admin-mode">
+  <script>
+    const token = localStorage.getItem('dcha_token');
+    const user = JSON.parse(localStorage.getItem('dcha_user') || '{}');
+    if (!token || (user.role !== 'admin' && user.role !== 'curator')) {
+      alert('Unauthorized: Admin or Curator access required.');
+      window.location.href = '../login.html';
+    }
+  </script>
+
+  <aside class="admin-sidebar">
+    <a href="dashboard.html" class="logo">DCHA Admin</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="states.html">States</a>
+      <a href="heritage.html" class="active">Heritage Content</a>
+      <a href="submissions.html">Submissions</a>
+      <a href="users.html">Users</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <div>
+        <h2 style="margin:0; font-family:var(--font-playfair, serif);">Heritage Content Management</h2>
+        <span style="color:#666; font-size:13px;">Add, edit, or remove official heritage entries across all categories</span>
+      </div>
+      <div>
+        <button id="open-add-modal-btn" class="btn btn-primary" style="background:#C1652F; border:none; padding:10px 18px; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold;">+ Add Heritage Content</button>
+      </div>
+    </header>
+
+    <div class="admin-table-container">
+      <div class="filter-bar">
+        <select id="admin-category-filter">
+          <option value="all">All Categories</option>
+          <option value="monument">Monument / Heritage Site</option>
+          <option value="museum">Museum</option>
+          <option value="festival">Festival</option>
+          <option value="food">Traditional Food</option>
+          <option value="dance">Traditional Dance</option>
+          <option value="dress">Traditional Dress</option>
+          <option value="language">Language</option>
+          <option value="story">Folk Story</option>
+          <option value="cultural-event">Cultural Event</option>
+          <option value="audio">Audio / Media</option>
+          <option value="at-risk">Living Tradition / At Risk</option>
+        </select>
+
+        <select id="admin-state-filter">
+          <option value="all">All States & UTs</option>
+          <!-- Populated by JS -->
+        </select>
+
+        <input type="text" id="admin-search-input" placeholder="Search by title or location..." style="flex:1;">
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 70px;">Media</th>
+            <th>Title / Name</th>
+            <th>Category</th>
+            <th>State</th>
+            <th>Location / Details</th>
+            <th style="width: 130px; text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="admin-heritage-table-body">
+          <tr><td colspan="6" style="text-align:center; padding:30px; color:#888;">Loading heritage records from database...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ADD / EDIT HERITAGE MODAL -->
+  <div id="heritage-modal" class="modal-backdrop">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:12px; margin-bottom:15px;">
+        <h3 id="modal-title" style="margin:0; font-family:var(--font-playfair, serif);">Add Heritage Content</h3>
+        <button id="close-modal-btn" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+      </div>
+
+      <form id="heritage-form">
+        <input type="hidden" id="modal-record-id">
+        <input type="hidden" id="modal-mode" value="create">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>[ Select Heritage Type ▼ ]</label>
+            <select id="modal-category" required>
+              <option value="monument">Monument / Heritage Site</option>
+              <option value="museum">Museum</option>
+              <option value="festival">Festival</option>
+              <option value="food">Traditional Food</option>
+              <option value="dance">Traditional Dance</option>
+              <option value="dress">Traditional Dress</option>
+              <option value="language">Language</option>
+              <option value="story">Folk Story</option>
+              <option value="cultural-event">Cultural Event</option>
+              <option value="audio">Audio / Media</option>
+              <option value="at-risk">Living Tradition / At Risk</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>State / Union Territory *</label>
+            <select id="modal-state-id" required>
+              <option value="">-- Select State --</option>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Title / Heritage Name *</label>
+          <input type="text" id="modal-name" placeholder="e.g. Konark Sun Temple" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>City / Location / Sub-Category</label>
+            <input type="text" id="modal-location" placeholder="e.g. Puri, Odisha or Classical">
+          </div>
+
+          <div class="form-group">
+            <label>Image URL / Asset Reference</label>
+            <input type="text" id="modal-image-url" placeholder="https://example.com/image.jpg or assets/images/item.jpg">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <img id="modal-img-preview" class="img-preview" alt="Preview">
+        </div>
+
+        <div class="form-group">
+          <label>Description / Details *</label>
+          <textarea id="modal-description" rows="4" placeholder="Detailed description of the heritage record..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Historical / Cultural Significance</label>
+          <textarea id="modal-significance" rows="3" placeholder="Significance, historical background, or cultural importance..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
+          <button type="button" id="cancel-modal-btn" class="btn" style="padding:10px 18px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="padding:10px 22px; background:#C1652F; border:none; color:#fff; border-radius:6px; font-weight:bold; cursor:pointer;">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/admin-heritage.js"></script>
+</body>
+</html>

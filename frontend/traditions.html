@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Living Traditions — Digital Culture Heritage Archive</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="nav-container"></div>
+  <main>
+    <section class="museum-page-hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-accent-line"></span>
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            <span>Customs & Practices</span>
+          </div>
+          <span class="hero-accent-line"></span>
+        </div>
+        <h1>Living Traditions <span class="hero-symbol">&</span> Knowledge Systems</h1>
+        <p class="hero-lead">Sacred groves, bio-engineered living root bridges, matrilineal social structures, and Vedic chanting.</p>
+        <div class="hero-motif-divider">
+          <span class="motif-line"></span>
+          <span class="motif-diamond">✦</span>
+          <span class="motif-line"></span>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="editorial-grid-3" id="traditions-grid"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.components) { window.components.createNav('culture'); window.components.createFooter(); }
+      if (window.DCHA_AUTH) window.DCHA_AUTH.updateAuthUI();
+
+      const grid = document.getElementById('traditions-grid');
+      const mockTraditions = [
+        { name: 'Living Root Bridges', state: 'Meghalaya', category: 'Bio-Engineering', description: 'Centuries-old bio-engineered rubber tree bridges grown across Himalayan rivers by Khasi elders.', image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80' },
+        { name: 'Sacred Groves (Kavu / Oran)', state: 'Pan-India', category: 'Nature Worship', description: 'Protected virgin forest patches preserved through religious taboos harboring rare medicinal plants.', image: 'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=800&q=80' },
+        { name: 'Vedic Chanting Tradition', state: 'Pan-India', category: 'UNESCO Heritage', description: 'Intangible UNESCO heritage of precise oral recitation techniques preserved unchanged for 3,000 years.', image: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80' }
+      ];
+      if (grid) {
+        grid.innerHTML = mockTraditions.map(t => window.components.createCard({ id: t.name, name: t.name, category: t.category, description: t.description, image: t.image, state: t.state, source: 'Intangible Heritage Cell' }, 'culture')).join('');
+      }
+    });
+  </script>
+</body>
+</html>
