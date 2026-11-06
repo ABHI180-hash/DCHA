@@ -20,14 +20,6 @@
 
 ---
 
-# 🏛️ Digital Culture Heritage Archive (DCHA)
-
-A comprehensive digital platform for discovering, documenting, preserving and exploring India's cultural heritage across all 28 states and 8 union territories.
-
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Node.js](https://img.shields.io/badge/node.js-18+-green.svg)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
-
 ## 📋 Overview
 
 DCHA serves as a digital museum, cultural archive, heritage discovery platform, and educational resource — combining interactive maps, community contributions, and curator management into one unified platform.
