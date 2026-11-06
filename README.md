@@ -20,582 +20,364 @@
 
 ---
 
+# 🏛️ Digital Culture Heritage Archive (DCHA)
+
+A comprehensive digital platform for discovering, documenting, preserving and exploring India's cultural heritage across all 28 states and 8 union territories.
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node.js](https://img.shields.io/badge/node.js-18+-green.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+
 ## 📋 Overview
 
-The **Indian Cultural Heritage Archive (DCHA)** is a comprehensive digital platform designed to discover, document, preserve, and explore India's rich cultural heritage.
+DCHA serves as a digital museum, cultural archive, heritage discovery platform, and educational resource — combining interactive maps, community contributions, and curator management into one unified platform.
 
-India has an extraordinary cultural identity consisting of historical monuments, ancient civilizations, traditional art forms, classical dances, festivals, languages, museums, and indigenous traditions.
+### Key Features
 
-DCHA aims to bring this diverse heritage together through a centralized digital platform.
-
-The platform functions as:
-
-- A Digital Museum.
-- A Cultural Heritage Repository.
-- A Historical Information Platform.
-- An Interactive Heritage Discovery System.
-- An Educational and Research Resource.
-
-It combines interactive maps, historical information, cultural traditions, monuments, festivals, museums, and community contributions into one unified platform.
-
-## ✨ Key Features
-
-### 🏛️ Heritage Discovery
-- Explore historical monuments, temples, forts, palaces, and archaeological sites.
-- Discover UNESCO World Heritage locations.
-- View monument descriptions, historical backgrounds, and locations.
-- Browse India's architectural heritage.
-
-### 🗺️ Interactive India Map
-- SVG-based interactive map of India.
-- Clickable state and union territory selection.
-- State-specific cultural information.
-- Regional heritage discovery.
-- Explore historical and cultural information by geographical region.
-
-### 🏞️ States & Union Territories
-- Complete coverage of 28 states and 8 union territories.
-- Individual state information and cultural profiles.
-- Capitals, regional languages, traditions, and heritage highlights.
-- State-specific festivals, art forms, and landmarks.
-- Quick View and Explore Page functionality.
-
-### 🎭 Art & Culture Archive
-- Classical Indian dance traditions.
-- Folk dance and regional performances.
-- Traditional paintings and handicrafts.
-- Textile and handloom traditions.
-- Indigenous art and cultural practices.
-- Regional cultural identities.
-
-### 🎉 Festivals & Celebrations
-- Discover Indian festivals and seasonal celebrations.
-- Explore Durga Puja, Diwali, Holi, Onam, Bihu, and other festivals.
-- Regional festival information.
-- Traditional rituals and cultural significance.
-
-### 🏺 Virtual Museum
-- Exhibition-style browsing of cultural artefacts.
-- Historical collections and traditional objects.
-- Museum and gallery directory.
-- National and regional cultural institutions.
-
-### 📜 Historical Timeline
-- Explore important periods in Indian history.
-- Indus Valley Civilization.
-- Mauryan Empire and Emperor Ashoka.
-- Ancient, medieval, and modern historical developments.
-- Chronological historical information.
-
-### 🤖 AI Heritage Assistant
-- AI-powered heritage assistance.
-- Heritage-related questions and answers.
-- Intelligent exploration of Indian culture and history.
-- AI-assisted discovery of cultural information.
-
-### ❤️ User Features
-- User registration and login.
-- Secure authentication.
-- Save favourite heritage places.
-- Personal collections and saved locations.
-- User-friendly navigation.
-
-### 🛡️ Admin Dashboard
-- Administrative content management.
-- Add and manage monuments.
-- Add museums and heritage locations.
-- Upload images and descriptions.
-- Manage cultural and historical information.
-
----
+- **Complete India Coverage** — All 28 states + 8 union territories with unique cultural data
+- **Heritage Directory** — Monuments, temples, forts, palaces, archaeological sites, UNESCO sites
+- **Interactive India Map** — SVG-based clickable map with heritage markers and geolocation
+- **Virtual Museum** — Exhibition-style browsing of cultural artifacts organized by sections
+- **Audio Archive** — Folk music, oral histories, cultural sounds (metadata with HTML5 player)
+- **Cultural Calendar** — Month-by-month festival and event navigation
+- **Heritage at Risk** — Tracking endangered cultural heritage with risk levels
+- **State Comparison** — Side-by-side comparison of any two states' cultural profiles
+- **Timeline** — Interactive heritage timeline from Ancient to Modern era
+- **Global Search** — Search across all cultural categories with debounced input
+- **Contribution Portal** — Multi-step community contribution workflow
+- **Collections & Favorites** — Personal cultural collections with save functionality
+- **Admin Dashboard** — Content management, submission review, analytics
+- **Authentication** — JWT-based auth with bcrypt password hashing
+- **Multi-Language UI** — Interface language selector (English, Hindi, Bengali, Tamil, Telugu, Marathi)
 
 ## 🛠️ Technology Stack
 
-### Frontend
-| Technology | Purpose |
-|---|---|
-| React.js | Component-based user interface |
-| Vite | Frontend development and build tool |
-| HTML5 | Webpage structure |
-| CSS3 | Styling and responsive layouts |
-| JavaScript | Frontend functionality |
-| Tailwind CSS | Utility-based styling |
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript (Fetch API, Component System) |
+| **Backend** | Java 17, Spring Boot 3.2.3, Spring Security, Spring Data JPA |
+| **Database** | MySQL 8.0 / H2 In-Memory (Dev Profile) |
+| **Authentication** | JWT (JJWT 0.12.5), BCrypt Password Hashing |
+| **AI Assistant** | Spring Boot AI Service + OpenAI/LLM REST API |
+| **Build Tool** | Apache Maven |
 
-### Backend
-| Technology | Purpose |
-|---|---|
-| Java | Backend programming |
-| Spring Boot | Backend application framework |
-| REST APIs | Frontend-backend communication |
-| Maven | Dependency and build management |
-
-### Database
-| Technology | Purpose |
-|---|---|
-| MySQL | Relational database |
-| SQL | Database queries and operations |
-| phpMyAdmin | Database administration |
-
-### Development Tools
-- Visual Studio Code
-- IntelliJ IDEA
-- XAMPP
-- Postman
-- Git
-- GitHub
-- Antigravity IDE
-
----
 
 ## 📁 Project Structure
 
-The Indian Cultural Heritage Archive follows a modular full-stack architecture, separating frontend components, backend services, database configuration, and application resources.
-
-```text
-Indian-Cultural-Heritage-Archive/
-│
+```
+DCHA/
 ├── frontend/
-│   ├── public/
-│   │   ├── images/
-│   │   ├── icons/
-│   │   └── assets/
-│   │
-│   ├── src/
-│   │   ├── assets/
-│   │   │   ├── images/
-│   │   │   ├── fonts/
-│   │   │   └── styles/
-│   │   │
-│   │   ├── components/
-│   │   │   ├── Navbar/
-│   │   │   ├── Footer/
-│   │   │   ├── Cards/
-│   │   │   ├── Search/
-│   │   │   └── Common/
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Home/
-│   │   │   ├── Explore/
-│   │   │   ├── StatesAndUTs/
-│   │   │   ├── Heritage/
-│   │   │   ├── ArtAndCulture/
-│   │   │   ├── InteractiveMap/
-│   │   │   ├── Timeline/
-│   │   │   ├── Museums/
-│   │   │   ├── Login/
-│   │   │   └── Admin/
-│   │   │
-│   │   ├── services/
-│   │   │   └── api.js
-│   │   │
-│   │   ├── hooks/
-│   │   ├── context/
-│   │   ├── utils/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
-│   └── tailwind.config.js
-│
+│   ├── index.html              # Homepage
+│   ├── explore.html            # Explore categories
+│   ├── states.html             # All states & UTs
+│   ├── state-detail.html       # Individual state detail
+│   ├── heritage.html           # Heritage directory
+│   ├── heritage-detail.html    # Heritage site detail
+│   ├── culture.html            # Culture overview
+│   ├── traditions.html         # Traditions listing
+│   ├── festivals.html          # Festivals listing
+│   ├── food.html               # Food directory
+│   ├── stories.html            # Folk stories
+│   ├── gallery.html            # Cultural gallery
+│   ├── timeline.html           # Heritage timeline
+│   ├── museum.html             # Virtual museum
+│   ├── audio.html              # Audio archive
+│   ├── calendar.html           # Cultural calendar
+│   ├── at-risk.html            # Heritage at risk
+│   ├── compare.html            # Compare states
+│   ├── map.html                # Interactive India map
+│   ├── search.html             # Global search
+│   ├── login.html              # User login
+│   ├── register.html           # User registration
+│   ├── profile.html            # User profile
+│   ├── collections.html        # User collections
+│   ├── contribute.html         # Contribution portal
+│   ├── about.html              # About page
+│   ├── admin/                  # Admin dashboard pages
+│   │   ├── dashboard.html
+│   │   ├── states.html
+│   │   ├── heritage.html
+│   │   ├── submissions.html
+│   │   ├── users.html
+│   │   └── analytics.html
+│   ├── css/
+│   │   ├── main.css            # Design system
+│   │   ├── components.css      # UI components
+│   │   ├── responsive.css      # Responsive breakpoints
+│   │   └── admin.css           # Admin styles
+│   ├── js/
+│   │   ├── api.js              # API communication layer
+│   │   ├── auth.js             # Authentication logic
+│   │   ├── components.js       # Reusable UI components
+│   │   ├── data.js             # Fallback data (all 36 states)
+│   │   ├── main.js             # Homepage logic
+│   │   ├── search.js           # Global search
+│   │   ├── map.js              # Interactive SVG map
+│   │   ├── favorites.js        # Favorites/collections
+│   │   ├── state-detail.js     # State detail logic
+│   │   ├── museum.js           # Virtual museum
+│   │   ├── calendar.js         # Cultural calendar
+│   │   └── admin.js            # Admin dashboard
+│   └── assets/
+│       ├── images/
+│       ├── icons/
+│       └── audio/
 ├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   └── com/dcha/
-│   │   │   │       ├── config/
-│   │   │   │       ├── controller/
-│   │   │   │       ├── service/
-│   │   │   │       ├── repository/
-│   │   │   │       ├── entity/
-│   │   │   │       ├── dto/
-│   │   │   │       ├── security/
-│   │   │   │       ├── exception/
-│   │   │   │       └── DchaApplication.java
-│   │   │   │
-│   │   │   └── resources/
-│   │   │       ├── application.properties
-│   │   │       └── static/
-│   │   │
-│   │   └── test/
-│   │
-│   └── pom.xml
-│
+│   ├── server.js               # Express server entry
+│   ├── package.json
+│   ├── .env.example
+│   ├── config/
+│   │   └── database.js         # MySQL connection pool
+│   ├── middleware/
+│   │   ├── auth.js             # JWT authentication
+│   │   ├── validate.js         # Input validation
+│   │   └── errorHandler.js     # Error handling
+│   └── routes/
+│       ├── auth.js             # POST /register, /login, GET /me
+│       ├── states.js           # GET /states, /states/:id
+│       ├── heritage.js         # GET /heritage, /heritage/:id
+│       ├── festivals.js        # GET /festivals
+│       ├── foods.js            # GET /foods
+│       ├── traditions.js       # GET /traditions
+│       ├── dances.js           # GET /dances
+│       ├── music.js            # GET /music
+│       ├── artsCrafts.js       # GET /artsCrafts
+│       ├── stories.js          # GET /stories
+│       ├── search.js           # GET /search
+│       ├── favorites.js        # GET/POST/DELETE /favorites
+│       ├── collections.js      # Collections CRUD
+│       ├── contributions.js    # POST /contributions
+│       ├── gallery.js          # GET /gallery
+│       ├── timeline.js         # GET /timeline
+│       ├── museum.js           # GET /museum
+│       ├── audio.js            # GET /audio
+│       ├── calendar.js         # GET /calendar
+│       ├── heritageRisk.js     # GET /heritageRisk
+│       ├── newsletter.js       # POST /newsletter
+│       ├── admin.js            # Admin endpoints
+│       ├── dresses.js          # GET /dresses
+│       ├── languages.js        # GET /languages
+│       └── compare.js          # GET /compare
 ├── database/
-│   ├── schema.sql
-│   └── sample-data.sql
-│
-├── screenshots/
-│   ├── home-page.png
-│   ├── explore-page.png
-│   ├── states-and-uts.png
-│   ├── heritage-page.png
-│   ├── art-and-culture.png
-│   ├── india-map.png
-│   ├── historical-timeline.png
-│   └── museums-and-galleries.png
-│
-├── .gitignore
+│   ├── schema.sql              # MySQL table definitions
+│   ├── seed.sql                # Seed data (all 36 states/UTs)
+│   └── README.md               # Database setup guide
 ├── README.md
-└── LICENSE
+└── .gitignore
 ```
 
-### 📌 Directory Responsibilities
-
-| Directory | Responsibility |
-|---|---|
-| frontend/ | React-based user interface |
-| public/ | Public images and static assets |
-| components/ | Reusable UI components |
-| pages/ | Individual application pages |
-| services/ | API communication |
-| hooks/ | Reusable React hooks |
-| context/ | Shared application state |
-| backend/ | Spring Boot application |
-| controller/ | REST API endpoints |
-| service/ | Business logic |
-| repository/ | Database operations |
-| entity/ | Database entity models |
-| dto/ | Data transfer objects |
-| security/ | Authentication and authorization |
-| config/ | Application configuration |
-| database/ | SQL schema and sample data |
-| screenshots/ | Project interface screenshots |
-
----
-
-## 2. Frontend Architecture
-
-The frontend is developed using React.js and Vite, providing a modular and responsive user interface.
-
-### Core Responsibilities
-
-- Rendering application pages and reusable components.
-- Managing navigation between different heritage modules.
-- Displaying historical and cultural information.
-- Handling user interactions and search operations.
-- Communicating with backend REST APIs.
-- Providing responsive layouts across devices.
-
-### Frontend Technologies
-
-- React.js
-- Vite
-- JavaScript
-- HTML5
-- CSS3
-- Tailwind CSS
-
-## 3. Backend Architecture
-
-The backend is developed using Java and Spring Boot, following a layered architecture.
-
-### Backend Layers
-
-| Layer | Responsibility |
-|---|---|
-| Controller | Receives HTTP requests and returns responses |
-| Service | Handles business logic |
-| Repository | Communicates with MySQL |
-| Entity | Represents database records |
-| DTO | Transfers structured data |
-| Security | Handles authentication and access control |
-| Configuration | Manages application settings |
-
-### Backend Responsibilities
-
-- Processing client requests.
-- Managing user authentication.
-- Retrieving and managing heritage information.
-- Performing database operations.
-- Providing REST API services.
-- Supporting administrative operations.
-- Integrating external AI services where configured.
-
-## 4. Database Architecture
-
-MySQL is used as the relational database management system.
-
-The database layer is responsible for storing and managing structured application information.
-
-### Suggested Database Entities
-
-| Entity | Purpose |
-|---|---|
-| Users | User account information |
-| Roles | User access permissions |
-| States | State and union territory details |
-| Monuments | Historical monument information |
-| Museums | Museum and gallery records |
-| Festivals | Festival information |
-| CulturalData | Cultural traditions and art forms |
-| Collections | User saved collections |
-| Favorites | Favourite heritage locations |
-
-*These are logical data entities; the actual database tables depend on the implemented schema.*
-
-## 5. Application Workflow
-
-The application follows a client-server communication model.
-
-```text
-       USER INTERACTION
-              |
-              ▼
-       REACT FRONTEND
-              |
-              ▼
-       API REQUEST (HTTP)
-              |
-              ▼
-     SPRING BOOT CONTROLLER
-              |
-              ▼
-       SERVICE LAYER
-              |
-              ▼
-      REPOSITORY LAYER
-              |
-              ▼
-          MYSQL
-              |
-              ▼
-       API RESPONSE
-              |
-              ▼
-       REACT FRONTEND
-              |
-              ▼
-       DISPLAY RESULTS
-```
-
-## 6. API Architecture
-
-The application uses RESTful communication between the frontend and backend.
-
-Proposed API organization:
-
-| API Group | Responsibility |
-|---|---|
-| /api/auth | Authentication and registration |
-| /api/states | State and UT information |
-| /api/heritage | Heritage and monument records |
-| /api/museums | Museum information |
-| /api/festivals | Festival information |
-| /api/culture | Art and cultural information |
-| /api/collections | Saved collections |
-| /api/admin | Administrative operations |
-| /api/ai | AI assistant integration |
-
-**Note:** These are suggested endpoint groups, not a claim that every endpoint is already implemented.
-
-## 7. Configuration Management
-
-Application configuration is maintained separately for frontend and backend.
-
-### Frontend Configuration
-
-- API base URL.
-- Application environment.
-- External service configuration.
-
-### Backend Configuration
-
-- Server port.
-- MySQL connection URL.
-- Database username and password.
-- AI provider API credentials.
-- Application security settings.
-
-Sensitive credentials should be stored in environment variables rather than committed to GitHub.
-
-## 8. Development Methodology
-
-The project follows a modular development approach:
-
-1. Requirement analysis and feature planning.
-2. UI/UX design and frontend development.
-3. Backend API development.
-4. Database design and integration.
-5. Frontend-backend connectivity.
-6. API testing using Postman.
-7. Functional testing and debugging.
-8. Version control and GitHub integration.
-
-
-## 🏗️ System Architecture
-
-DCHA follows a client-server architecture.
-
-```text
-             USER
-               |
-               ▼
-      REACT + VITE FRONTEND
-               |
-               ▼
-          REST APIs
-               |
-               ▼
-       SPRING BOOT BACKEND
-               |
-         ┌─────┴─────┐
-         ▼           ▼
-      MYSQL       AI API
-     DATABASE    INTEGRATION
-```
-
-**Frontend Layer:** React.js provides the user interface and interactive experience.
-
-**Backend Layer:** Java and Spring Boot handle application logic, authentication, and API requests.
-
-**Database Layer:** MySQL stores application data and related records.
-
-**AI Integration:** An AI API provides heritage-related assistance.
-
----
-
-## 📂 Main Project Modules
-
-| Module | Description |
-|---|---|
-| Home | Main landing page |
-| Explore | Central cultural discovery interface |
-| States & UTs | Regional information and state profiles |
-| Heritage | Historical monuments and UNESCO sites |
-| Art & Culture | Dance, traditional art, and folk culture |
-| Interactive Map | Geographical heritage exploration |
-| Historical Timeline | Chronological historical information |
-| Museums | Museum and gallery directory |
-| AI Assistant | AI-powered heritage assistance |
-| Authentication | User login and registration |
-| Collections | Favourite and saved heritage locations |
-| Admin Dashboard | Heritage content management |
-
----
-
-## ⚙️ Installation & Setup
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Install the following software before running the project:
+- **Node.js** 18+ ([download](https://nodejs.org/))
+- **MySQL** 8.0+ ([download](https://dev.mysql.com/downloads/))
+- **Git** (optional)
 
-- Node.js 18 or above
-- Java JDK 17
-- MySQL 8.0
-- Apache Maven
-- Git
-- Visual Studio Code
-- IntelliJ IDEA
-
-### 1. Clone the Repository
-
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-```
-
-### 2. Navigate to the Project
+### 1. Clone/Download the Project
 
 ```bash
 cd DCHA
 ```
 
-### 3. Frontend Setup
+### 2. MySQL Database Setup
 
-Navigate to the frontend directory:
+Start your MySQL server, then create the database:
+
+```sql
+CREATE DATABASE dcha CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Import the schema:
 
 ```bash
+mysql -u root -p dcha < database/schema.sql
+```
+
+Import the seed data:
+
+```bash
+mysql -u root -p dcha < database/seed.sql
+```
+
+### 3. Backend Setup & Execution (Spring Boot)
+
+Navigate to the `backend-spring` directory:
+
+```bash
+cd backend-spring
+```
+
+#### Option A: Quick Start with In-Memory H2 Database (No MySQL required)
+
+```bash
+mvn clean package -DskipTests
+java -jar target/dcha-backend-1.0.0.jar --spring.profiles.active=h2
+```
+
+#### Option B: Production Start with MySQL Database
+
+Ensure MySQL is running and database `dcha` is created (`database/schema.sql` and `database/seed.sql` executed).
+
+```bash
+mvn clean package -DskipTests
+java -jar target/dcha-backend-1.0.0.jar
+```
+
+### 4. Access the Application
+
+- **Frontend**: Open `frontend/index.html` in your browser (or serve via standard static file server).
+- **Backend API Base**: `http://localhost:8080/api`
+- **H2 Console (in H2 profile)**: `http://localhost:8080/h2-console`
+
+
+## 🔑 Authentication
+
+### Default Admin Account
+
+```
+Email: admin@dcha.org
+Password: Admin@123
+```
+
+### Demo User Accounts
+
+```
+Email: user@dcha.org
+Password: User@123
+
+Email: curator@dcha.org
+Password: Curator@123
+```
+
+### JWT Flow
+
+1. Register/Login → receive JWT token
+2. Store token in localStorage
+3. Send token in `Authorization: Bearer <token>` header
+4. Protected routes verify token via middleware
+
+## 📡 API Overview
+
+### Public Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/states` | List all states & UTs |
+| `GET` | `/api/states/:id` | State detail with counts |
+| `GET` | `/api/heritage` | Heritage sites (filterable) |
+| `GET` | `/api/heritage/:id` | Heritage site detail |
+| `GET` | `/api/festivals` | Festivals (filterable) |
+| `GET` | `/api/foods` | Foods (filterable) |
+| `GET` | `/api/traditions` | Traditions |
+| `GET` | `/api/dances` | Dances |
+| `GET` | `/api/music` | Music |
+| `GET` | `/api/artsCrafts` | Arts & Crafts |
+| `GET` | `/api/stories` | Folk stories |
+| `GET` | `/api/search?q=` | Global search |
+| `GET` | `/api/gallery` | Gallery items |
+| `GET` | `/api/timeline` | Timeline events |
+| `GET` | `/api/museum` | Museum artifacts |
+| `GET` | `/api/audio` | Audio archive |
+| `GET` | `/api/calendar` | Cultural events |
+| `GET` | `/api/heritageRisk` | Heritage at risk |
+| `GET` | `/api/compare?state1_id=&state2_id=` | Compare states |
+
+### Auth & Statutory Data Rights Endpoints (DPDP Act, 2023)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Register new user account |
+| `POST` | `/api/auth/login` | Authenticate user & issue JWT |
+| `POST` | `/api/auth/logout` | Session termination |
+| `GET` | `/api/auth/me` | Get authenticated user profile |
+| `PUT` | `/api/auth/profile` | Update user profile & archival bio (DPDP Sec 12) |
+| `GET` | `/api/auth/export-data` | Export structured personal data JSON (DPDP Sec 11) |
+| `DELETE` | `/api/auth/account` | Irreversibly delete account & data (DPDP Sec 12) |
+
+### Protected Endpoints (require JWT)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/favorites` | User's favorites |
+| `POST` | `/api/favorites` | Add favorite |
+| `DELETE` | `/api/favorites/:id` | Remove favorite |
+| `POST` | `/api/contributions` | Submit contribution |
+| `GET` | `/api/contributions/my` | User's contributions |
+
+### Admin Endpoints (require admin role)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/admin/dashboard` | Dashboard metrics |
+| `GET` | `/api/admin/contributions` | All contributions |
+| `PATCH` | `/api/admin/contributions/:id` | Approve/reject |
+| `GET` | `/api/admin/users` | User list |
+
+## 🎨 Design System
+
+The UI follows a premium editorial/museum aesthetic:
+
+- **Colors**: Deep obsidian, warm ivory, antique gold, bronze, forest green, terracotta
+- **Typography**: Playfair Display (headings) + Inter (body)
+- **Principles**: Museum-style presentation, strong hierarchy, subtle animations, responsive
+
+## 🧪 Troubleshooting
+
+### MySQL Connection Issues
+
+```bash
+# Check MySQL is running
+mysql -u root -p -e "SELECT 1"
+
+# Verify database exists
+mysql -u root -p -e "SHOW DATABASES LIKE 'dcha'"
+
+# Re-import schema
+mysql -u root -p dcha < database/schema.sql
+```
+
+### Port Already in Use
+
+```bash
+# Change PORT in .env
+PORT=3001
+```
+
+### Module Not Found Errors
+
+```bash
+cd backend
+rm -rf node_modules
 npm install
 ```
 
-Start the development server:
+## 🔮 Future Scope
 
-```bash
-npm run dev
-```
+- Augmented Reality (AR) heritage viewing
+- Mobile native app (React Native)
+- Multilingual content (not just UI labels)
+- AI-powered heritage recommendation engine
+- 3D artifact scanning and viewing
+- Collaborative annotation system
+- Heritage tourism route planner
+- API for third-party integrations
+- Blockchain-based provenance tracking
+- Machine learning for heritage risk assessment
 
-### 4. Backend Setup
+## 📄 License
 
-Navigate to the Spring Boot backend directory.
+MIT License — see [LICENSE](LICENSE) for details.
 
-Build the application:
+## 🙏 Acknowledgments
 
-```bash
-mvn clean install
-```
-
-Run the backend:
-
-```bash
-mvn spring-boot:run
-```
-
-### 5. Database Configuration
-
-1. Start MySQL through XAMPP or your configured MySQL server.
-2. Open phpMyAdmin.
-3. Create the required MySQL database.
-4. Configure the database URL, username, and password in `application.properties`.
-5. Run the backend application.
-
-**Note:** Update the commands and directory paths according to the actual repository structure.
-
----
-
-## 🔐 Security & Authentication
-
-The platform includes or is designed to support:
-
-- User authentication.
-- Password protection.
-- Role-based administrative access.
-- Backend API validation.
-- Database-backed user management.
-- Protected administrative operations.
-
-Actual security depends on the backend implementation and configuration.
-
----
-
-## 🎯 Project Objectives
-
-1. Digitally preserve India's cultural heritage.
-2. Promote awareness of Indian traditions and historical monuments.
-3. Provide easy access to historical and cultural information.
-4. Encourage educational and research activities.
-5. Build a centralized digital cultural repository.
-6. Connect geographical regions with their cultural identities.
-7. Make India's diverse heritage accessible through modern technology.
-
----
-
-## 🚀 Future Enhancements
-
-- Multilingual content support.
-- Interactive 3D monument experiences.
-- Virtual heritage tours.
-- Advanced AI-based cultural recommendations.
-- Community-driven heritage contributions.
-- Audio-guided museum experiences.
-- Historical storytelling and documentary resources.
-- Improved accessibility and mobile experiences.
-- Advanced cultural search and filtering.
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-## 🙏 Acknowledgement
-
-We sincerely acknowledge everyone who contributed to the development of this academic project.
-
-The Indian Cultural Heritage Archive is developed with the vision of preserving, promoting, and celebrating India's diverse cultural heritage through digital technology.
-
+- Archaeological Survey of India
+- UNESCO World Heritage Centre
+- Ministry of Culture, Government of India
+- State Tourism Boards
+- National Museum, New Delhi
+- Sahapedia
+- Cultural communities across India
 ---
 
 <p align="center">
