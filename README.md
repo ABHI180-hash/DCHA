@@ -109,6 +109,39 @@ The platform combines heritage exploration, cultural documentation, interactive 
 
 ---
 
+## 💻 Programming Languages & Technologies
+
+### Programming Languages
+
+<p>
+  <img src="https://skillicons.dev/icons?i=java,js,html,css,mysql" />
+</p>
+
+### Frameworks & Libraries
+
+<p>
+  <img src="https://skillicons.dev/icons?i=spring,react,tailwind" />
+</p>
+
+### Database & Tools
+
+<p>
+  <img src="https://skillicons.dev/icons?i=mysql,maven,git,github,vscode,idea,postman" />
+</p>
+
+### Technology Overview
+
+- **Java:** Backend application development.
+- **JavaScript:** Frontend functionality and API integration.
+- **HTML5:** Webpage structure.
+- **CSS3:** User interface styling.
+- **SQL:** Database operations.
+- **Spring Boot:** Backend application framework.
+- **MySQL:** Relational database management.
+- **Git & GitHub:** Source code management and collaboration.
+- **Postman:** API testing.
+
+
 ## 🏗️ System Architecture
 
 The project follows a client-server architecture.
